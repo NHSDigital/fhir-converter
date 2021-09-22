@@ -1,0 +1,7 @@
+variables:
+  service_name: fhir-converter
+  short_service_name: fc
+  service_base_path: fhir-converter
+  product_display_name: FHIR Converter
+  product_description: This proxy function as a converter from FHIR R4 to STU3 and vice versa
+  spec_file: fhir-converter.json

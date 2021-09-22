@@ -1,0 +1,4 @@
+<APIProxy name="fc">
+  <!-- This is the root of the application -->
+  <Description>Proxy to FHIR Converter endpoints.</Description>
+</APIProxy>
