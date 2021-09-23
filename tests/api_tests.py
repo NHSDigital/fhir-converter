@@ -8,7 +8,6 @@ from api_test_utils import poll_until, env
 
 
 async def _is_deployed(resp: ClientResponse, api_test_config: APITestSessionConfig) -> bool:
-
     if resp.status != 200:
         return False
     body = await resp.json()
@@ -48,7 +47,6 @@ async def test_wait_for_ping(api_client: APISessionClient, api_test_config: APIT
 @pytest.mark.smoketest
 @pytest.mark.asyncio
 async def test_check_status_is_secured(api_client: APISessionClient):
-
     await poll_until(
         make_request=lambda: api_client.get('_status'),
         until=is_401,
@@ -60,7 +58,6 @@ async def test_check_status_is_secured(api_client: APISessionClient):
 @pytest.mark.smoketest
 @pytest.mark.asyncio
 async def test_wait_for_status(api_client: APISessionClient, api_test_config: APITestSessionConfig):
-
     """
         test for _status ..  this uses poll_until to wait until the correct SOURCE_COMMIT_ID ( from env var )
         is available

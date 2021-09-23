@@ -57,7 +57,7 @@ class TestEndpoints:
             client_id=test_app.client_id,
             client_secret=test_app.client_secret,
             redirect_uri=test_app.callback_url
-            )
+        )
         token_resp = await oauth.get_token_response(grant_type="authorization_code")
         assert token_resp["status_code"] == 200
         return token_resp['body']
@@ -68,3 +68,15 @@ class TestEndpoints:
         You can use the 'get_token' fixture to call the proxy with a access token
         """
         pass
+
+
+@pytest.mark.debug
+def test_api(apigee_api):
+    print("test1")
+    print(apigee_api)
+
+
+@pytest.mark.debug
+def test_api1(apigee_api):
+    print("test2")
+    print(apigee_api)
