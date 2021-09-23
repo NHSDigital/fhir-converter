@@ -6,13 +6,30 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
-@RequestMapping(value = "/_status")
-public class StatusController {
-    
-    @GetMapping(consumes = MediaType.ALL_VALUE)
-    public ResponseEntity<?> status() {
+class Status {
+    private String status;
 
-        return ResponseEntity.ok().body("Don Lucas says I'm Healthy!");
+    public Status(String status) {
+        this.status = status;
     }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+}
+
+@RestController
+class StatusController {
+    @GetMapping(path = "/_status")
+    public ResponseEntity<Status> convert() {
+
+        Status pass = new Status("pass");
+
+        return ResponseEntity.ok().body(pass);
+    }
+
 }
