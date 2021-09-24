@@ -41,7 +41,7 @@ extends:
       - environment: internal-qa
         make_spec_visible: true
         post_deploy:
-          - template: ./templates/run-tests.yml
+          - template: ./templates/run-smoke-tests.yml
       - environment: int
         make_spec_visible: true
         depends_on:
