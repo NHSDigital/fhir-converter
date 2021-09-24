@@ -54,7 +54,7 @@ extends:
       #   post_deploy:
       #     - template: ./templates/run-smoke-tests.yml
     # Enable int environment when ready by uncommenting:
-      # - environment: int
+      - environment: int
       #   make_spec_visible: true
     #     depends_on:
     #       - internal_qa
