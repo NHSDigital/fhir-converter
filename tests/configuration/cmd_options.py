@@ -4,7 +4,7 @@ options = [
         "required": False,
         "action": "store",
         "help": "Apigee organisation",
-        "default": "nhs-nonprod"
+        "default": "nhsd-nonprod"
     },
     {
         "name": "--service-name",

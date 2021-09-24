@@ -2,6 +2,9 @@ import pytest
 from api_test_utils.oauth_helper import OauthHelper
 from api_test_utils.apigee_api_apps import ApigeeApiDeveloperApps
 from api_test_utils.apigee_api_products import ApigeeApiProducts
+from .apigee.apigee_api import ApigeeApiService
+from .apigee.apigee_product import ApigeeProduct
+from uuid import uuid4
 
 
 class TestEndpoints:
@@ -68,15 +71,3 @@ class TestEndpoints:
         You can use the 'get_token' fixture to call the proxy with a access token
         """
         pass
-
-
-@pytest.mark.debug
-def test_api(apigee_api):
-    print("test1")
-    print(apigee_api)
-
-
-@pytest.mark.debug
-def test_api1(apigee_api):
-    print("test2")
-    print(apigee_api)

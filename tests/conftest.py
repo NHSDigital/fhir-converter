@@ -1,11 +1,11 @@
 # flake8: noqa
 import pytest
 from api_test_utils.api_test_session_config import APITestSessionConfig
-from api_test_utils.fixtures import api_client  # pylint: disable=unused-import
 from .configuration.cmd_options import options
-from .configuration.config import Config
-from pprint import pprint
 from .apigee.apigee_api import ApigeeApiService
+from .apigee.apigee_product import ApigeeProductService
+from .apigee.apigee_app import ApigeeAppService
+from .apigee.apigee_model import ApigeeConfig
 
 
 def pytest_addoption(parser):
@@ -26,20 +26,30 @@ def pytest_sessionstart(session):
     """
 
 
-apigee_api_service: ApigeeApiService
-
-
 @pytest.fixture(scope='session')
-def apigee_api(request):
+def apigee_config(request) -> ApigeeConfig:
     apigee_env = request.config.getoption("--apigee-environment")
     apigee_org = request.config.getoption("--apigee-org")
     service_name = request.config.getoption("--service-name")
     apigee_token = request.config.getoption("--apigee-api-token")
 
-    print("inside fixture")
-    # global apigee_api_service
-    # apigee_api_service = ApigeeApiService(org=apigee_org, env=apigee_env, service_name=service_name, token=apigee_token)
-    return ApigeeApiService(org=apigee_org, env=apigee_env, service_name=service_name, token=apigee_token)
+    return ApigeeConfig(env=apigee_env, org=apigee_org, service_name=service_name, token=apigee_token,
+                        developer_email="apm-testing-internal-dev@nhs.net")
+
+
+@pytest.fixture(scope='session')
+def apigee_api(apigee_config: ApigeeConfig) -> ApigeeApiService:
+    return ApigeeApiService(config=apigee_config)
+
+
+@pytest.fixture(scope='session')
+def apigee_product(apigee_api: ApigeeApiService) -> ApigeeProductService:
+    return ApigeeProductService(api_service=apigee_api)
+
+
+@pytest.fixture(scope='session')
+def apigee_app(apigee_api: ApigeeApiService) -> ApigeeAppService:
+    return ApigeeAppService(api_service=apigee_api, developer_email="apm-testing-internal-dev@nhs.net")
 
 
 @pytest.fixture(scope='session')
