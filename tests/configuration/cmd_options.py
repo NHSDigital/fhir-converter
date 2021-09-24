@@ -13,6 +13,12 @@ options = [
         "help": "The name of the proxy without appending env name"
     },
     {
+        "name": "--pr-no",
+        "required": False,
+        "action": "store",
+        "help": "The github pull request number. Example --pr-no=42"
+    },
+    {
         "name": "--client-id",
         "required": True,
         "action": "store",

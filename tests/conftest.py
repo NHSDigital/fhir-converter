@@ -6,6 +6,7 @@ from .apigee.apigee_api import ApigeeApiService
 from .apigee.apigee_app import ApigeeAppService
 from .apigee.apigee_model import ApigeeConfig
 from .apigee.apigee_product import ApigeeProductService
+from .apigee.apigee_trace import ApigeeTraceService
 from .configuration.cmd_options import options
 
 
@@ -27,14 +28,29 @@ def pytest_sessionstart(session):
     """
 
 
+def get_deployed_proxy_name(proxy_name: str, env: str, pr_no: str) -> str:
+    if env == 'internal-dev':
+        return f"{proxy_name}-pr-{pr_no}" if pr_no else f"{proxy_name}-internal-dev"
+    elif env == "internal-dev-sandbox":
+        if pr_no:
+            return f"{proxy_name}-pr-{pr_no}-sandbox"
+        else:
+            raise Exception("internal-dev-sandbox only exists for PRs. The --pr-no option is null")
+    else:
+        return f"{proxy_name}-{env}"
+
+
 @pytest.fixture(scope='session')
 def apigee_config(request) -> ApigeeConfig:
     apigee_env = request.config.getoption("--apigee-environment")
     apigee_org = request.config.getoption("--apigee-org")
+    pr_no = request.config.getoption("--pr-no")
+    print(f"pr ffdfdfds {apigee_env}")
     proxy_name = request.config.getoption("--proxy-name")
+    deployed_proxy_name = get_deployed_proxy_name(proxy_name, apigee_env, pr_no)
     apigee_token = request.config.getoption("--apigee-api-token")
 
-    return ApigeeConfig(env=apigee_env, org=apigee_org, proxy_name=proxy_name, token=apigee_token,
+    return ApigeeConfig(env=apigee_env, org=apigee_org, proxy_name=deployed_proxy_name, token=apigee_token,
                         developer_email="apm-testing-internal-dev@nhs.net")
 
 
@@ -51,6 +67,11 @@ def apigee_product(apigee_api: ApigeeApiService) -> ApigeeProductService:
 @pytest.fixture(scope='session')
 def apigee_app(apigee_api: ApigeeApiService) -> ApigeeAppService:
     return ApigeeAppService(api_service=apigee_api, developer_email="apm-testing-internal-dev@nhs.net")
+
+
+@pytest.fixture(scope='session')
+def apigee_trace(apigee_api: ApigeeApiService) -> ApigeeTraceService:
+    return ApigeeTraceService(api_service=apigee_api)
 
 
 @pytest.fixture(scope='session')

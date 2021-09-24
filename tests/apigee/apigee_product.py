@@ -16,7 +16,7 @@ class ApigeeProductService:
         return ApigeeProduct(**res.json())
 
     def create_product(self, product: ApigeeProduct) -> ApigeeProduct:
-        res = self.api_service.post(f"apiproducts", json=product._asdict())
+        res = self.api_service.post("apiproducts", json=product._asdict())
 
         if res.status_code == 409:
             # This product is already exist. Get the details.
@@ -24,7 +24,7 @@ class ApigeeProductService:
         elif res.status_code == 201:
             return ApigeeProduct(**res.json())
         else:
-            raise ApigeeApiException(f"Create Apigee product failed", res)
+            raise ApigeeApiException("Create Apigee product failed", res)
 
     def delete_product(self, product_name: str) -> Union[ApigeeProduct, None]:
         res = self.api_service.delete(f"apiproducts/{product_name}")
@@ -34,5 +34,4 @@ class ApigeeProductService:
         elif res.status_code == 200:
             return ApigeeProduct(**res.json())
         else:
-            raise ApigeeApiException(f"Delete Apigee product failed", res)
-
+            raise ApigeeApiException("Delete Apigee product failed", res)
