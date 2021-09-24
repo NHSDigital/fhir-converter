@@ -50,6 +50,7 @@ class ApigeeProduct(NamedTuple):
 
 class ApigeeApp(NamedTuple):
     name: str
+    appFamily: str = ""
     attributes: List[dict] = []
     status: str = "approved"
     callbackUrl: str = "http://example.com"
@@ -59,5 +60,11 @@ class ApigeeApp(NamedTuple):
     lastModifiedAt: float = datetime.utcnow().timestamp()
     lastModifiedBy: str = ""
     createdBy: str = ""
-    credentials: List[Credential] = []
+    credentials: List[any] = []
     scopes: List[str] = []
+
+    def get_client_id(self, index=0) -> str:
+        return self.credentials[index]["consumerKey"]
+
+    def get_client_secret(self, index=0) -> str:
+        return self.credentials[index]["consumerSecret"]
