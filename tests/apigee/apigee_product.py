@@ -1,6 +1,8 @@
-from .apigee_api import ApigeeApiService
-from .apigee_model import ApigeeProduct
 from typing import Union
+
+from .apigee_api import ApigeeApiService
+from .apigee_exception import ApigeeApiException
+from .apigee_model import ApigeeProduct
 
 
 class ApigeeProductService:
@@ -22,7 +24,7 @@ class ApigeeProductService:
         elif res.status_code == 201:
             return ApigeeProduct(**res.json())
         else:
-            raise Exception(f"Create Apigee product failed.{ApigeeApiService.create_error_message(res)}")
+            raise ApigeeApiException(f"Create Apigee product failed", res)
 
     def delete_product(self, product_name: str) -> Union[ApigeeProduct, None]:
         res = self.api_service.delete(f"apiproducts/{product_name}")
@@ -32,5 +34,5 @@ class ApigeeProductService:
         elif res.status_code == 200:
             return ApigeeProduct(**res.json())
         else:
-            raise Exception(f"Delete Apigee product failed.{ApigeeApiService.create_error_message(res)}")
+            raise ApigeeApiException(f"Delete Apigee product failed", res)
 

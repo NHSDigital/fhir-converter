@@ -1,6 +1,8 @@
-from .apigee_api import ApigeeApiService
-from .apigee_model import ApigeeApp, Attribute
 from typing import List, Union
+
+from .apigee_api import ApigeeApiService
+from .apigee_exception import ApigeeApiException
+from .apigee_model import ApigeeApp, Attribute
 
 
 class ApigeeAppService:
@@ -27,7 +29,7 @@ class ApigeeAppService:
         if res.status_code == 201:
             return ApigeeApp(**res.json())
         else:
-            raise Exception(f"Create Apigee app failed.{ApigeeApiService.create_error_message(res)}")
+            raise ApigeeApiException(f"Create Apigee app failed.", res)
 
     def delete_app(self, app_name: str) -> Union[ApigeeApp, None]:
         res = self.api_service.delete(f"developers/{self.developer_email}/apps/{app_name}")
@@ -35,7 +37,7 @@ class ApigeeAppService:
         if res.status_code == 404:
             return None
         elif res.status_code != 200:
-            raise Exception(f"Delete Apigee app failed.{ApigeeApiService.create_error_message(res)}")
+            raise ApigeeApiException(f"Delete Apigee app failed.", res)
         else:
             return ApigeeApp(**res.json())
 
@@ -46,7 +48,7 @@ class ApigeeAppService:
                                     json={"attribute": [attr._asdict() for attr in attributes]},
                                     params=params)
         if res.status_code != 200:
-            raise Exception(f"Create custom Apigee app attributes failed.{ApigeeApiService.create_error_message(res)}")
+            raise ApigeeApiException(f"Create custom Apigee app attributes failed.", res)
 
         return [Attribute(**attr) for attr in res.json()["attribute"]]
 
@@ -60,4 +62,4 @@ class ApigeeAppService:
         if res.status_code == 200:
             return Attribute(**res.json())
         else:
-            raise Exception(f"Create custom Apigee app attributes failed.{ApigeeApiService.create_error_message(res)}")
+            raise ApigeeApiException(f"Create custom Apigee app attributes failed.", res)

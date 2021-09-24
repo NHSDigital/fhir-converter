@@ -1,4 +1,5 @@
 import requests
+
 from .apigee_model import ApigeeConfig
 
 
@@ -31,11 +32,3 @@ class ApigeeApiService:
         kwargs["headers"] = headers
 
         return kwargs
-
-    @staticmethod
-    def create_error_message(res: requests.Response):
-        return f"""
-        url: {res.url}
-        status code: {res.status_code}
-        response body: {res.text or "[EMPTY]"}
-        """
