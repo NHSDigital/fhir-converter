@@ -15,27 +15,16 @@
  */
 package nhsd.fhir.transformationenginepoc.service.transformers;
 
-import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.context.FhirVersionEnum;
-import ca.uhn.fhir.parser.IParser;
-import nhsd.fhir.transformationenginepoc.model.PayloadTypeEnum;
-import org.hl7.fhir.convertors.advisors.impl.BaseAdvisor_10_30;
-import org.hl7.fhir.convertors.advisors.impl.BaseAdvisor_10_40;
-import org.hl7.fhir.convertors.advisors.impl.BaseAdvisor_30_40;
-import org.hl7.fhir.convertors.conv10_30.VersionConvertor_10_30;
-import org.hl7.fhir.convertors.conv10_40.VersionConvertor_10_40;
-import org.hl7.fhir.convertors.conv30_40.VersionConvertor_30_40;
-import org.hl7.fhir.r4.model.CodeableConcept;
-import org.hl7.fhir.r4.model.Coding;
-import org.hl7.fhir.r4.model.MedicationStatement;
+import org.springframework.http.MediaType;
 
 
 public class MedicationStatementTransformer extends Transformer {
 
     @Override
-    public String transform(final FhirVersionEnum inVersion, final FhirVersionEnum outVersion, final PayloadTypeEnum inMime, final PayloadTypeEnum outMime, final String resourceString) {
-        String returnedValue = "";
-
+    public String transform(final FhirVersionEnum inVersion, final FhirVersionEnum outVersion, final MediaType inMime, final MediaType outMime, final String resourceString) {
+        final String returnedValue = "";
+/*
 
         // Set up contexts
         final FhirContext inContext = getSuitableContext(inVersion);
@@ -126,7 +115,7 @@ public class MedicationStatementTransformer extends Transformer {
                     ((MedicationStatement) resource).addReasonCode(reasonConcept);
                 }
                 returnedValue = outParser.encodeResourceToString((MedicationStatement) resource);
-        }
+        }*/
         return returnedValue; // We return the resource converted and serialised to the version they asked for.
     }
 }

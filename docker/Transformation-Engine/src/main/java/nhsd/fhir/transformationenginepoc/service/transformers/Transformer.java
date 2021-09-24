@@ -18,38 +18,26 @@ package nhsd.fhir.transformationenginepoc.service.transformers;
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.context.FhirVersionEnum;
 import ca.uhn.fhir.parser.IParser;
-import nhsd.fhir.transformationenginepoc.model.PayloadTypeEnum;
+import org.springframework.http.MediaType;
 
 
 public abstract class Transformer {
-    abstract public String transform(FhirVersionEnum inVersion, FhirVersionEnum outVersion, PayloadTypeEnum inMime, PayloadTypeEnum outMime, String resourceString);
+    abstract public String transform(FhirVersionEnum inVersion, FhirVersionEnum outVersion, MediaType inMime, MediaType outMime, String resourceString);
 
 
     FhirContext getSuitableContext(final FhirVersionEnum selectedVersion) {
         switch (selectedVersion) {
-            case DSTU2:
-                return FhirContext.forDstu2Hl7Org();
-
             case DSTU3:
                 return FhirContext.forDstu3();
-
             case R4:
                 return FhirContext.forR4();
-
             default:
-                return FhirContext.forR5();
+                throw new IllegalStateException("Unexpected FHIR version: " + selectedVersion);
         }
     }
 
 
-    IParser getSuitableParser(final FhirContext ctx, final PayloadTypeEnum mimeType) {
-        switch (mimeType) {
-            case XML:
-                return ctx.newXmlParser();
-
-            default:
-                return ctx.newJsonParser();
-
-        }
+    IParser getSuitableParser(final FhirContext ctx, final MediaType type) {
+        return type.getType().equals("XML") ? ctx.newXmlParser() : ctx.newJsonParser();
     }
 }
