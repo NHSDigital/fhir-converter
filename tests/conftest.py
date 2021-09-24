@@ -1,11 +1,12 @@
 # flake8: noqa
 import pytest
 from api_test_utils.api_test_session_config import APITestSessionConfig
-from .configuration.cmd_options import options
+
 from .apigee.apigee_api import ApigeeApiService
-from .apigee.apigee_product import ApigeeProductService
 from .apigee.apigee_app import ApigeeAppService
 from .apigee.apigee_model import ApigeeConfig
+from .apigee.apigee_product import ApigeeProductService
+from .configuration.cmd_options import options
 
 
 def pytest_addoption(parser):
@@ -30,10 +31,10 @@ def pytest_sessionstart(session):
 def apigee_config(request) -> ApigeeConfig:
     apigee_env = request.config.getoption("--apigee-environment")
     apigee_org = request.config.getoption("--apigee-org")
-    service_name = request.config.getoption("--service-name")
+    proxy_name = request.config.getoption("--proxy-name")
     apigee_token = request.config.getoption("--apigee-api-token")
 
-    return ApigeeConfig(env=apigee_env, org=apigee_org, service_name=service_name, token=apigee_token,
+    return ApigeeConfig(env=apigee_env, org=apigee_org, proxy_name=proxy_name, token=apigee_token,
                         developer_email="apm-testing-internal-dev@nhs.net")
 
 

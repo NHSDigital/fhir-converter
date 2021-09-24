@@ -7,10 +7,10 @@ options = [
         "default": "nhsd-nonprod"
     },
     {
-        "name": "--service-name",
+        "name": "--proxy-name",
         "required": True,
         "action": "store",
-        "help": "The name of the service without appending env name"
+        "help": "The name of the proxy without appending env name"
     },
     {
         "name": "--client-id",

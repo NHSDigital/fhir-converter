@@ -7,7 +7,7 @@ class ApigeeApiService:
     def __init__(self, config: ApigeeConfig):
         self.org = config.org
         self.env = config.env
-        self.service_name = config.service_name
+        self.proxy_name = config.proxy_name
         self.token = config.token
         self.base_uri = f"https://api.enterprise.apigee.com/v1/organizations/{self.org}"
 

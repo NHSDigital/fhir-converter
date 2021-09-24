@@ -5,7 +5,7 @@ from typing import NamedTuple, List
 class ApigeeConfig(NamedTuple):
     env: str
     org: str
-    service_name: str
+    proxy_name: str
     token: str
     developer_email: str
 
