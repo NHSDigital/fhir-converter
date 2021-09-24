@@ -61,4 +61,3 @@ class ApigeeTraceService:
             params.update({f"qparam_{key}": value})
 
         return params
-

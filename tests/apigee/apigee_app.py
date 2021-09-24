@@ -10,9 +10,10 @@ class ApigeeAppService:
     def __init__(self, api_service: ApigeeApiService, developer_email: str) -> None:
         self.api_service = api_service
         self.developer_email = developer_email
+        self.base_path = f"developers/{self.developer_email}/apps"
 
     def get_app(self, app_name: str) -> ApigeeApp:
-        res = self.api_service.get(f"developers/{self.developer_email}/apps/{app_name}")
+        res = self.api_service.get(f"{self.base_path}/{app_name}")
 
         return ApigeeApp(**res.json())
 
@@ -21,7 +22,7 @@ class ApigeeAppService:
             "org_name": self.api_service.org,
             "developer_email": self.developer_email,
         }
-        res = self.api_service.post(f"developers/{self.developer_email}/apps", json=app._asdict(), params=params)
+        res = self.api_service.post(self.base_path, json=app._asdict(), params=params)
 
         if res.status_code == 409:
             # This app is already exist. Get the details.
@@ -32,7 +33,7 @@ class ApigeeAppService:
             raise ApigeeApiException("Create Apigee app failed.", res)
 
     def delete_app(self, app_name: str) -> Union[ApigeeApp, None]:
-        res = self.api_service.delete(f"developers/{self.developer_email}/apps/{app_name}")
+        res = self.api_service.delete(f"{self.base_path}/{app_name}")
 
         if res.status_code == 404:
             return None
@@ -44,7 +45,7 @@ class ApigeeAppService:
     def create_custom_attributes(self, app_name: str, attributes: List[Attribute]) -> List[Attribute]:
         params = {"name": app_name}
 
-        res = self.api_service.post(f"developers/{self.developer_email}/apps/{app_name}/attributes",
+        res = self.api_service.post(f"{self.base_path}/{app_name}/attributes",
                                     json={"attribute": [attr._asdict() for attr in attributes]},
                                     params=params)
         if res.status_code != 200:
@@ -55,7 +56,7 @@ class ApigeeAppService:
     def delete_custom_attributes(self, app_name: str, attribute_name: str) -> Union[Attribute, None]:
         params = {"name": app_name}
 
-        res = self.api_service.delete(f"developers/{self.developer_email}/apps/{app_name}/attributes/{attribute_name}",
+        res = self.api_service.delete(f"{self.base_path}/{app_name}/attributes/{attribute_name}",
                                       params=params)
         if res.status_code == 404:
             return None
