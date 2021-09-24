@@ -1,7 +1,8 @@
 import pytest
+import requests
 
 from .apigee.apigee_app import ApigeeAppService
-from .apigee.apigee_model import ApigeeProduct, ApigeeApp, Attribute
+from .apigee.apigee_model import ApigeeProduct, ApigeeApp, Attribute, TraceFilter
 from .apigee.apigee_product import ApigeeProductService
 from .apigee.apigee_trace import ApigeeTraceService
 
@@ -25,5 +26,12 @@ class TestConverter:
         apigee_app.delete_app(name)
 
     @pytest.mark.debug
-    def test_trace(self, apigee_trace: ApigeeTraceService):
-        pass
+    def test_trace(self, apigee_trace: ApigeeTraceService, proxy_url: str):
+        apigee_trace.create_debug_session(
+            filters=TraceFilter(headers={"foo": "bar", "biz": "baz"}, params={"dooz": "gooz"}))
+        requests.get(proxy_url, headers={"foo": "bar", "biz": "baz"}, params={"dooz": "gooz"})
+        requests.get(proxy_url, headers={"biz": "baz"})
+        d = apigee_trace.get_debug_data(0)
+        q = d.query_variable("apigee.metrics.policy.OauthV2.VerifyAccessToken.timeTaken")
+        print(q)
+        apigee_trace.delete_session()

@@ -45,7 +45,6 @@ def apigee_config(request) -> ApigeeConfig:
     apigee_env = request.config.getoption("--apigee-environment")
     apigee_org = request.config.getoption("--apigee-org")
     pr_no = request.config.getoption("--pr-no")
-    print(f"pr ffdfdfds {apigee_env}")
     proxy_name = request.config.getoption("--proxy-name")
     deployed_proxy_name = get_deployed_proxy_name(proxy_name, apigee_env, pr_no)
     apigee_token = request.config.getoption("--apigee-api-token")
@@ -72,6 +71,11 @@ def apigee_app(apigee_api: ApigeeApiService) -> ApigeeAppService:
 @pytest.fixture(scope='session')
 def apigee_trace(apigee_api: ApigeeApiService) -> ApigeeTraceService:
     return ApigeeTraceService(api_service=apigee_api)
+
+
+@pytest.fixture(scope='session')
+def proxy_url(apigee_config: ApigeeConfig) -> str:
+    return f"https://{apigee_config.env}.api.service.nhs.uk/{apigee_config.proxy_name}"
 
 
 @pytest.fixture(scope='session')
