@@ -7,7 +7,8 @@ APIGEE_API_TOKEN := $(shell eval get_token -u $(APIGEE_USERNAME))
 
 
 CUSTOM_CMD_OPT = --proxy-name="$(PROXY_NAME)" --client-id="$(DEFAULT_CLIENT_ID)" --client-secret="$(DEFAULT_CLIENT_SECRET)" \
-                 --apigee-environment="$(APIGEE_ENVIRONMENT)" --apigee-api-token="$(APIGEE_API_TOKEN)" --pr-no=$(PR_NO)
+                 --apigee-environment="$(APIGEE_ENVIRONMENT)" --apigee-api-token="$(APIGEE_API_TOKEN)" --pr-no=$(PR_NO) \
+                 --status-api-key="$(STATUS_API_KEY)"
 run:
 	../.venv/bin/pytest -s -v $(CUSTOM_CMD_OPT) $(f)
 

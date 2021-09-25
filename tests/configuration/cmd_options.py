@@ -41,6 +41,12 @@ options = [
         "required": False,
         "action": "store",
         "help": "apigee api token to run ApigeeTrace"
+    },
+    {
+        "name": "--status-api-key",
+        "required": True,
+        "action": "store",
+        "help": "Apikey for /_status endpoint"
     }
 ]
 
