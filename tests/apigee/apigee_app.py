@@ -24,23 +24,23 @@ class ApigeeAppService:
         }
         res = self.api_service.post(self.base_path, json=app._asdict(), params=params)
 
-        if res.status_code == 409:
-            # This app is already exist. Get the details.
-            return self.get_app(app.name)
         if res.status_code == 201:
             return ApigeeApp(**res.json())
+        elif res.status_code == 409:
+            # This app already exists. Get the details.
+            return self.get_app(app.name)
         else:
             raise ApigeeApiException("Create Apigee app failed.", res)
 
     def delete_app(self, app_name: str) -> Union[ApigeeApp, None]:
         res = self.api_service.delete(f"{self.base_path}/{app_name}")
 
+        if res.status_code == 200:
+            return ApigeeApp(**res.json())
         if res.status_code == 404:
             return None
-        elif res.status_code != 200:
-            raise ApigeeApiException("Delete Apigee app failed.", res)
         else:
-            return ApigeeApp(**res.json())
+            raise ApigeeApiException("Delete Apigee app failed.", res)
 
     def create_custom_attributes(self, app_name: str, attributes: List[Attribute]) -> List[Attribute]:
         params = {"name": app_name}
@@ -58,9 +58,9 @@ class ApigeeAppService:
 
         res = self.api_service.delete(f"{self.base_path}/{app_name}/attributes/{attribute_name}",
                                       params=params)
-        if res.status_code == 404:
-            return None
         if res.status_code == 200:
             return Attribute(**res.json())
+        elif res.status_code == 404:
+            return None
         else:
             raise ApigeeApiException("Create custom Apigee app attributes failed.", res)

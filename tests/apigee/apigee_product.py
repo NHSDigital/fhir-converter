@@ -19,20 +19,20 @@ class ApigeeProductService:
     def create_product(self, product: ApigeeProduct) -> ApigeeProduct:
         res = self.api_service.post(self.base_path, json=product._asdict())
 
-        if res.status_code == 409:
-            # This product is already exist. Get the details.
-            return self.get_product(product.name)
-        elif res.status_code == 201:
+        if res.status_code == 201:
             return ApigeeProduct(**res.json())
+        elif res.status_code == 409:
+            # This product already exists. Get the details.
+            return self.get_product(product.name)
         else:
             raise ApigeeApiException("Create Apigee product failed", res)
 
     def delete_product(self, product_name: str) -> Union[ApigeeProduct, None]:
         res = self.api_service.delete(f"{self.base_path}/{product_name}")
 
-        if res.status_code == 404:
-            return None
-        elif res.status_code == 200:
+        if res.status_code == 200:
             return ApigeeProduct(**res.json())
+        elif res.status_code == 404:
+            return None
         else:
             raise ApigeeApiException("Delete Apigee product failed", res)

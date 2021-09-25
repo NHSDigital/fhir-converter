@@ -17,6 +17,7 @@ class ApigeeTraceService:
 
     def get_debug_session(self):
         res = self.api_service.get(self.base_path)
+
         return res.json()[0]
 
     def create_debug_session(self, timeout: int = 30, filters: TraceFilter = TraceFilter()) -> str:
@@ -26,10 +27,10 @@ class ApigeeTraceService:
         params.update(self.__convert_trace_filter_to_param(filters))
         res = self.api_service.post(self.base_path, params=params)
 
-        if res.status_code == 409:
-            return self.get_debug_session()
         if res.status_code == 201:
             return res.json()["name"]
+        elif res.status_code == 409:
+            return self.get_debug_session()
         else:
             raise ApigeeApiException("Create debug session failed", res)
 
@@ -40,7 +41,6 @@ class ApigeeTraceService:
             return None
 
         transaction_id = transactions[transaction_index]
-
         res = self.api_service.get(f"{self.base_path}/default/data/{transaction_id}")
 
         return TraceData(data=res.json())
