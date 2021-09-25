@@ -21,6 +21,11 @@ class ApigeeApiService:
 
         return requests.post(f"{self.base_uri}/{path}", **kwargs)
 
+    def put(self, path: str, **kwargs):
+        kwargs = self.__update_headers(**kwargs)
+
+        return requests.put(f"{self.base_uri}/{path}", **kwargs)
+
     def delete(self, path: str, **kwargs):
         kwargs = self.__update_headers(**kwargs)
 

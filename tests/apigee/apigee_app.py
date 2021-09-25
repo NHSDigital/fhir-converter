@@ -42,6 +42,18 @@ class ApigeeAppService:
         else:
             raise ApigeeApiException("Delete Apigee app failed.", res)
 
+    def add_product_to_app(self, app: ApigeeApp, products: List[str]) -> ApigeeApp:
+        data = {
+            "apiProducts": products,
+            "name": app.name,
+            "status": "approved"
+        }
+        res = self.api_service.put(f"{self.base_path}/{app.name}/keys/{app.get_client_id()}", json=data)
+        if res.status_code == 200:
+            return self.get_app(app.name)
+        else:
+            raise ApigeeApiException("Add product to app failed", res)
+
     def create_custom_attributes(self, app_name: str, attributes: List[Attribute]) -> List[Attribute]:
         params = {"name": app_name}
 

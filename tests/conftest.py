@@ -1,13 +1,16 @@
 # flake8: noqa
+from uuid import uuid4
+
 import pytest
 from api_test_utils.api_test_session_config import APITestSessionConfig
 
 from .apigee.apigee_api import ApigeeApiService
 from .apigee.apigee_app import ApigeeAppService
-from .apigee.apigee_model import ApigeeConfig
+from .apigee.apigee_model import ApigeeConfig, ApigeeProduct, ApigeeApp
 from .apigee.apigee_product import ApigeeProductService
 from .apigee.apigee_trace import ApigeeTraceService
-from .configuration.cmd_options import options
+from .configuration.cmd_options import options, create_cmd_options
+from .configuration.config_model import DefaultApp
 
 
 def pytest_addoption(parser):
@@ -19,13 +22,6 @@ def pytest_addoption(parser):
             help=option.get("help", ""),
             default=option.get("default")
         )
-
-
-def pytest_sessionstart(session):
-    """
-    Create a Config object containing all the options
-    :return:
-    """
 
 
 def get_deployed_proxy_name(proxy_name: str, env: str, pr_no: str) -> str:
@@ -40,14 +36,19 @@ def get_deployed_proxy_name(proxy_name: str, env: str, pr_no: str) -> str:
         return f"{proxy_name}-{env}"
 
 
+@pytest.fixture(scope='session', autouse=True)
+def cmd_options(request) -> dict:
+    return create_cmd_options(request.config.getoption)
+
+
 @pytest.fixture(scope='session')
-def apigee_config(request) -> ApigeeConfig:
-    apigee_env = request.config.getoption("--apigee-environment")
-    apigee_org = request.config.getoption("--apigee-org")
-    pr_no = request.config.getoption("--pr-no")
-    proxy_name = request.config.getoption("--proxy-name")
+def apigee_config(cmd_options: dict) -> ApigeeConfig:
+    apigee_env = cmd_options["--apigee-environment"]
+    apigee_org = cmd_options["--apigee-org"]
+    pr_no = cmd_options["--pr-no"]
+    proxy_name = cmd_options["--proxy-name"]
     deployed_proxy_name = get_deployed_proxy_name(proxy_name, apigee_env, pr_no)
-    apigee_token = request.config.getoption("--apigee-api-token")
+    apigee_token = cmd_options["--apigee-api-token"]
 
     return ApigeeConfig(env=apigee_env, org=apigee_org, proxy_name=deployed_proxy_name, token=apigee_token,
                         developer_email="apm-testing-internal-dev@nhs.net")
@@ -76,6 +77,41 @@ def apigee_trace(apigee_api: ApigeeApiService) -> ApigeeTraceService:
 @pytest.fixture(scope='session')
 def proxy_url(apigee_config: ApigeeConfig) -> str:
     return f"https://{apigee_config.env}.api.service.nhs.uk/{apigee_config.proxy_name}"
+
+
+@pytest.fixture(scope='session', autouse=True)
+def default_app(cmd_options: dict, apigee_product: ApigeeProductService, apigee_app: ApigeeAppService):
+    """
+    Create a default app. For certain environments we're not allowed to use Apigee api.
+    In these cases we receive default app information from command line options.
+    """
+
+    api_permitted_envs = ['internal-dev', 'internal-dev-sandbox']
+    if cmd_options["--apigee-environment"] in api_permitted_envs:
+        product_name = f"apim-auto-{uuid4()}"
+        product = ApigeeProduct(name=product_name, displayName=product_name)
+        product.scopes.extend([
+            "urn:nhsd:apim:app:level3:fhir-converter",
+            "urn:nhsd:apim:user-nhs-id:aal3:fhir-converter"
+        ])
+        print(f"Creating default product: {product.name}")
+        product = apigee_product.create_product(product)
+
+        app_name = f"apim-auto-{uuid4()}"
+        app = ApigeeApp(name=app_name)
+        print(f"Creating default app: {app.name}")
+        app = apigee_app.create_app(app)
+        apigee_app.add_product_to_app(app, [product.name])
+
+        yield DefaultApp(client_id=app.get_client_id(), client_secret=app.get_client_secret())
+
+        print("Deleting both default Apigee app and product")
+        apigee_app.delete_app(app_name)
+        apigee_product.delete_product(product_name)
+
+    else:
+        return DefaultApp(client_id=cmd_options["--default-client-id"],
+                          client_secret=cmd_options["--default-client-secret"])
 
 
 @pytest.fixture(scope='session')
