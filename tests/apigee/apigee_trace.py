@@ -6,10 +6,13 @@ from .apigee_model import TraceData, TraceFilter
 
 
 class ApigeeTraceService:
-    def __init__(self, api_service: ApigeeApiService) -> None:
+    def __init__(self, api_service: ApigeeApiService, proxy_name="", apigee_env="") -> None:
         self.api_service = api_service
+
+        self.proxy_name = proxy_name if proxy_name else api_service.proxy_name
+        self.env = apigee_env if apigee_env else api_service.env
         self.deployed_revision = self.__get_deployed_reversion()
-        self.base_path = f"environments/{self.api_service.env}/apis/{self.api_service.proxy_name}/" \
+        self.base_path = f"environments/{self.env}/apis/{self.proxy_name}/" \
                          f"revisions/{self.deployed_revision}/debugsessions"
 
     def get_debug_session(self):
