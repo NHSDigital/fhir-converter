@@ -8,7 +8,6 @@ from .apigee.apigee_trace import ApigeeTraceService
 
 
 class TestConverter:
-    @pytest.mark.debug
     def test_api(self, apigee_product: ApigeeProductService, apigee_app: ApigeeAppService):
         name = "apim-auto-f0263348-284b-43be-b8ab-ab59355b1fb1"
         product = ApigeeProduct(name=name, displayName=name)
@@ -34,3 +33,8 @@ class TestConverter:
         q = d.query_variable("apigee.metrics.policy.OauthV2.VerifyAccessToken.timeTaken")
         print(q)
         apigee_trace.delete_session()
+
+    @pytest.mark.debug
+    def test_auth(self, proxy_url, token):
+        res = requests.get(proxy_url, headers={"Authorization": f"Bearer {token}"})
+        print(res.text)

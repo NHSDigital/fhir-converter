@@ -9,6 +9,8 @@ from .apigee.apigee_app import ApigeeAppService
 from .apigee.apigee_model import ApigeeConfig, ApigeeProduct, ApigeeApp, Attribute
 from .apigee.apigee_product import ApigeeProductService
 from .apigee.apigee_trace import ApigeeTraceService
+from .auth.auth_model import create_jwt
+from .auth.client_credentials import AuthClientCredentials
 from .configuration.cmd_options import options, create_cmd_options
 from .configuration.config_model import DefaultApp
 
@@ -123,7 +125,8 @@ def default_app(cmd_options: dict, deployed_proxy_name, apigee_product: ApigeePr
                                            "9baed6f4-1361-4a8e-8531-1f8426e3aba8.json")
         ])
 
-        yield DefaultApp(client_id=app.get_client_id(), client_secret=app.get_client_secret())
+        yield DefaultApp(client_id=app.get_client_id(), client_secret=app.get_client_secret(),
+                         callback_url=app.callbackUrl)
 
         print("Deleting both default Apigee app and product")
         apigee_app.delete_app(app_name)
@@ -131,7 +134,24 @@ def default_app(cmd_options: dict, deployed_proxy_name, apigee_product: ApigeePr
 
     else:
         return DefaultApp(client_id=cmd_options["--default-client-id"],
-                          client_secret=cmd_options["--default-client-secret"])
+                          client_secret=cmd_options["--default-client-secret"],
+                          callback_url=cmd_options["--default-callback-url"])
+
+
+@pytest.fixture(scope="session")
+def client_credentials(cmd_options: dict, default_app: DefaultApp):
+    env = cmd_options['--apigee-environment']
+    client_id = default_app.client_id
+    auth_url = f"https://{env}.api.service.nhs.uk/oauth2"
+
+    jwt = create_jwt(private_key_file=cmd_options["--jwt-private-key-file"],
+                     client_id=client_id, headers={"kid": "test-1"}, aud=f"{auth_url}/token")
+    return AuthClientCredentials(auth_url=auth_url, jwt=jwt)
+
+
+@pytest.fixture()
+def token(client_credentials):
+    return client_credentials.get_access_token()
 
 
 @pytest.fixture(scope='session')

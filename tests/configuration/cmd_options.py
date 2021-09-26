@@ -31,6 +31,18 @@ options = [
         "help": "client secret of default apigee app"
     },
     {
+        "name": "--default-callback-url",
+        "required": False,
+        "action": "store",
+        "help": "redirect url for apigee default app"
+    },
+    {
+        "name": "--jwt-private-key-file",
+        "required": True,
+        "action": "store",
+        "help": "absolute path to jwt private key",
+    },
+    {
         "name": "--apigee-environment",
         "required": True,
         "action": "store",
