@@ -70,5 +70,23 @@ def create_cmd_options(get_cmd_opt_value) -> dict:
         value = get_cmd_opt_value(opt_name)
 
         cmd_options.update({opt_name: value})
+        if opt["required"] and not value:
+            raise Exception(f"Option {opt_name} is required but it's value is empty or null")
+
+    __validate_options(cmd_options)
 
     return cmd_options
+
+
+def __validate_options(cmd_options):
+    current_env = cmd_options["--apigee-environment"]
+
+    apigee_api_permitted_envs = ['internal-dev', 'internal-dev-sandbox']
+    if current_env not in apigee_api_permitted_envs:
+        client_id = cmd_options["--client-id"]
+        client_secret = cmd_options["--client-secret"]
+        callback_url = cmd_options["--default-callback-url"]
+        if not (client_id and client_secret and callback_url):
+            raise Exception(
+                f"These options: --client-id, --client-secret and --default-callback-url "
+                f"are required for environment: {current_env}")
