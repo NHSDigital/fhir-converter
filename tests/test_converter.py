@@ -1,3 +1,5 @@
+from uuid import uuid4
+
 import pytest
 import requests
 
@@ -10,20 +12,20 @@ from .apigee.apigee_trace import ApigeeTraceService
 class TestConverter:
     @pytest.mark.debug
     def test_api(self, apigee_product: ApigeeProductService, apigee_app: ApigeeAppService):
-        name = "apim-auto-f0263348-284b-43be-b8ab-ab59355b1fb1"
-        product = ApigeeProduct(name=name, displayName=name)
+        product_name = f"apim-auto-{uuid4()}"
+        product = ApigeeProduct(name=product_name, displayName=product_name)
         apigee_product.create_product(product)
 
-        name = "apim-auto-21617d08-486c-4eb4-a147-8932c752d741"
-        app = ApigeeApp(name=name)
+        app_name = f"apim-auto-{uuid4()}"
+        app = ApigeeApp(name=app_name)
         app = apigee_app.create_app(app=app)
         apigee_app.add_product_to_app(app, [product.name])
         # attr = [Attribute(name="bar", value="babab"), Attribute(name="foo", value="bar")]
         # apigee_app.create_custom_attributes(name, attr)
         # a = apigee_app.delete_custom_attributes(name, "bar")
         # print(f"her {a}")
-        # apigee_app.delete_app(name)
-        # apigee_product.delete_product(name)
+        apigee_app.delete_app(app_name)
+        apigee_product.delete_product(product_name)
 
     @pytest.mark.debug
     def test_trace(self, apigee_trace: ApigeeTraceService, proxy_url: str):

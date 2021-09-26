@@ -1,5 +1,3 @@
-from typing import Union
-
 from .apigee_api import ApigeeApiService
 from .apigee_exception import ApigeeApiException
 from .apigee_model import ApigeeProduct
@@ -21,9 +19,6 @@ class ApigeeProductService:
 
         if res.status_code == 201:
             return ApigeeProduct(**res.json())
-        elif res.status_code == 409:
-            # This product already exists. Get the details.
-            return self.get_product(product.name)
         else:
             raise ApigeeApiException("Create Apigee product failed", res)
 
@@ -34,12 +29,10 @@ class ApigeeProductService:
         else:
             raise ApigeeApiException("Update Apigee product failed", res)
 
-    def delete_product(self, product_name: str) -> Union[ApigeeProduct, None]:
+    def delete_product(self, product_name: str) -> ApigeeProduct:
         res = self.__api_service.delete(f"{self.__base_path}/{product_name}")
 
         if res.status_code == 200:
             return ApigeeProduct(**res.json())
-        elif res.status_code == 404:
-            return None
         else:
             raise ApigeeApiException("Delete Apigee product failed", res)
