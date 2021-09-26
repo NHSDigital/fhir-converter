@@ -8,6 +8,7 @@ from .apigee.apigee_trace import ApigeeTraceService
 
 
 class TestConverter:
+    @pytest.mark.debug
     def test_api(self, apigee_product: ApigeeProductService, apigee_app: ApigeeAppService):
         name = "apim-auto-f0263348-284b-43be-b8ab-ab59355b1fb1"
         product = ApigeeProduct(name=name, displayName=name)
@@ -24,6 +25,7 @@ class TestConverter:
         # apigee_app.delete_app(name)
         # apigee_product.delete_product(name)
 
+    @pytest.mark.debug
     def test_trace(self, apigee_trace: ApigeeTraceService, proxy_url: str):
         apigee_trace.create_debug_session(
             filters=TraceFilter(headers={"foo": "bar", "biz": "baz"}, params={"dooz": "gooz"}))
