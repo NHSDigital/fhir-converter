@@ -26,23 +26,23 @@ def pytest_addoption(parser):
         )
 
 
-def get_deployed_proxy_name(proxy_name: str, env: str, pr_no: str) -> str:
+def get_proxy_name_from_service_name(service_name: str, env: str, pr_no: str) -> str:
     if env == 'internal-dev':
-        return f"{proxy_name}-pr-{pr_no}" if pr_no else f"{proxy_name}-internal-dev"
+        return f"{service_name}-pr-{pr_no}" if pr_no else f"{service_name}-internal-dev"
     elif env == "internal-dev-sandbox":
         if pr_no:
-            return f"{proxy_name}-pr-{pr_no}-sandbox"
+            return f"{service_name}-pr-{pr_no}-sandbox"
         else:
-            raise Exception("internal-dev-sandbox only exists for PRs. The --pr-no option is null")
+            raise Exception("internal-dev-sandbox only exists for PRs")
     else:
-        return f"{proxy_name}-{env}"
+        return f"{service_name}-{env}"
 
 
 @pytest.fixture(scope='session')
-def deployed_proxy_name(cmd_options: dict):
-    return get_deployed_proxy_name(cmd_options["--proxy-name"],
-                                   cmd_options["--apigee-environment"],
-                                   cmd_options["--pr-no"])
+def proxy_name(cmd_options: dict):
+    return get_proxy_name_from_service_name(cmd_options["--service-name"],
+                                            cmd_options["--apigee-environment"],
+                                            cmd_options["--pr-no"])
 
 
 @pytest.fixture(scope='session', autouse=True)
@@ -54,12 +54,12 @@ def cmd_options(request) -> dict:
 def apigee_config(cmd_options: dict) -> ApigeeConfig:
     apigee_env = cmd_options["--apigee-environment"]
     pr_no = cmd_options["--pr-no"]
-    proxy_name = cmd_options["--proxy-name"]
-    deployed_proxy_name = get_deployed_proxy_name(proxy_name, apigee_env, pr_no)
+    service_name = cmd_options["--service-name"]
+    proxy_name = get_proxy_name_from_service_name(service_name, apigee_env, pr_no)
 
     return ApigeeConfig(env=apigee_env,
                         org=cmd_options["--apigee-org"],
-                        proxy_name=deployed_proxy_name,
+                        proxy_name=proxy_name,
                         token=cmd_options["--apigee-api-token"],
                         developer_email="apm-testing-internal-dev@nhs.net")
 
@@ -90,7 +90,7 @@ def proxy_url(apigee_config: ApigeeConfig) -> str:
 
 
 @pytest.fixture(scope='session', autouse=True)
-def default_app(cmd_options: dict, deployed_proxy_name, apigee_product: ApigeeProductService,
+def default_app(cmd_options: dict, proxy_name, apigee_product: ApigeeProductService,
                 apigee_app: ApigeeAppService):
     """
     Create a default app. For certain environments we're not allowed to use Apigee api.
@@ -110,7 +110,7 @@ def default_app(cmd_options: dict, deployed_proxy_name, apigee_product: ApigeePr
         product.environments.append(current_env)
         product.proxies.extend([
             f"identity-service-{current_env}",
-            deployed_proxy_name
+            proxy_name
         ])
         print(f"Creating default product: {product.name}")
         product = apigee_product.create_product(product)

@@ -7,10 +7,11 @@ options = [
         "default": "nhsd-nonprod"
     },
     {
-        "name": "--proxy-name",
+        "name": "--service-name",
         "required": True,
         "action": "store",
-        "help": "The name of the proxy without appending env name or PR number"
+        "help": "The name of the service. This is should be the same name as proxy "
+                "without appending env name or PR number"
     },
     {
         "name": "--pr-no",
@@ -79,8 +80,10 @@ def create_cmd_options(get_cmd_opt_value) -> dict:
 
 
 def __validate_options(cmd_options):
+    """Whether some values are required or not might change depending on deployment environment"""
     current_env = cmd_options["--apigee-environment"]
 
+    #  For certain environments we can't use apigee token. For those, user must provide information about default app
     apigee_api_permitted_envs = ['internal-dev', 'internal-dev-sandbox']
     if current_env not in apigee_api_permitted_envs:
         client_id = cmd_options["--client-id"]
@@ -90,3 +93,7 @@ def __validate_options(cmd_options):
             raise Exception(
                 f"These options: --client-id, --client-secret and --default-callback-url "
                 f"are required for environment: {current_env}")
+
+    # internal-dev-sandbox environment is only allowed for pull requests, so --pr-no becomes mandatory
+    if current_env == "internal-dev-sandbox" and not cmd_options["--pr-no"]:
+        raise Exception(f"options --pr-no is mandatory for {current_env}")
