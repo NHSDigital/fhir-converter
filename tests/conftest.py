@@ -53,13 +53,14 @@ def cmd_options(request) -> dict:
 @pytest.fixture(scope='session')
 def apigee_config(cmd_options: dict) -> ApigeeConfig:
     apigee_env = cmd_options["--apigee-environment"]
-    apigee_org = cmd_options["--apigee-org"]
     pr_no = cmd_options["--pr-no"]
     proxy_name = cmd_options["--proxy-name"]
     deployed_proxy_name = get_deployed_proxy_name(proxy_name, apigee_env, pr_no)
-    apigee_token = cmd_options["--apigee-api-token"]
 
-    return ApigeeConfig(env=apigee_env, org=apigee_org, proxy_name=deployed_proxy_name, token=apigee_token,
+    return ApigeeConfig(env=apigee_env,
+                        org=cmd_options["--apigee-org"],
+                        proxy_name=deployed_proxy_name,
+                        token=cmd_options["--apigee-api-token"],
                         developer_email="apm-testing-internal-dev@nhs.net")
 
 

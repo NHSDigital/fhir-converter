@@ -29,6 +29,7 @@ class TestConverter:
     def test_trace(self, apigee_trace: ApigeeTraceService, proxy_url: str):
         apigee_trace.create_debug_session(
             filters=TraceFilter(headers={"foo": "bar", "biz": "baz"}, params={"dooz": "gooz"}))
+
         requests.get(proxy_url, headers={"foo": "bar", "biz": "baz"}, params={"dooz": "gooz"})
         requests.get(proxy_url, headers={"biz": "baz"})
         d = apigee_trace.get_debug_data(0)
