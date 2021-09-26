@@ -27,6 +27,13 @@ class ApigeeProductService:
         else:
             raise ApigeeApiException("Create Apigee product failed", res)
 
+    def update_product(self, product: ApigeeProduct) -> ApigeeProduct:
+        res = self.api_service.put(f"{self.base_path}/{product.name}", json=product._asdict())
+        if res.status_code == 200:
+            return ApigeeProduct(**res.json())
+        else:
+            raise ApigeeApiException("Update Apigee product failed", res)
+
     def delete_product(self, product_name: str) -> Union[ApigeeProduct, None]:
         res = self.api_service.delete(f"{self.base_path}/{product_name}")
 
