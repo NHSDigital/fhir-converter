@@ -52,30 +52,61 @@
 
     <dependency>
       <groupId>ca.uhn.hapi.fhir</groupId>
-      <artifactId>hapi-fhir-server</artifactId>
-      <version>${hapi-fhir-version}</version>
+      <artifactId>hapi-fhir-base</artifactId>
+      <version>5.5.0</version>
     </dependency>
     <dependency>
       <groupId>ca.uhn.hapi.fhir</groupId>
-      <artifactId>hapi-fhir-base</artifactId>
-      <version>${hapi-fhir-version}</version>
+      <artifactId>hapi-fhir-client</artifactId>
+      <version>5.5.0</version>
+    </dependency>
+    <dependency>
+      <groupId>ca.uhn.hapi.fhir</groupId>
+      <artifactId>hapi-fhir-server-mdm</artifactId>
+      <version>5.5.0</version>
     </dependency>
     <dependency>
       <groupId>ca.uhn.hapi.fhir</groupId>
       <artifactId>hapi-fhir-structures-dstu3</artifactId>
-      <version>${hapi-fhir-version}</version>
+      <version>5.5.0</version>
     </dependency>
-
+    <dependency>
+      <groupId>ca.uhn.hapi.fhir</groupId>
+      <artifactId>hapi-fhir-validation-resources-dstu3</artifactId>
+      <version>5.5.0</version>
+    </dependency>
     <dependency>
       <groupId>ca.uhn.hapi.fhir</groupId>
       <artifactId>hapi-fhir-structures-r4</artifactId>
-      <version>${hapi-fhir-version}</version>
+      <version>5.5.0</version>
+    </dependency>
+    <dependency>
+      <groupId>ca.uhn.hapi.fhir</groupId>
+      <artifactId>hapi-fhir-validation-resources-r4</artifactId>
+      <version>5.5.0</version>
+    </dependency>
+    <dependency>
+      <groupId>ca.uhn.hapi.fhir</groupId>
+      <artifactId>hapi-fhir-converter</artifactId>
+      <version>5.5.0</version>
+    </dependency>
+    <dependency>
+      <groupId>ca.uhn.hapi.fhir</groupId>
+      <artifactId>hapi-fhir-validation</artifactId>
+      <version>5.5.0</version>
+    </dependency>
+    <dependency>
+      <groupId>ca.uhn.hapi.fhir</groupId>
+      <artifactId>org.hl7.fhir.utilities</artifactId>
+      <version>5.5.1</version>
     </dependency>
 
+
+    <!-- Tims dependencies -->
     <dependency>
       <groupId>ca.uhn.hapi.fhir</groupId>
       <artifactId>hapi-fhir-structures-dstu2</artifactId>
-      <version>${hapi-fhir-version}</version>
+      <version>5.3.0</version>
     </dependency>
     <dependency>
       <groupId>ca.uhn.hapi.fhir</groupId>
@@ -84,20 +115,10 @@
     </dependency>
     <dependency>
       <groupId>ca.uhn.hapi.fhir</groupId>
-      <artifactId>hapi-fhir-validation-resources-dstu3</artifactId>
-      <version>${hapi-fhir-version}</version>
+      <artifactId>hapi-fhir-server</artifactId>
+      <version>5.3.0</version>
     </dependency>
 
-    <dependency>
-      <groupId>ca.uhn.hapi.fhir</groupId>
-      <artifactId>hapi-fhir-validation-resources-r4</artifactId>
-      <version>${hapi-fhir-version}</version>
-    </dependency>
-    <dependency>
-      <groupId>ca.uhn.hapi.fhir</groupId>
-      <artifactId>hapi-fhir-validation</artifactId>
-      <version>${hapi-fhir-version}</version>
-    </dependency>
 
     <dependency>
       <groupId>junit</groupId>

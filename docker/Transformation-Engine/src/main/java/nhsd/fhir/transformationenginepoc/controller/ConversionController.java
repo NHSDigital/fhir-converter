@@ -22,8 +22,8 @@ public class ConversionController {
 
         final String currentVersion = content_type.split(";")[1].split("=")[1];
         final String targetVersion = accept.split(";")[1].split("=")[1];
-        final MediaType mediaTypeIn = content_type.split(";")[0].startsWith("<") ? MediaType.APPLICATION_XML : MediaType.APPLICATION_JSON;
-        final MediaType mediaTypeInOut = accept.split(";")[0].startsWith("<") ? MediaType.APPLICATION_XML : MediaType.APPLICATION_JSON;
+        final MediaType mediaTypeIn = content_type.split(";")[0].contains("xml") ? MediaType.APPLICATION_XML : MediaType.APPLICATION_JSON;
+        final MediaType mediaTypeInOut = accept.split(";")[0].contains("xml") ? MediaType.APPLICATION_XML : MediaType.APPLICATION_JSON;
 
         final String convertedFhir = fileConversionService.convertFhirSchema(currentVersion, targetVersion, mediaTypeIn, mediaTypeInOut, fhirSchema);
 

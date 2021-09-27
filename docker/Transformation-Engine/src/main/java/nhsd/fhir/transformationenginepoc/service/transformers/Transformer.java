@@ -38,6 +38,6 @@ public abstract class Transformer {
 
 
     IParser getSuitableParser(final FhirContext ctx, final MediaType type) {
-        return type.getType().equals("XML") ? ctx.newXmlParser() : ctx.newJsonParser();
+        return type.getSubtype().equals("xml") ? ctx.newXmlParser() : ctx.newJsonParser();
     }
 }
