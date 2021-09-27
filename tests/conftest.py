@@ -25,39 +25,6 @@ def pytest_addoption(parser):
         )
 
 
-def get_proxy_name_from_service_name(service_name: str, env: str, pr_no: str) -> str:
-    if env == 'internal-dev':
-        return f"{service_name}-pr-{pr_no}" if pr_no else f"{service_name}-internal-dev"
-    elif env == "internal-dev-sandbox":
-        if pr_no:
-            return f"{service_name}-pr-{pr_no}-sandbox"
-        else:
-            raise Exception("internal-dev-sandbox only exists for PRs")
-    else:
-        return f"{service_name}-{env}"
-
-
-def get_proxy_base_path(proxy_base_path: str, env: str, pr_no: str):
-    # The same rule for service_name to proxy_name applies here:
-    return get_proxy_name_from_service_name(proxy_base_path, env=env, pr_no=pr_no)
-
-
-@pytest.fixture(scope='session')
-def proxy_url(cmd_options: dict) -> str:
-    env = cmd_options["--apigee-environment"]
-    pr_no = cmd_options["--pr-no"]
-    base_path = get_proxy_base_path(cmd_options["--proxy-base-path"], env, pr_no)
-
-    return f"https://{env}.api.service.nhs.uk/{base_path}"
-
-
-@pytest.fixture(scope='session')
-def proxy_name(cmd_options: dict):
-    return get_proxy_name_from_service_name(cmd_options["--service-name"],
-                                            cmd_options["--apigee-environment"],
-                                            cmd_options["--pr-no"])
-
-
 @pytest.fixture(scope='session', autouse=True)
 def cmd_options(request) -> dict:
     return create_cmd_options(request.config.getoption)
@@ -158,22 +125,41 @@ def client_credentials(cmd_options: dict, default_app: DefaultApp):
     return AuthClientCredentials(auth_url=auth_url, jwt=jwt)
 
 
-@pytest.fixture(scope="session")
-def auth_code(cmd_options: dict, default_app: DefaultApp):
-    env = cmd_options['--apigee-environment']
-    client_id = default_app.client_id
-    auth_url = f"https://{env}.api.service.nhs.uk/oauth2"
-
-    jwt = create_jwt(private_key_file=cmd_options["--jwt-private-key-file"],
-                     client_id=client_id, headers={"kid": "test-1"}, aud=f"{auth_url}/token")
-    return AuthClientCredentials(auth_url=auth_url, jwt=jwt)
-
-
 @pytest.fixture()
 def token(client_credentials):
     return client_credentials.get_access_token()
 
 
-@pytest.fixture()
-def auth_token(client_credentials):
-    return client_credentials.get_access_token()
+def get_proxy_name_from_service_name(service_name: str, env: str, pr_no: str) -> str:
+    if env == 'internal-dev':
+        return f"{service_name}-pr-{pr_no}" if pr_no else f"{service_name}-internal-dev"
+    elif env == "internal-dev-sandbox":
+        if pr_no:
+            return f"{service_name}-pr-{pr_no}-sandbox"
+        else:
+            raise Exception("internal-dev-sandbox only exists for PRs")
+    else:
+        return f"{service_name}-{env}"
+
+
+def get_proxy_base_path(proxy_base_path: str, pr_no: str):
+    if pr_no:
+        return f"{proxy_base_path}-pr-{pr_no}"
+    else:
+        return f"{proxy_base_path}"
+
+
+@pytest.fixture(scope='session')
+def proxy_url(cmd_options: dict) -> str:
+    env = cmd_options["--apigee-environment"]
+    pr_no = cmd_options["--pr-no"]
+    base_path = get_proxy_base_path(cmd_options["--proxy-base-path"], pr_no)
+
+    return f"https://{env}.api.service.nhs.uk/{base_path}"
+
+
+@pytest.fixture(scope='session')
+def proxy_name(cmd_options: dict):
+    return get_proxy_name_from_service_name(cmd_options["--service-name"],
+                                            cmd_options["--apigee-environment"],
+                                            cmd_options["--pr-no"])

@@ -15,9 +15,14 @@ class TestDeployment:
 
         assert res.status_code == 200
 
-    @pytest.mark.debug
     def test_status(self, proxy_url, commit_id, cmd_options):
         res = requests.get(f"{proxy_url}/_status", headers={"apikey": cmd_options["--status-api-key"]})
 
         assert res.status_code == 200
         assert res.json()["commitId"] == commit_id
+
+    @pytest.mark.debug
+    def test_status_is_secured(self, proxy_url):
+        res = requests.get(f"{proxy_url}/_status")
+
+        assert res.status_code == 401
