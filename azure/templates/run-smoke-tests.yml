@@ -13,9 +13,9 @@ steps:
     parameters:
      secret_file_ids:
       - ptl/app-credentials/jwt_testing/non-prod/JWT_TESTING_PRIVATE_KEY
-     secret_ids:
-      - ptl/app-credentials/fhir-converter/non-prod/CLIENT_ID_INT
-      - ptl/app-credentials/fhir-converter/non-prod/CLIENT_SECRET_INT
+#     secret_ids:
+#      - ptl/app-credentials/fhir-converter/non-prod/CLIENT_ID_INT
+#      - ptl/app-credentials/fhir-converter/non-prod/CLIENT_SECRET_INT
 
   - bash: |
       export RELEASE_RELEASEID=$(Build.BuildId)
