@@ -1,6 +1,5 @@
 from uuid import uuid4
 
-import pytest
 import requests
 
 from .apigee.apigee_app import ApigeeAppService
@@ -10,7 +9,6 @@ from .apigee.apigee_trace import ApigeeTraceService
 
 
 class TestConverter:
-    @pytest.mark.debug
     def test_api(self, apigee_product: ApigeeProductService, apigee_app: ApigeeAppService):
         product_name = f"apim-auto-{uuid4()}"
         product = ApigeeProduct(name=product_name, displayName=product_name)
@@ -27,7 +25,6 @@ class TestConverter:
         apigee_app.delete_app(app_name)
         apigee_product.delete_product(product_name)
 
-    @pytest.mark.debug
     def test_trace(self, apigee_trace: ApigeeTraceService, proxy_url: str):
         apigee_trace.create_debug_session(
             filters=TraceFilter(headers={"foo": "bar", "biz": "baz"}, params={"dooz": "gooz"}))
@@ -39,7 +36,6 @@ class TestConverter:
         print(q)
         apigee_trace.delete_session()
 
-    @pytest.mark.debug
     def test_auth(self, proxy_url, token):
         res = requests.get(proxy_url, headers={"Authorization": f"Bearer {token}"})
         print(res.text)
