@@ -1,5 +1,5 @@
 SERVICE_NAME = fhir-converter
-JWT_PRIVATE_KEY_FILE = $(shell pwd)/jwtRS512.key
+JWT_PRIVATE_KEY_FILE ?= $(shell pwd)/jwtRS512.key
 APIGEE_API_TOKEN ?= $(shell eval get_token -u $(APIGEE_USERNAME))
 PROXY_BASE_PATH = fhir-converter
 
