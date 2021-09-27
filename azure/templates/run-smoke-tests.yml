@@ -22,8 +22,8 @@ steps:
       export SOURCE_COMMIT_ID=$(Build.SourceVersion)
       export APIGEE_ENVIRONMENT="$(ENVIRONMENT)"
 
-#      export DEFAULT_CLIENT_ID="$(CLIENT_ID_INT)"
-#      export DEFAULT_CLIENT_SECRET="$(CLIENT_SECRET_INT)"
+      #export DEFAULT_CLIENT_ID="$(CLIENT_ID_INT)"
+      #export DEFAULT_CLIENT_SECRET="$(CLIENT_SECRET_INT)"
       export DEFAULT_CALLBACK_URL="https://nhsd-apim-testing-$(ENVIRONMENT).herokuapp.com/callback"
 
       export APIGEE_API_TOKEN="$(secret.AccessToken)"

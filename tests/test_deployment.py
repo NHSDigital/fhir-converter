@@ -3,7 +3,21 @@ import requests
 
 
 class TestDeployment:
-    @pytest.mark.debug
+
+    @pytest.fixture()
+    def commit_id(self, proxy_url):
+        res = requests.get(f"{proxy_url}/_ping")
+
+        return res.json()["commitId"]
+
     def test_ping(self, proxy_url):
         res = requests.get(f"{proxy_url}/_ping")
-        print(res.json())
+
+        assert res.status_code == 200
+
+    @pytest.mark.debug
+    def test_status(self, proxy_url, commit_id, cmd_options):
+        res = requests.get(f"{proxy_url}/_status", headers={"apikey": cmd_options["--status-api-key"]})
+
+        assert res.status_code == 200
+        assert res.json()["commitId"] == commit_id
