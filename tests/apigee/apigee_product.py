@@ -24,6 +24,7 @@ class ApigeeProductService:
 
     def update_product(self, product: ApigeeProduct) -> ApigeeProduct:
         res = self.__api_service.put(f"{self.__base_path}/{product.name}", json=product._asdict())
+
         if res.status_code == 200:
             return ApigeeProduct(**res.json())
         else:

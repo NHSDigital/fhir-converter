@@ -87,8 +87,7 @@ def default_app(cmd_options: dict, proxy_name, apigee_product: ApigeeProductServ
             f"identity-service-{current_env}",
             proxy_name
         ])
-        print("")  # flush buffer
-        print(f"Creating default product: {product.name}")
+        print(f"\nCreating default product: {product.name}")
         product = apigee_product.create_product(product)
 
         app_name = f"apim-auto-{uuid4()}"
@@ -105,7 +104,7 @@ def default_app(cmd_options: dict, proxy_name, apigee_product: ApigeeProductServ
         yield DefaultApp(client_id=app.get_client_id(), client_secret=app.get_client_secret(),
                          callback_url=app.callbackUrl)
 
-        print("Deleting both default Apigee app and product")
+        print("\nDeleting both default Apigee app and product")
         apigee_app.delete_app(app_name)
         apigee_product.delete_product(product_name)
 

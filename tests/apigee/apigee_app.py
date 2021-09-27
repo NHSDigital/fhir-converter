@@ -27,7 +27,6 @@ class ApigeeAppService:
         if res.status_code == 201:
             return ApigeeApp(**res.json())
         else:
-
             raise ApigeeApiException("Create Apigee app failed.", res)
 
     def delete_app(self, app_name: str) -> ApigeeApp:
@@ -45,6 +44,7 @@ class ApigeeAppService:
             "status": "approved"
         }
         res = self.__api_service.put(f"{self.__base_path}/{app.name}/keys/{app.get_client_id()}", json=data)
+
         if res.status_code == 200:
             return self.get_app(app.name)
         else:
@@ -52,7 +52,6 @@ class ApigeeAppService:
 
     def create_custom_attributes(self, app_name: str, attributes: List[Attribute]) -> List[Attribute]:
         params = {"name": app_name}
-
         res = self.__api_service.post(f"{self.__base_path}/{app_name}/attributes",
                                       json={"attribute": [attr._asdict() for attr in attributes]},
                                       params=params)
@@ -63,9 +62,9 @@ class ApigeeAppService:
 
     def delete_custom_attributes(self, app_name: str, attribute_name: str) -> Attribute:
         params = {"name": app_name}
-
         res = self.__api_service.delete(f"{self.__base_path}/{app_name}/attributes/{attribute_name}",
                                         params=params)
+
         if res.status_code == 200:
             return Attribute(**res.json())
         else:

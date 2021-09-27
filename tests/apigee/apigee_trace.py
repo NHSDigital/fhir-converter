@@ -22,7 +22,7 @@ class ApigeeTraceService:
 
     def create_debug_session(self, timeout: int = 30, filters: TraceFilter = TraceFilter()) -> str:
         #  apigee doesn't care what you pass as name. It always calls it "default"
-        #  and despite returning an array you can't create multiple sessions. So we hardcode name to "default"
+        #  and despite returning an array you can't create multiple sessions. So we hardcoded name to "default"
         params = {"name": "default", "timeout": timeout}
         params.update(self.__convert_trace_filter_to_param(filters))
         res = self.__api_service.post(self.__base_path, params=params)
@@ -37,10 +37,8 @@ class ApigeeTraceService:
     def get_debug_data(self, transaction_index=0) -> Union[TraceData, None]:
         res = self.__api_service.get(f"{self.__base_path}/default/data")
         transactions = res.json()
-        if len(transactions) <= transaction_index:
-            return None
-
         transaction_id = transactions[transaction_index]
+
         res = self.__api_service.get(f"{self.__base_path}/default/data/{transaction_id}")
 
         return TraceData(data=res.json())
