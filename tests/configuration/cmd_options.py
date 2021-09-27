@@ -11,37 +11,43 @@ options = [
         "required": True,
         "action": "store",
         "help": "The name of the service. This is should be the same name as proxy "
-                "without appending env name or PR number"
+                "without appending env name or PR number."
     },
     {
         "name": "--pr-no",
         "required": False,
         "action": "store",
-        "help": "The github pull request number. Example --pr-no=42"
+        "help": "The github pull request number. Example --pr-no=42."
+    },
+    {
+        "name": "--proxy-base-path",
+        "required": True,
+        "action": "store",
+        "help": "The base path for the deployed proxy without appending env name or PR number."
     },
     {
         "name": "--client-id",
         "required": False,
         "action": "store",
-        "help": "client id of default apigee app"
+        "help": "client-id of the default Apigee app."
     },
     {
         "name": "--client-secret",
         "required": False,
         "action": "store",
-        "help": "client secret of default apigee app"
+        "help": "client-secret of the default Apigee app."
     },
     {
         "name": "--default-callback-url",
         "required": False,
         "action": "store",
-        "help": "redirect url for apigee default app"
+        "help": "Redirect url for Apigee default app."
     },
     {
         "name": "--jwt-private-key-file",
         "required": True,
         "action": "store",
-        "help": "absolute path to jwt private key",
+        "help": "Absolute path to jwt private key.",
     },
     {
         "name": "--apigee-environment",
@@ -51,15 +57,16 @@ options = [
     },
     {
         "name": "--apigee-api-token",
-        "required": False,
+        "required": True,
         "action": "store",
-        "help": "apigee api token to run ApigeeTrace"
+        "help": "Apigee api token. It's needed for all Apigee Api services. "
+                "Pass a dummy string if your tests don't need one."
     },
     {
         "name": "--status-api-key",
         "required": True,
         "action": "store",
-        "help": "Apikey for /_status endpoint"
+        "help": "apikey for /_status endpoint"
     }
 ]
 

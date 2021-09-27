@@ -4,15 +4,34 @@ steps:
     workingDirectory: $(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)
     displayName: Setup pytests
 
+  - template: "azure/components/aws-assume-role.yml@common"
+    parameters:
+     role: "auto-ops"
+     profile: "apm_ptl"
+
+  - template: "azure/components/get-aws-secrets-and-ssm-params.yml@common"
+    parameters:
+     secret_file_ids:
+      - ptl/app-credentials/jwt_testing/non-prod/JWT_TESTING_PRIVATE_KEY
+     secret_ids:
+      - ptl/app-credentials/fhir-converter/non-prod/CLIENT_ID_INT
+      - ptl/app-credentials/fhir-converter/non-prod/CLIENT_SECRET_INT
+
   - bash: |
       export RELEASE_RELEASEID=$(Build.BuildId)
       export SOURCE_COMMIT_ID=$(Build.SourceVersion)
       export APIGEE_ENVIRONMENT="$(ENVIRONMENT)"
-      export SERVICE_BASE_PATH="$(SERVICE_BASE_PATH)"
-      export STATUS_ENDPOINT_API_KEY="$(status-endpoint-api-key)"
 
-      make smoketest
-    workingDirectory: $(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)
+      export DEFAULT_CLIENT_ID="$(CLIENT_ID_INT)"
+      export DEFAULT_CLIENT_SECRET="$(CLIENT_SECRET_INT)"
+      export DEFAULT_CALLBACK_URL="https://nhsd-apim-testing-$(ENVIRONMENT).herokuapp.com/callback"
+
+      export APIGEE_API_TOKEN="$(secret.AccessToken)"
+      export STATUS_API_KEY="$(status-endpoint-api-key)"
+      export JWT_PRIVATE_KEY_FILE="$(Pipeline.Workspace)/secrets/$(JWT_TESTING_PRIVATE_KEY)"
+
+      make run
+    workingDirectory: $(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)/tests
     displayName: run smoketests
 
   - task: PublishTestResults@2

@@ -2,7 +2,6 @@
 from uuid import uuid4
 
 import pytest
-from api_test_utils.api_test_session_config import APITestSessionConfig
 
 from .apigee.apigee_api import ApigeeApiService
 from .apigee.apigee_app import ApigeeAppService
@@ -36,6 +35,20 @@ def get_proxy_name_from_service_name(service_name: str, env: str, pr_no: str) ->
             raise Exception("internal-dev-sandbox only exists for PRs")
     else:
         return f"{service_name}-{env}"
+
+
+def get_proxy_base_path(proxy_base_path: str, env: str, pr_no: str):
+    # The same rule for service_name to proxy_name applies here:
+    return get_proxy_name_from_service_name(proxy_base_path, env=env, pr_no=pr_no)
+
+
+@pytest.fixture(scope='session')
+def proxy_url(cmd_options: dict) -> str:
+    env = cmd_options["--apigee-environment"]
+    pr_no = cmd_options["--pr-no"]
+    base_path = get_proxy_base_path(cmd_options["--proxy-base-path"], env, pr_no)
+
+    return f"https://{env}.api.service.nhs.uk/{base_path}"
 
 
 @pytest.fixture(scope='session')
@@ -82,11 +95,6 @@ def apigee_app(apigee_api: ApigeeApiService) -> ApigeeAppService:
 @pytest.fixture(scope='session')
 def apigee_trace(apigee_api: ApigeeApiService) -> ApigeeTraceService:
     return ApigeeTraceService(api_service=apigee_api)
-
-
-@pytest.fixture(scope='session')
-def proxy_url(apigee_config: ApigeeConfig) -> str:
-    return f"https://{apigee_config.env}.api.service.nhs.uk/{apigee_config.proxy_name}"
 
 
 @pytest.fixture(scope='session', autouse=True)
@@ -150,16 +158,22 @@ def client_credentials(cmd_options: dict, default_app: DefaultApp):
     return AuthClientCredentials(auth_url=auth_url, jwt=jwt)
 
 
+@pytest.fixture(scope="session")
+def auth_code(cmd_options: dict, default_app: DefaultApp):
+    env = cmd_options['--apigee-environment']
+    client_id = default_app.client_id
+    auth_url = f"https://{env}.api.service.nhs.uk/oauth2"
+
+    jwt = create_jwt(private_key_file=cmd_options["--jwt-private-key-file"],
+                     client_id=client_id, headers={"kid": "test-1"}, aud=f"{auth_url}/token")
+    return AuthClientCredentials(auth_url=auth_url, jwt=jwt)
+
+
 @pytest.fixture()
 def token(client_credentials):
     return client_credentials.get_access_token()
 
 
-@pytest.fixture(scope='session')
-def api_test_config() -> APITestSessionConfig:
-    """
-        this imports a 'standard' test session config,
-        which builds the proxy uri
-
-    """
-    return APITestSessionConfig()
+@pytest.fixture()
+def auth_token(client_credentials):
+    return client_credentials.get_access_token()
