@@ -1,4 +1,4 @@
 docker_containers:
-  - name: sandbox
-    dockerfile: "sandbox/Dockerfile"
-    path: "sandbox"
+  - name: docker
+    dockerfile: "docker/Transformation-Engine/Dockerfile"
+    path: "docker/Transformation-Engine"
