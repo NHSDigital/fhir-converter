@@ -2,6 +2,7 @@ import pytest
 import requests
 
 
+@pytest.mark.run(order=1)
 class TestDeployment:
 
     @pytest.fixture()

@@ -1,5 +1,6 @@
 from uuid import uuid4
 
+import pytest
 import requests
 
 from .apigee.apigee_app import ApigeeAppService
@@ -36,6 +37,7 @@ class TestConverter:
         print(q)
         apigee_trace.delete_session()
 
+    @pytest.mark.debug
     def test_auth(self, proxy_url, token):
         res = requests.get(proxy_url, headers={"Authorization": f"Bearer {token}"})
         print(res.text)

@@ -87,6 +87,7 @@ def default_app(cmd_options: dict, proxy_name, apigee_product: ApigeeProductServ
             f"identity-service-{current_env}",
             proxy_name
         ])
+        print("")  # flush buffer
         print(f"Creating default product: {product.name}")
         product = apigee_product.create_product(product)
 
@@ -163,3 +164,14 @@ def proxy_name(cmd_options: dict):
     return get_proxy_name_from_service_name(cmd_options["--service-name"],
                                             cmd_options["--apigee-environment"],
                                             cmd_options["--pr-no"])
+
+
+@pytest.fixture(scope="session", autouse=True)
+def print_config(cmd_options: dict, proxy_url: str, proxy_name: str):
+    print(f"""
+Test configs:
+    Apigee ENV: {cmd_options["--apigee-environment"]}
+    PR number:  {cmd_options["--pr-no"]}
+    Proxy name: {proxy_name}
+    Proxy url:  {proxy_url}
+    """)
