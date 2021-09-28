@@ -2,8 +2,9 @@ package nhsd.fhir.transformationenginepoc.controller;
 
 import ca.uhn.fhir.validation.SingleValidationMessage;
 import ca.uhn.fhir.validation.ValidationResult;
-import nhsd.fhir.transformationenginepoc.service.FileConversionService;
+import nhsd.fhir.transformationenginepoc.service.ConversionService;
 import nhsd.fhir.transformationenginepoc.service.ValidationService;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ public class ConversionController {
 
 
     @Autowired
-    private FileConversionService fileConversionService;
+    private ConversionService fileConversionService;
 
     @Autowired
     private ValidationService validationService;
@@ -46,6 +47,12 @@ public class ConversionController {
                 .body("Invalid syntax for this request was provided. " + e);
         }
 
+        if (!validationService.isSchemaValid(mediaTypeIn, fhirSchema)) {
+            return ResponseEntity.badRequest()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body("Invalid syntax for this request was provided. Please check your Fhir payload");
+        }
+
 
         if (toValidate) {
             final ValidationResult checkedInputFile = validationService.validateSchema(currentVersion, fhirSchema);
@@ -58,7 +65,12 @@ public class ConversionController {
             }
         }
 
-        final String convertedFhir = fileConversionService.convertFhirSchema(currentVersion, targetVersion, mediaTypeIn, mediaTypeInOut, fhirSchema);
+        String convertedFhir = Strings.EMPTY;
+        try {
+            convertedFhir = fileConversionService.convertFhirSchema(currentVersion, targetVersion, mediaTypeIn, mediaTypeInOut, fhirSchema);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return ResponseEntity.ok()
             .contentType(mediaTypeInOut)
