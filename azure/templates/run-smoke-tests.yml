@@ -20,11 +20,10 @@ steps:
   - bash: |
       export RELEASE_RELEASEID=$(Build.BuildId)
       export SOURCE_COMMIT_ID=$(Build.SourceVersion)
-      # export PR_NO=$(System.PullRequest.PullRequestNumber)
+      export PR_NO=$(echo $FULLY_QUALIFIED_SERVICE_NAME | grep -P '(-pr-\d+)' -o | grep -P '(\d+)' -o)
       export f=$(FULLY_QUALIFIED_SERVICE_NAME)
       echo "fqsn ${f}"
-      export fn=$(SERVICE_NAME)
-      echo "sn ${fn}"
+      echo "PR ${PR_NO}"
       export APIGEE_ENVIRONMENT="$(ENVIRONMENT)"
 
       #export DEFAULT_CLIENT_ID="$(CLIENT_ID_INT)"
