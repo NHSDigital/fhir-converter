@@ -29,8 +29,6 @@ class ApigeeTraceService:
 
         if res.status_code == 201:
             return res.json()["name"]
-        elif res.status_code == 409:
-            return self.get_debug_session()
         else:
             raise ApigeeApiException("Create debug session failed", res)
 
