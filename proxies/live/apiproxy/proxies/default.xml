@@ -19,6 +19,21 @@
       </Response>
       <Condition>(proxy.pathsuffix MatchesPath "/_ping") and ((request.verb = "GET") or (request.verb = "HEAD"))</Condition>
     </Flow>
+    <Flow name="ConvertEndpoint">
+      <Description/>
+      <Request/>
+      <Response>
+        <Step>
+          <Name>RaiseFault.InvalidContentType</Name>
+          <Condition>request.header.Content-Type != "application/fhir+json; fhirVersion=3.0" or request.header.Content-Type != "application/fhir+xml; fhirVersion=3.0"</Condition>
+        </Step>
+        <Step>
+          <Name>RaiseFault.InvalidAcceptHeader</Name>
+          <Condition>request.header.Accept != "application/fhir+json; fhirVersion=4.0" or request.header.Accept != "application/fhir+xml; fhirVersion=4.0"</Condition>
+        </Step>
+      </Response>
+      <Condition>(proxy.pathsuffix MatchesPath "/convert") and ((request.verb = "POST") or (request.verb = "HEAD"))</Condition>
+    </Flow>
     <Flow name="StatusEndpoint">
       <Request>
         <Step>
