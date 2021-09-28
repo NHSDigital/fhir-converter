@@ -21,7 +21,6 @@ steps:
       export RELEASE_RELEASEID=$(Build.BuildId)
       export SOURCE_COMMIT_ID=$(Build.SourceVersion)
       export PR_NO=$(echo "${FULLY_QUALIFIED_SERVICE_NAME}" | grep -P '(-pr-\d+$)' -o | grep -P '(\d+)' -o)
-      echo "PR ${PR_NO}"
       export APIGEE_ENVIRONMENT="$(ENVIRONMENT)"
 
       #export DEFAULT_CLIENT_ID="$(CLIENT_ID_INT)"
@@ -32,7 +31,7 @@ steps:
       export STATUS_API_KEY="$(status-endpoint-api-key)"
       export JWT_PRIVATE_KEY_FILE="$(Pipeline.Workspace)/secrets/$(JWT_TESTING_PRIVATE_KEY)"
 
-      make -s run
+      make -s run reruns=3˚
     workingDirectory: $(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)/tests
     displayName: run smoketests
 
