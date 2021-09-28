@@ -21,6 +21,7 @@ steps:
       export RELEASE_RELEASEID=$(Build.BuildId)
       export SOURCE_COMMIT_ID=$(Build.SourceVersion)
       export PR_NO=$(System.PullRequest.PullRequestNumber)
+      echo $(FULLY_QUALIFIED_SERVICE_NAME)
       export APIGEE_ENVIRONMENT="$(ENVIRONMENT)"
 
       #export DEFAULT_CLIENT_ID="$(CLIENT_ID_INT)"
