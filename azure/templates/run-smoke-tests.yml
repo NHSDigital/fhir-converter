@@ -22,9 +22,9 @@ steps:
       export SOURCE_COMMIT_ID=$(Build.SourceVersion)
       # export PR_NO=$(System.PullRequest.PullRequestNumber)
       export f=$(FULLY_QUALIFIED_SERVICE_NAME)
-      echo $f
-      export f=$(SERVICE_NAME)
-      echo $f
+      echo "fqsn ${f}"
+      export fn=$(SERVICE_NAME)
+      echo "sn ${fn}"
       export APIGEE_ENVIRONMENT="$(ENVIRONMENT)"
 
       #export DEFAULT_CLIENT_ID="$(CLIENT_ID_INT)"
