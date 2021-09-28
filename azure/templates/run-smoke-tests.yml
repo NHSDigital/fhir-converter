@@ -31,7 +31,7 @@ steps:
       export STATUS_API_KEY="$(status-endpoint-api-key)"
       export JWT_PRIVATE_KEY_FILE="$(Pipeline.Workspace)/secrets/$(JWT_TESTING_PRIVATE_KEY)"
 
-      make -s run reruns=3˚
+      make -s run reruns=3
     workingDirectory: $(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)/tests
     displayName: run smoketests
 
