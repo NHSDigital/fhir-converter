@@ -25,6 +25,8 @@ class TestConvert:
         # Given
         token = get_token_client_credentials["access_token"]
         expected_status_code = 400
+        expected_error = "invalid_request"
+        expected_error_description = "Invalid header: Content-Type"
 
         headers.update({"Authorization": f"Bearer {token}"})
 
@@ -35,6 +37,10 @@ class TestConvert:
 
         # Then
         assert_that(expected_status_code).is_equal_to(response.status_code)
+        assert_that(expected_error).is_equal_to(response.json()["error"])
+        assert_that(expected_error_description).is_equal_to(
+            response.json()["error_description"]
+        )
 
     @pytest.mark.parametrize(
         "headers",
@@ -56,6 +62,8 @@ class TestConvert:
         # Given
         token = get_token_client_credentials["access_token"]
         expected_status_code = 400
+        expected_error = "invalid_request"
+        expected_error_description = "Invalid header: Accept"
 
         headers.update({"Authorization": f"Bearer {token}"})
 
@@ -66,3 +74,7 @@ class TestConvert:
 
         # Then
         assert_that(expected_status_code).is_equal_to(response.status_code)
+        assert_that(expected_error).is_equal_to(response.json()["error"])
+        assert_that(expected_error_description).is_equal_to(
+            response.json()["error_description"]
+        )
