@@ -6,7 +6,8 @@ APIGEE_API_TOKEN ?= $(shell eval get_token -u $(APIGEE_USERNAME))
 
 -include .env
 
-CUSTOM_CMD_OPT = --service-name="$(SERVICE_NAME)" --client-id="$(DEFAULT_CLIENT_ID)" --client-secret="$(DEFAULT_CLIENT_SECRET)" \
+CUSTOM_CMD_OPT = --service-name="$(SERVICE_NAME)" \
+                 --default-client-id="$(DEFAULT_CLIENT_ID)" --default-client-secret="$(DEFAULT_CLIENT_SECRET)" \
                  --default-callback-url="$(DEFAULT_CALLBACK_URL)" --apigee-environment="$(APIGEE_ENVIRONMENT)" \
                  --apigee-api-token="$(APIGEE_API_TOKEN)" --pr-no=$(PR_NO) --proxy-base-path=$(PROXY_BASE_PATH) \
                  --status-api-key="$(STATUS_API_KEY)" --jwt-private-key-file=$(JWT_PRIVATE_KEY_FILE)

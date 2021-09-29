@@ -75,7 +75,7 @@ def default_app(cmd_options: dict, proxy_name, apigee_product: ApigeeProductServ
     api_permitted_envs = ['internal-dev', 'internal-dev-sandbox']
     current_env = cmd_options["--apigee-environment"]
 
-    if current_env in api_permitted_envs:
+    if False:  # current_env in api_permitted_envs:
         product_name = f"apim-auto-{uuid4()}"
         product = ApigeeProduct(name=product_name, displayName=product_name)
         product.scopes.extend([
@@ -109,12 +109,13 @@ def default_app(cmd_options: dict, proxy_name, apigee_product: ApigeeProductServ
         apigee_product.delete_product(product_name)
 
     else:
-        return DefaultApp(client_id=cmd_options["--default-client-id"],
-                          client_secret=cmd_options["--default-client-secret"],
-                          callback_url=cmd_options["--default-callback-url"])
+        yield DefaultApp(client_id=cmd_options["--default-client-id"],
+                         client_secret=cmd_options["--default-client-secret"],
+                         callback_url=cmd_options["--default-callback-url"])
 
 
-@pytest.fixture(scope="session")
+# @pytest.fixture(scope="session")
+@pytest.fixture(scope="function")
 def client_credentials(cmd_options: dict, default_app: DefaultApp):
     env = cmd_options['--apigee-environment']
     client_id = default_app.client_id
@@ -125,7 +126,7 @@ def client_credentials(cmd_options: dict, default_app: DefaultApp):
     return AuthClientCredentials(auth_url=auth_url, jwt=jwt)
 
 
-@pytest.fixture()
+@pytest.fixture(scope="function")
 def token(client_credentials):
     return client_credentials.get_access_token()
 

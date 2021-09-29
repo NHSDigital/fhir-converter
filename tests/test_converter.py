@@ -7,9 +7,98 @@ from .apigee.apigee_app import ApigeeAppService
 from .apigee.apigee_model import ApigeeProduct, ApigeeApp, TraceFilter
 from .apigee.apigee_product import ApigeeProductService
 from .apigee.apigee_trace import ApigeeTraceService
+from .examples.example_loader import load_example
 
 
 class TestConverter:
+    @pytest.fixture()
+    def url(self, proxy_url: str) -> str:
+        return f"{proxy_url}/convert"
+
+    @pytest.mark.debug
+    def test_converter_json_stu3_to_json_r4(self, url, token):
+        print(f"tokeennnnnn {token}")
+        # Given
+        stu3_payload = load_example("stu3.json")
+        headers = {
+            "Authorization": f"Bearer {token}",
+            "Content-Type": "application/fhir+json; fhirVersion=3.0",
+            "Accept": "application/fhir+json; fhirVersion=4.0"
+        }
+
+        # When
+        res = requests.post(url, json=stu3_payload, headers=headers)
+
+        # Then
+        assert res.status_code == 200
+        expected_response = load_example("stu3_to_r4_200.json")
+        assert res.json() == expected_response
+
+    # @pytest.mark.debug
+    def test_converter_json_r4_to_json_stu3(self, url, token):
+        # Given
+        print(token)
+        r4_payload = load_example("r4.json")
+        headers = {
+            "Authorization": f"Bearer {token}",
+            "Content-Type": "application/fhir+json; fhirVersion=4.0",
+            "Accept": "application/fhir+json; fhirVersion=3.0"
+        }
+
+        # When
+        res = requests.post(url, json=r4_payload, headers=headers)
+
+        # Then
+        assert res.status_code == 200
+        expected_response = load_example("r4_to_stu3_200.json")
+        assert res.json() == expected_response
+
+    def test_converter_json_r4_to_xml_r4(self, url, token):
+        # Given
+        print(token)
+        r4_payload = load_example("r4.xml")
+        headers = {
+            "Authorization": f"Bearer {token}",
+            "Content-Type": "application/fhir+xml; fhirVersion=4.0",
+            "Accept": "application/fhir+json; fhirVersion=3.0"
+        }
+
+        # When
+        requests.post(url, json=r4_payload, headers=headers)
+
+        # Then
+        # Fixme: backend returns 500
+        # assert res.status_code == 200
+        # expected_response = load_example("r4_to_r4_200.json")
+        # assert res.json() == expected_response
+
+    @pytest.mark.parametrize("accept", [
+        # "application/fhir+json; fhirVersion=4.0" <-- Correct one
+        "application/fhir+json; fhirVersion=2.0",
+        "fhir+json; fhirVersion=4.0",
+        "application/json; fhirVersion=4.0",
+        "application fhir+json; fhirVersion=4.0"
+        "application/fhir+json fhirVersion=4.0"
+    ])
+    # @pytest.mark.debug
+    def test_converter_wrong_accept_header(self, url, token, accept):
+        # Given
+        stu3_payload = load_example("stu3.json")
+        headers = {
+            "Authorization": f"Bearer {token}",
+            "Content-Type": "application/fhir+json; fhirVersion=3.0",
+            "Accept": "application/fhir+json; fhirVersion=4.0"
+        }
+
+        # When
+        res = requests.post(url, json=stu3_payload, headers=headers)
+
+        # Then
+        assert res.status_code == 200
+        expected_response = load_example("stu3_to_r4_200.json")
+        assert res.json() == expected_response
+        pass
+
     def test_api(self, apigee_product: ApigeeProductService, apigee_app: ApigeeAppService):
         product_name = f"apim-auto-{uuid4()}"
         product = ApigeeProduct(name=product_name, displayName=product_name)
@@ -37,7 +126,6 @@ class TestConverter:
         print(q)
         apigee_trace.delete_session()
 
-    @pytest.mark.debug
     def test_auth(self, proxy_url, token):
         res = requests.get(proxy_url, headers={"Authorization": f"Bearer {token}"})
         print(res.text)

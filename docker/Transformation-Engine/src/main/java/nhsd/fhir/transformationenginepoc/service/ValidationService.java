@@ -4,12 +4,14 @@ import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.context.support.DefaultProfileValidationSupport;
 import ca.uhn.fhir.validation.FhirValidator;
 import ca.uhn.fhir.validation.ValidationResult;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hl7.fhir.common.hapi.validation.support.*;
 import org.hl7.fhir.common.hapi.validation.validator.FhirInstanceValidator;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ValidationService {
+    private ObjectMapper = ObjectMapper()
 
     private FhirValidator myValidator;
 

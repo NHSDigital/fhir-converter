@@ -9,10 +9,9 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping(value = "/convert")
 public class ConversionController {
-
-
-    @Autowired
-    private FileConversionService fileConversionService;
+    public ConversionController(FileConversionService fileConversionService, o) {
+        this.fileConversionService = fileConversionService;
+    }
 
     @PostMapping(consumes = MediaType.ALL_VALUE)
     public ResponseEntity<?> convert(@RequestHeader("Content-Type") final String content_type,

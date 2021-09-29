@@ -26,13 +26,13 @@ options = [
         "help": "The base path for the deployed proxy without appending env name or PR number."
     },
     {
-        "name": "--client-id",
+        "name": "--default-client-id",
         "required": False,
         "action": "store",
         "help": "client-id of the default Apigee app."
     },
     {
-        "name": "--client-secret",
+        "name": "--default-client-secret",
         "required": False,
         "action": "store",
         "help": "client-secret of the default Apigee app."
