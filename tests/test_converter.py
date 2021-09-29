@@ -43,7 +43,6 @@ class TestConverter:
         expected_response = load_example("r4_to_stu3_200.json")
         assert res.json() == expected_response
 
-    @pytest.mark.debug
     def test_converter_json_r4_to_xml_r4(self, url, token):
         # Given
         r4_payload = load_example("r4.xml")
@@ -62,3 +61,12 @@ class TestConverter:
         # assert res.status_code == 200
         # expected_response = load_example("r4_to_r4_200.json")
         # assert res.json() == expected_response
+
+    def test_converter_xml_r4_to_json_r4(self, url, token):
+        pass
+
+    def test_converter_json_stu3_to_xml_stu3(self, url, token):
+        pass
+
+    def test_converter_xml_stu3_to_json_stu3(self, url, token):
+        pass

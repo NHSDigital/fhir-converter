@@ -10,3 +10,10 @@ def load_example(path: str):
             return json.load(f)
         else:
             return f.read().strip()
+
+
+def load_error(diagnostics: str) -> dict:
+    e = dict(load_example("400.json"))
+    e["issue"][0]["diagnostics"] = diagnostics
+
+    return e
