@@ -25,8 +25,26 @@ class TestConvert:
         # Given
         token = get_token_client_credentials["access_token"]
         expected_status_code = 400
-        expected_error = "invalid_request"
-        expected_error_description = "Invalid header: Content-Type"
+        expected_response = {
+            "resourceType": "OperationOutcome",
+            "issue": [
+                {
+                    "severity": "error",
+                    "code": "value",
+                    "details": {
+                        "coding": [
+                            {
+                                "system": "https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode",
+                                "version": "1",
+                                "code": "MISSING_OR_INVALID_HEADER",
+                                "display": "There is a required header missing or invalid",
+                            }
+                        ]
+                    },
+                    "diagnostics": "Content-Type Header is missing or invalid",
+                }
+            ],
+        }
 
         headers.update({"Authorization": f"Bearer {token}"})
 
@@ -37,10 +55,7 @@ class TestConvert:
 
         # Then
         assert_that(expected_status_code).is_equal_to(response.status_code)
-        assert_that(expected_error).is_equal_to(response.json()["error"])
-        assert_that(expected_error_description).is_equal_to(
-            response.json()["error_description"]
-        )
+        assert_that(expected_response).is_equal_to(response.json())
 
     @pytest.mark.parametrize(
         "headers",
@@ -62,8 +77,26 @@ class TestConvert:
         # Given
         token = get_token_client_credentials["access_token"]
         expected_status_code = 400
-        expected_error = "invalid_request"
-        expected_error_description = "Invalid header: Accept"
+        expected_response = {
+            "resourceType": "OperationOutcome",
+            "issue": [
+                {
+                    "severity": "error",
+                    "code": "value",
+                    "details": {
+                        "coding": [
+                            {
+                                "system": "https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode",
+                                "version": "1",
+                                "code": "MISSING_OR_INVALID_HEADER",
+                                "display": "There is a required header missing or invalid",
+                            }
+                        ]
+                    },
+                    "diagnostics": "Accept Header is missing or invalid",
+                }
+            ],
+        }
 
         headers.update({"Authorization": f"Bearer {token}"})
 
@@ -74,7 +107,4 @@ class TestConvert:
 
         # Then
         assert_that(expected_status_code).is_equal_to(response.status_code)
-        assert_that(expected_error).is_equal_to(response.json()["error"])
-        assert_that(expected_error_description).is_equal_to(
-            response.json()["error_description"]
-        )
+        assert_that(expected_response).is_equal_to(response.json())
