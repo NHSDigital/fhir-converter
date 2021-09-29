@@ -74,7 +74,7 @@ def default_app(cmd_options: dict, proxy_name, apigee_product: ApigeeProductServ
     api_permitted_envs = ['internal-dev', 'internal-dev-sandbox']
     current_env = cmd_options["--apigee-environment"]
 
-    if False:  # current_env in api_permitted_envs:
+    if current_env in api_permitted_envs:
         product_name = f"apim-auto-{uuid4()}"
         product = ApigeeProduct(name=product_name, displayName=product_name)
         product.scopes.extend([

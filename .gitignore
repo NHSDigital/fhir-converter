@@ -5,6 +5,7 @@ build/
 public/
 newman/
 .idea
+**/*.iml
 .DS_Store
 .#*
 
