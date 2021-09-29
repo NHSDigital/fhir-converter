@@ -93,7 +93,7 @@ class TestConvert:
                             }
                         ]
                     },
-                    "diagnostics": "Content-Type Header is missing or invalid",
+                    "diagnostics": "Accept Header is missing or invalid",
                 }
             ],
         }
