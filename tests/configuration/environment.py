@@ -16,4 +16,6 @@ ENV = {
     # Apigee
     "environment": get_env("APIGEE_ENVIRONMENT"),
     "base_path": get_env("SERVICE_BASE_PATH"),
+    "proxy_name": get_env("FULLY_QUALIFIED_SERVICE_NAME"),
+    "redirect_url": get_env("REDIRECT_URL"),
 }

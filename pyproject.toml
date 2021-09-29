@@ -17,6 +17,9 @@ keywords = ["healthcare", "uk", "nhs"] #TODO add additional keywords
 
 [tool.poetry.dependencies]
 python = "^3.8"
+requests = "^2.26.0"
+assertpy = "^1.1"
+asyncio = "^3.4.3"
 
 [tool.poetry.dev-dependencies]
 flake8 = "^3.7.9"
