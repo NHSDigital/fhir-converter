@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ValidationService {
-    private ObjectMapper = ObjectMapper()
 
     private FhirValidator myValidator;
 
