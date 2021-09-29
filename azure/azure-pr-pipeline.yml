@@ -40,5 +40,4 @@ extends:
         make_spec_visible: true
         post_deploy:
           - template: ./templates/run-tests.yml
-          - template: ./templates/run-smoke-tests.yml
 
