@@ -9,7 +9,7 @@
       </Step>
       <Condition>oauthV2.OauthV2.VerifyAccessToken.failed</Condition>
     </FaultRule>
-  <FaultRules>
+  </FaultRules>
   <DefaultFaultRule>
       <Step>
           <Name>AssignMessage.Errors.CatchAllMessage</Name>
