@@ -29,7 +29,7 @@ steps:
       export FULLY_QUALIFIED_SERVICE_NAME="$(FULLY_QUALIFIED_SERVICE_NAME)"
       export REDIRECT_URL="https://nhsd-apim-testing-$(ENVIRONMENT).herokuapp.com/callback"
 
-      poetry run pytest --reruns 3 --reruns-delay 1 -v --junitxml=tests/test_convert.xml
+      poetry run pytest -v --junitxml=tests/test_convert.xml
 
 
     workingDirectory: $(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)/tests
