@@ -8,7 +8,6 @@ from .apigee.apigee_app import ApigeeAppService
 from .apigee.apigee_model import ApigeeConfig, ApigeeProduct, ApigeeApp, Attribute
 from .apigee.apigee_product import ApigeeProductService
 from .apigee.apigee_trace import ApigeeTraceService
-from .auth.auth_model import create_jwt
 from .auth.client_credentials import AuthClientCredentials
 from .configuration.cmd_options import options, create_cmd_options
 from .configuration.config_model import DefaultApp
@@ -114,16 +113,19 @@ def default_app(cmd_options: dict, proxy_name, apigee_product: ApigeeProductServ
                          callback_url=cmd_options["--default-callback-url"])
 
 
-# @pytest.fixture(scope="session")
-@pytest.fixture(scope="function")
+@pytest.fixture(scope="session")
 def client_credentials(cmd_options: dict, default_app: DefaultApp):
     env = cmd_options['--apigee-environment']
-    client_id = default_app.client_id
     auth_url = f"https://{env}.api.service.nhs.uk/oauth2"
 
-    jwt = create_jwt(private_key_file=cmd_options["--jwt-private-key-file"],
-                     client_id=client_id, headers={"kid": "test-1"}, aud=f"{auth_url}/token")
-    return AuthClientCredentials(auth_url=auth_url, jwt=jwt)
+    return AuthClientCredentials(
+        auth_url=auth_url,
+        private_key_file=cmd_options["--jwt-private-key-file"],
+        client_id=default_app.client_id,
+        aud=f"{auth_url}/token",
+        headers={"kid": "test-1"},
+        alg="RS512"
+    )
 
 
 @pytest.fixture(scope="function")
@@ -174,4 +176,4 @@ Test configs:
     PR number:  {cmd_options["--pr-no"]}
     Proxy name: {proxy_name}
     Proxy url:  {proxy_url}
-    """)
+    """, flush=True)
