@@ -44,16 +44,16 @@ async def test_wait_for_ping(api_client: APISessionClient, api_test_config: APIT
     )
 
 
-@pytest.mark.e2e
-@pytest.mark.smoketest
-@pytest.mark.asyncio
-async def test_check_status_is_secured(api_client: APISessionClient):
+# @pytest.mark.e2e
+# @pytest.mark.smoketest
+# @pytest.mark.asyncio
+# async def test_check_status_is_secured(api_client: APISessionClient):
 
-    await poll_until(
-        make_request=lambda: api_client.get('_status'),
-        until=is_401,
-        timeout=120
-    )
+#     await poll_until(
+#         make_request=lambda: api_client.get('_status'),
+#         until=is_401,
+#         timeout=120
+#     )
 
 
 @pytest.mark.e2e
