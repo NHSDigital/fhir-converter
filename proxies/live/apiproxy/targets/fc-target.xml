@@ -9,13 +9,6 @@
       </Step>
       <Condition>oauthV2.OauthV2.VerifyAccessToken.failed</Condition>
     </FaultRule>
-    <FaultRule name="invalid_header">
-      <Step>
-        <Name>AssignMessage.InvalidHeaderErrorResponse</Name>
-      </Step>
-      <Condition>raisefault.RaiseFault.InvalidContentType.failed or raisefault.RaiseFault.InvalidAcceptHeader.failed</Condition>
-    </FaultRule>
-  </FaultRules>
   <DefaultFaultRule>
       <Step>
           <Name>AssignMessage.Errors.CatchAllMessage</Name>
