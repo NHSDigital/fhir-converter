@@ -10,7 +10,10 @@ class Claims(NamedTuple):
     iss: str
     aud: str
     exp: int
-    jti: str = str(uuid4())
+    jti: str
+
+    def dict(self):
+        return self._asdict()
 
     @staticmethod
     def new(client_id: str, aud: str, valid_for_sec=5):
@@ -18,11 +21,12 @@ class Claims(NamedTuple):
             sub=client_id,
             iss=client_id,
             aud=aud,
+            jti=str(uuid4()),
             exp=int(time()) + valid_for_sec
         )
 
 
-def create_jwt(private_key_file: str, client_id: str, aud: str, headers: dict, alg="RS512") -> str:
-    with open(private_key_file, "r") as f:
-        signing_key = f.read()
-        return jwt.encode(Claims.new(client_id, aud)._asdict(), signing_key, headers=headers, algorithm=alg)
+def create_jwt(signing_key: str, client_id: str, aud: str, headers: dict, alg="RS512") -> str:
+    claims = Claims.new(client_id, aud).dict()
+
+    return jwt.encode(claims, signing_key, headers=headers, algorithm=alg)
