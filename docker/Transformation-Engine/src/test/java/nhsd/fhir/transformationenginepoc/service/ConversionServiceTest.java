@@ -29,7 +29,7 @@ class ConversionServiceTest {
     private ConversionService fileConversionService;
 
     private String medicationRequest_staticR4Json, medicationRequest_staticR3Json, medicationRequest_staticR3Xml, medicationRequest_staticR4Xml,
-    medicationStatement_staticR4Json, medicationStatement_staticR3Json;
+    medicationStatement_staticR4Json, medicationStatement_staticR3Json, medicationStatement_staticR3Xml;
 
     @BeforeEach
     public void setUp() {
@@ -44,6 +44,7 @@ class ConversionServiceTest {
 
             medicationStatement_staticR4Json = FileUtils.readFileToString(new File("src/test/resources/R4_MedicationStatement.json"), StandardCharsets.UTF_8);
             medicationStatement_staticR3Json = FileUtils.readFileToString(new File("src/test/resources/R3_MedicationStatement.json"), StandardCharsets.UTF_8);
+            medicationStatement_staticR3Xml = FileUtils.readFileToString(new File("src/test/resources/R3_MedicationStatement.xml"), StandardCharsets.UTF_8);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -161,6 +162,45 @@ class ConversionServiceTest {
         assertEquals(r3Json.toString(), r4JSon.toString());
     }
 
+    @Test
+    public void convert_MedicationStatement_from_R3_to_R3_xml_to_json() throws JSONException {
+        //given
+        //init mocks
+        //when
+        String convert = fileConversionService.convertFhirSchema("3.0", "3.0", MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON, medicationStatement_staticR3Xml);
+
+        //then
+        final JSONObject r3Json = new JSONObject(convert);
+        final JSONObject r4JSon = new JSONObject(medicationStatement_staticR3Json);
+
+        assertNotNull(convert);
+        //it needs toString to ignore json spaces.
+        assertEquals(r3Json.toString(), r4JSon.toString());
+    }
+
+    @Test
+    public void convert_MedicationStatement_from_R3_to_R3_xml_to_xml() {
+        //given
+        //init mocks
+        //when
+        String convert = fileConversionService.convertFhirSchema("3.0", "3.0", MediaType.APPLICATION_XML, MediaType.APPLICATION_XML, medicationStatement_staticR3Xml);
+
+        //then
+        assertNotNull(convert);
+        assertTrue(convert.startsWith("<"));
+        String modelName = null;
+        final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = null;
+        try {
+            builder = factory.newDocumentBuilder();
+
+            final Document doc = builder.parse(new InputSource(new StringReader(convert)));
+            modelName = doc.getFirstChild().getNodeName();
+        } catch (final Exception e) {
+            e.printStackTrace();
+        }
+        assertEquals(modelName, "MedicationStatement");
+    }
 
 
 }
