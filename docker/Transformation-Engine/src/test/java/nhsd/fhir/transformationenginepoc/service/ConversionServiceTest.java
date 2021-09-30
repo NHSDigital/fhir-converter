@@ -28,32 +28,37 @@ class ConversionServiceTest {
     @InjectMocks
     private ConversionService fileConversionService;
 
-    private String staticR4Json, staticR3Json, staticR3Xml, staticR4Xml;
+    private String medicationRequest_staticR4Json, medicationRequest_staticR3Json, medicationRequest_staticR3Xml, medicationRequest_staticR4Xml,
+    medicationStatement_staticR4Json, medicationStatement_staticR3Json;
 
     @BeforeEach
     public void setUp() {
         initMocks(this);
         try {
-            staticR4Json = FileUtils.readFileToString(new File("src/test/resources/R4Medicationrequestexample.json"), StandardCharsets.UTF_8);
-            staticR3Json = FileUtils.readFileToString(new File("src/test/resources/STU3_MedRequest.json"), StandardCharsets.UTF_8);
+            medicationRequest_staticR4Json = FileUtils.readFileToString(new File("src/test/resources/R4Medicationrequestexample.json"), StandardCharsets.UTF_8);
+            medicationRequest_staticR3Json = FileUtils.readFileToString(new File("src/test/resources/STU3_MedRequest.json"), StandardCharsets.UTF_8);
 
-            staticR3Xml = FileUtils.readFileToString(new File("src/test/resources/R3_MedicationRequest.xml"), StandardCharsets.UTF_8);
-            staticR4Xml = FileUtils.readFileToString(new File("src/test/resources/R4_MedicationRequest.xml"), StandardCharsets.UTF_8);
+            medicationRequest_staticR3Xml = FileUtils.readFileToString(new File("src/test/resources/R3_MedicationRequest.xml"), StandardCharsets.UTF_8);
+            medicationRequest_staticR4Xml = FileUtils.readFileToString(new File("src/test/resources/R4_MedicationRequest.xml"), StandardCharsets.UTF_8);
+
+
+            medicationStatement_staticR4Json = FileUtils.readFileToString(new File("src/test/resources/R4_MedicationStatement.json"), StandardCharsets.UTF_8);
+            medicationStatement_staticR3Json = FileUtils.readFileToString(new File("src/test/resources/R3_MedicationStatement.json"), StandardCharsets.UTF_8);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     @Test
-    public void convert_STU3_to_R4_Json_to_Json() throws Exception {
+    public void convert_MedicationRequest_from_STU3_to_R4_Json_to_Json() throws Exception {
         //given
         //init mocks
         //when
-        String convert = fileConversionService.convertFhirSchema("3.0", "4.0", MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, staticR3Json);
+        String convert = fileConversionService.convertFhirSchema("3.0", "4.0", MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, medicationRequest_staticR3Json);
 
         //then
         final JSONObject r3Json = new JSONObject(convert);
-        final JSONObject r4JSon = new JSONObject(staticR4Json);
+        final JSONObject r4JSon = new JSONObject(medicationRequest_staticR4Json);
 
         assertNotNull(convert);
         //it needs toString to ignore json spaces.
@@ -61,15 +66,15 @@ class ConversionServiceTest {
     }
 
     @Test
-    public void convert_R4_to_STU3_Json_to_Json() throws Exception {
+    public void convert_MedicationRequest_from_R4_to_STU3_Json_to_Json() throws Exception {
         //given
         //init mocks
         //when
-        String convert = fileConversionService.convertFhirSchema("4.0", "3.0", MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, staticR4Json);
+        String convert = fileConversionService.convertFhirSchema("4.0", "3.0", MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, medicationRequest_staticR4Json);
 
         //then
         final JSONObject r3Json = new JSONObject(convert);
-        final JSONObject r4JSon = new JSONObject(staticR3Json);
+        final JSONObject r4JSon = new JSONObject(medicationRequest_staticR3Json);
 
         assertNotNull(convert);
         //it needs toString to ignore json spaces.
@@ -77,11 +82,11 @@ class ConversionServiceTest {
     }
 
     @Test
-    public void convert_STU3_to_R4_Json_to_xml() throws Exception {
+    public void convert_MedicationRequest_from_STU3_to_R4_Json_to_xml() {
         //given
         //init mocks
         //when
-        String convert = fileConversionService.convertFhirSchema("3.0", "4.0", MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, staticR3Json);
+        String convert = fileConversionService.convertFhirSchema("3.0", "4.0", MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, medicationRequest_staticR3Json);
 
         //then
         assertNotNull(convert);
@@ -101,11 +106,11 @@ class ConversionServiceTest {
     }
 
     @Test
-    public void convert_R4_to_R4_json_to_xml() throws Exception {
+    public void convert_MedicationRequest_from_R4_to_R4_json_to_xml() {
         //given
         //init mocks
         //when
-        String convert = fileConversionService.convertFhirSchema("4.0", "4.0", MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, staticR4Json);
+        String convert = fileConversionService.convertFhirSchema("4.0", "4.0", MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, medicationRequest_staticR4Json);
 
         //then
         assertNotNull(convert);
@@ -123,5 +128,39 @@ class ConversionServiceTest {
         }
         assertEquals(modelName, "MedicationRequest");
     }
+
+    @Test
+    public void convert_MedicationStatement_from_R3_to_R4_json_to_json() throws JSONException {
+        //given
+        //init mocks
+        //when
+        String convert = fileConversionService.convertFhirSchema("3.0", "4.0", MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, medicationStatement_staticR3Json);
+
+        //then
+        final JSONObject r3Json = new JSONObject(convert);
+        final JSONObject r4JSon = new JSONObject(medicationStatement_staticR4Json);
+
+        assertNotNull(convert);
+        //it needs toString to ignore json spaces.
+        assertEquals(r3Json.toString(), r4JSon.toString());
+    }
+
+    @Test
+    public void convert_MedicationStatement_from_R4_to_R3_json_to_json() throws JSONException {
+        //given
+        //init mocks
+        //when
+        String convert = fileConversionService.convertFhirSchema("4.0", "3.0", MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, medicationStatement_staticR4Json);
+
+        //then
+        final JSONObject r3Json = new JSONObject(convert);
+        final JSONObject r4JSon = new JSONObject(medicationStatement_staticR3Json);
+
+        assertNotNull(convert);
+        //it needs toString to ignore json spaces.
+        assertEquals(r3Json.toString(), r4JSon.toString());
+    }
+
+
 
 }

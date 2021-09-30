@@ -55,7 +55,7 @@ public class ConversionController {
             } catch (JsonSyntaxException jse) {
                 return ResponseEntity.badRequest()
                     .contentType(MediaType.APPLICATION_JSON)
-                    .body("Invalid syntax for this request was provided. Please check your Fhir payload");
+                    .body("Invalid syntax for this request was provided. Please check your JSON payload");
             }
         }
 
@@ -65,7 +65,7 @@ public class ConversionController {
             } catch (ParserConfigurationException | SAXException | IOException ex) {
                 return ResponseEntity.badRequest()
                     .contentType(MediaType.APPLICATION_JSON)
-                    .body("Invalid syntax for this request was provided. Please check your Fhir payload");
+                    .body("Invalid syntax for this request was provided. Please check your XML payload");
             }
         }
 
