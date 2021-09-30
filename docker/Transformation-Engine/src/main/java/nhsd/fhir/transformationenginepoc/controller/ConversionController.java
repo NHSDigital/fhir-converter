@@ -37,7 +37,7 @@ public class ConversionController {
     @PostMapping(consumes = MediaType.ALL_VALUE)
     public ResponseEntity<?> convert(@RequestHeader("Content-Type") final String content_type,
                                      @RequestHeader("Accept") final String accept,
-                                     @RequestHeader("Validate") final Boolean toValidate,
+                                     @RequestHeader(value="Validate", required = false, defaultValue = "false") final Boolean toValidate,
                                      @NotNull @RequestBody final String fhirSchema) {
 
 
