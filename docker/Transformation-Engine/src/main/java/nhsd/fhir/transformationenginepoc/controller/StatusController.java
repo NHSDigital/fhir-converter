@@ -1,9 +1,7 @@
 package nhsd.fhir.transformationenginepoc.controller;
 
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 class Status {
@@ -25,7 +23,7 @@ class Status {
 @RestController
 class StatusController {
     @GetMapping(path = "/_status")
-    public ResponseEntity<Status> convert() {
+    public ResponseEntity<Status> status() {
 
         Status pass = new Status("pass");
 

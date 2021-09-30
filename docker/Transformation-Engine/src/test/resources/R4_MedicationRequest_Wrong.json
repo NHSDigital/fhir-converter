@@ -1,5 +1,6 @@
 {
   "resourceType": "MedicationRequest",
+  "resourceType": "MedicationRequest",
   "id": "medrx002",
   "text": {
     "status": "generated",

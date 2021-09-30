@@ -4,6 +4,8 @@ import ca.uhn.fhir.context.FhirVersionEnum;
 import nhsd.fhir.transformationenginepoc.service.transformers.MedicationRequestTransformer;
 import nhsd.fhir.transformationenginepoc.service.transformers.MedicationStatementTransformer;
 import nhsd.fhir.transformationenginepoc.service.transformers.Transformer;
+import org.apache.logging.log4j.util.Strings;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -15,7 +17,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.StringReader;
 
 @Service
-public class FileConversionService {
+public class ConversionService {
 
     public String convertFhirSchema(final String currentVersion, final String targetVersion, final MediaType content_type, final MediaType return_type, final String fhirSchema) {
 
@@ -24,7 +26,6 @@ public class FileConversionService {
         final Transformer transformerToUse = getTransformer(resourceType);
 
         return transformerToUse.transform(getFhirVerion(currentVersion), getFhirVerion(targetVersion), content_type, return_type, fhirSchema);
-
     }
 
     private Transformer getTransformer(final String resourceType) {
@@ -60,9 +61,15 @@ public class FileConversionService {
                 e.printStackTrace();
             }
             return null;
+
         } else {
-            final JSONObject json = new JSONObject(fhirSchema);
-            return json.getString("resourceType");
+            try {
+                final JSONObject json = new JSONObject(fhirSchema);
+                return json.getString("resourceType");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
         }
     }
 
