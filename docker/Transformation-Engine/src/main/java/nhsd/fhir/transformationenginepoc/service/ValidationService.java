@@ -31,32 +31,6 @@ public class ValidationService {
         return myValidator.validateWithResult(fhirSchema);
     }
 
-    public boolean isSchemaValid(MediaType mediaTypeIn, String fhirSchema) {
-        return mediaTypeIn.getSubtype().equals("xml") ? isXMLValid(fhirSchema) : isJSONValid(fhirSchema);
-    }
-
-    private boolean isJSONValid(String test) {
-        try {
-            new JSONObject(test);
-        } catch (JSONException ex) {
-            try {
-                new JSONArray(test);
-            } catch (JSONException ex1) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private boolean isXMLValid(String string) {
-        try {
-            SAXParserFactory.newInstance().newSAXParser().getXMLReader().parse(new InputSource(new StringReader(string)));
-            return true;
-        } catch (ParserConfigurationException | SAXException | IOException ex) {
-            return false;
-        }
-    }
-
     private void setMyValidationSupport(final FhirContext ctx) {
 
         myValidator = ctx.newValidator();
