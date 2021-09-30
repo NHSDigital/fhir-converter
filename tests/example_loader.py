@@ -8,6 +8,8 @@ def load_example(path: str):
     with open(f"{current_directory}/../specification/examples/{path}") as f:
         if path.endswith("json"):
             return json.load(f)
+        if path.endswith("xml"):
+            return f.read().strip()
         else:
             return f.read().strip()
 
