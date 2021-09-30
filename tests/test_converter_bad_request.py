@@ -1,7 +1,7 @@
 import pytest
 import requests
 
-from .examples.example_loader import load_example, load_error
+from .example_loader import load_example, load_error
 
 
 class TestConverterBadRequest:
