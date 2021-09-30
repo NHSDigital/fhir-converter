@@ -5,7 +5,6 @@ install-python:
 
 install-node:
 	npm install
-	cd sandbox && npm install
 
 .git/hooks/pre-commit:
 	cp scripts/pre-commit .git/hooks/pre-commit
@@ -34,9 +33,6 @@ check-licenses:
 format:
 	poetry run black **/*.py
 
-start-sandbox:
-	cd sandbox && npm run start
-
 build-proxy:
 	scripts/build_proxy.sh
 
@@ -47,10 +43,6 @@ release: clean publish build-proxy
 	for f in $(_dist_include); do cp -r $$f dist; done
 	cp ecs-proxies-deploy.yml dist/ecs-deploy-internal-dev.yml
 	cp ecs-proxies-deploy.yml dist/ecs-deploy-int.yml
-
-test:
-#	this target should be used for local unit tests ..  runs as part of the build pipeline
-	make --no-print-directory -C sandbox test
 
 smoketest:
 #	this target is for end to end smoketests this would be run 'post deploy' to verify an environment is working
