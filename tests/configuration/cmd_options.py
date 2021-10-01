@@ -91,7 +91,7 @@ def __validate_options(cmd_options):
     current_env = cmd_options["--apigee-environment"]
 
     #  For certain environments we can't use apigee token. For those, user must provide information about default app
-    apigee_api_permitted_envs = ['internal-dev', 'internal-dev-sandbox']
+    apigee_api_permitted_envs = ['internal-dev', 'internal-qa', 'internal-dev-sandbox']
     if current_env not in apigee_api_permitted_envs:
         client_id = cmd_options["--client-id"]
         client_secret = cmd_options["--client-secret"]

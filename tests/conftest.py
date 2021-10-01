@@ -71,7 +71,7 @@ def default_app(cmd_options: dict, proxy_name, apigee_product: ApigeeProductServ
     In these cases we receive default app information from command line options.
     """
 
-    api_permitted_envs = ['internal-dev', 'internal-dev-sandbox']
+    api_permitted_envs = ['internal-dev', 'internal-qa', 'internal-dev-sandbox']
     current_env = cmd_options["--apigee-environment"]
 
     if current_env in api_permitted_envs:
