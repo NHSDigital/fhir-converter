@@ -11,9 +11,11 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.http.MediaType;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
@@ -29,7 +31,7 @@ class ConversionServiceTest {
     private ConversionService fileConversionService;
 
     private String medicationRequest_staticR4Json, medicationRequest_staticR3Json, medicationRequest_staticR3Xml, medicationRequest_staticR4Xml,
-    medicationStatement_staticR4Json, medicationStatement_staticR3Json, medicationStatement_staticR3Xml;
+        medicationStatement_staticR4Json, medicationStatement_staticR3Json, medicationStatement_staticR3Xml;
 
     @BeforeEach
     public void setUp() {
@@ -83,7 +85,7 @@ class ConversionServiceTest {
     }
 
     @Test
-    public void convert_MedicationRequest_from_STU3_to_R4_Json_to_xml() {
+    public void convert_MedicationRequest_from_STU3_to_R4_Json_to_xml() throws ParserConfigurationException, IOException, SAXException {
         //given
         //init mocks
         //when
@@ -91,23 +93,18 @@ class ConversionServiceTest {
 
         //then
         assertNotNull(convert);
-        assertTrue(convert.startsWith("<"));
         String modelName = null;
-        final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = null;
-        try {
-            builder = factory.newDocumentBuilder();
 
-            final Document doc = builder.parse(new InputSource(new StringReader(convert)));
-            modelName = doc.getFirstChild().getNodeName();
-        } catch (final Exception e) {
-            e.printStackTrace();
-        }
+        final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        final Document doc = builder.parse(new InputSource(new StringReader(convert)));
+
+        modelName = doc.getFirstChild().getNodeName();
         assertEquals(modelName, "MedicationRequest");
     }
 
     @Test
-    public void convert_MedicationRequest_from_R4_to_R4_json_to_xml() {
+    public void convert_MedicationRequest_from_R4_to_R4_json_to_xml() throws ParserConfigurationException, IOException, SAXException {
         //given
         //init mocks
         //when
@@ -115,18 +112,14 @@ class ConversionServiceTest {
 
         //then
         assertNotNull(convert);
-        assertTrue(convert.startsWith("<"));
         String modelName = null;
-        final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = null;
-        try {
-            builder = factory.newDocumentBuilder();
 
-            final Document doc = builder.parse(new InputSource(new StringReader(convert)));
-            modelName = doc.getFirstChild().getNodeName();
-        } catch (final Exception e) {
-            e.printStackTrace();
-        }
+        final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        final Document doc = builder.parse(new InputSource(new StringReader(convert)));
+
+        modelName = doc.getFirstChild().getNodeName();
+
         assertEquals(modelName, "MedicationRequest");
     }
 
@@ -179,7 +172,7 @@ class ConversionServiceTest {
     }
 
     @Test
-    public void convert_MedicationStatement_from_R3_to_R3_xml_to_xml() {
+    public void convert_MedicationStatement_from_R3_to_R3_xml_to_xml() throws ParserConfigurationException, IOException, SAXException {
         //given
         //init mocks
         //when
@@ -187,18 +180,14 @@ class ConversionServiceTest {
 
         //then
         assertNotNull(convert);
-        assertTrue(convert.startsWith("<"));
         String modelName = null;
-        final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = null;
-        try {
-            builder = factory.newDocumentBuilder();
 
-            final Document doc = builder.parse(new InputSource(new StringReader(convert)));
-            modelName = doc.getFirstChild().getNodeName();
-        } catch (final Exception e) {
-            e.printStackTrace();
-        }
+        final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        final DocumentBuilder builder = factory.newDocumentBuilder();
+        final Document doc = builder.parse(new InputSource(new StringReader(convert)));
+
+        modelName = doc.getFirstChild().getNodeName();
+
         assertEquals(modelName, "MedicationStatement");
     }
 
