@@ -98,7 +98,7 @@ def __validate_options(cmd_options):
         callback_url = cmd_options["--default-callback-url"]
         if not (client_id and client_secret and callback_url):
             raise Exception(
-                f"These options: --default-client-id, --client-secret and --default-callback-url "
+                f"These options: --default-client-id, --default-client-secret and --default-callback-url "
                 f"are required for environment: {current_env}")
 
     # internal-dev-sandbox environment is only allowed for pull requests, so --pr-no becomes mandatory
