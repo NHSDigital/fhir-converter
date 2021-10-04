@@ -21,7 +21,7 @@ public class ConversionService {
 
     public String convertFhirSchema(final String currentVersion, final String targetVersion, final MediaType content_type, final MediaType return_type, final String fhirSchema) {
 
-        final String resourceType = getResourceType(fhirSchema);
+        final String resourceType = getResourceType(content_type, fhirSchema);
 
         final Transformer transformerToUse = getTransformer(resourceType);
 
@@ -47,9 +47,9 @@ public class ConversionService {
         return transformerToUse;
     }
 
-    private String getResourceType(final String fhirSchema) {
+    private String getResourceType(MediaType content_type, final String fhirSchema) {
 
-        if (fhirSchema.startsWith("<")) {
+        if (content_type.getSubtype().equals("xml")) {
             final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = null;
             try {
@@ -77,10 +77,6 @@ public class ConversionService {
     private FhirVersionEnum getFhirVerion(final String version) {
 
         switch (version) {
-            case "0.0":
-                return FhirVersionEnum.DSTU2_1;
-            case "1.0":
-                return FhirVersionEnum.DSTU2;
             case "3.0":
                 return FhirVersionEnum.DSTU3;
             default:

@@ -15,7 +15,13 @@
  */
 package nhsd.fhir.transformationenginepoc.service.transformers;
 
+import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.context.FhirVersionEnum;
+import ca.uhn.fhir.parser.IParser;
+import ca.uhn.fhir.parser.StrictErrorHandler;
+import org.apache.logging.log4j.util.Strings;
+import org.hl7.fhir.convertors.advisors.impl.BaseAdvisor_30_40;
+import org.hl7.fhir.convertors.conv30_40.VersionConvertor_30_40;
 import org.springframework.http.MediaType;
 
 
@@ -23,99 +29,55 @@ public class MedicationStatementTransformer extends Transformer {
 
     @Override
     public String transform(final FhirVersionEnum inVersion, final FhirVersionEnum outVersion, final MediaType inMime, final MediaType outMime, final String resourceString) {
-        final String returnedValue = "";
-/*
 
-        // Set up contexts
-        final FhirContext inContext = getSuitableContext(inVersion);
-        final FhirContext outContext = getSuitableContext(outVersion);
+        //base converter
+        final BaseAdvisor_30_40 baseAdvisor_30_40 = new BaseAdvisor_30_40();
+        final VersionConvertor_30_40 versionConvertor_30_40 = new VersionConvertor_30_40(baseAdvisor_30_40);
+        String converstionResult = Strings.EMPTY;
 
-        // Instantiate parsers
-        final IParser inParser = getSuitableParser(inContext, inMime);
-        final IParser outParser = getSuitableParser(outContext, outMime);
+        try {
+            // Set up contexts
+            final FhirContext inContext = getSuitableContext(inVersion);
+            final FhirContext outContext = getSuitableContext(outVersion);
 
-        Object resource;
-        org.hl7.fhir.dstu2.model.CodeableConcept reasonForUse = null;
-        switch (inVersion) {
-            case DSTU2:
-                resource = (org.hl7.fhir.dstu2.model.MedicationStatement) inParser.parseResource(org.hl7.fhir.dstu2.model.MedicationStatement.class, resourceString);
-                reasonForUse = (org.hl7.fhir.dstu2.model.CodeableConcept) ((org.hl7.fhir.dstu2.model.MedicationStatement) resource).getReasonForUse();
-                break;
+            // Instantiate parsers
+            final IParser inParser = getSuitableParser(inContext, inMime);
+            inParser.setParserErrorHandler(new StrictErrorHandler());
+            final IParser outParser = getSuitableParser(outContext, outMime);
+            outParser.setParserErrorHandler(new StrictErrorHandler());
 
-            case DSTU3:
+            // Initialize resource with the right version
+            Object resource = null;
+
+            //handling with multiple formats and same version.
+            if (inVersion == FhirVersionEnum.DSTU3 && outVersion == FhirVersionEnum.DSTU3) {
                 resource = (org.hl7.fhir.dstu3.model.MedicationStatement) inParser.parseResource(org.hl7.fhir.dstu3.model.MedicationStatement.class, resourceString);
-                break;
+                return outParser.encodeResourceToString((org.hl7.fhir.dstu3.model.MedicationStatement)resource);
+            } else if (inVersion == FhirVersionEnum.R4 && outVersion == FhirVersionEnum.R4) {
+                resource = (org.hl7.fhir.r4.model.MedicationStatement) inParser.parseResource(org.hl7.fhir.r4.model.MedicationStatement.class, resourceString);
+                return outParser.encodeResourceToString((org.hl7.fhir.r4.model.MedicationStatement) resource);
+            }
 
-            case R4:
-                resource = (MedicationStatement) inParser.parseResource(MedicationStatement.class, resourceString);
-                break;
+            //create resource from the incoming payload
+            if (inVersion.equals(FhirVersionEnum.DSTU3)) {
+                resource = (org.hl7.fhir.dstu3.model.MedicationStatement) inParser.parseResource(org.hl7.fhir.dstu3.model.MedicationStatement.class, resourceString);
+                resource = versionConvertor_30_40.convertResource((org.hl7.fhir.dstu3.model.MedicationStatement) resource);
+            } else {
+                resource = (org.hl7.fhir.r4.model.MedicationStatement) inParser.parseResource(org.hl7.fhir.r4.model.MedicationStatement.class, resourceString);
+                resource = versionConvertor_30_40.convertResource((org.hl7.fhir.r4.model.MedicationStatement) resource);
+            }
 
-            default:
-                resource = "";
+            //conversation between versions
+            if (outVersion.equals(FhirVersionEnum.DSTU3)) {
+                converstionResult = outParser.encodeResourceToString((org.hl7.fhir.dstu3.model.MedicationStatement) resource);
+            } else {
+                converstionResult =  outParser.encodeResourceToString((org.hl7.fhir.r4.model.MedicationStatement) resource);
+            }
+        } catch (Exception e){
+            return e.getMessage();
         }
 
-        // Here we have the resource in an object
-        // DSTU2 to STU3
-        if (inVersion == FhirVersionEnum.DSTU2 && outVersion == FhirVersionEnum.DSTU3) {
-            final BaseAdvisor_10_30 baseAdvisor_10_30 = new BaseAdvisor_10_30();
-            final VersionConvertor_10_30 versionConvertor_10_30 = new VersionConvertor_10_30(baseAdvisor_10_30);
+        return converstionResult;
 
-            resource = (org.hl7.fhir.dstu3.model.MedicationStatement) versionConvertor_10_30.convertResource((org.hl7.fhir.dstu2.model.MedicationStatement) resource);
-        }
-
-        // DSTU2 to R4
-        if (inVersion == FhirVersionEnum.DSTU2 && outVersion == FhirVersionEnum.R4) {
-            final BaseAdvisor_10_40 baseAdvisor_10_40 = new BaseAdvisor_10_40();
-            final VersionConvertor_10_40 versionConvertor_10_30 = new VersionConvertor_10_40(baseAdvisor_10_40);
-
-            resource = (MedicationStatement) versionConvertor_10_30.convertResource((org.hl7.fhir.dstu2.model.MedicationStatement) resource);
-        }
-
-        // STU3 to R4
-        if (inVersion == FhirVersionEnum.DSTU3 && outVersion == FhirVersionEnum.R4) {
-            final BaseAdvisor_30_40 baseAdvisor_30_40 = new BaseAdvisor_30_40();
-            final VersionConvertor_30_40 versionConvertor_30_40 = new VersionConvertor_30_40(baseAdvisor_30_40);
-
-            resource = (MedicationStatement) versionConvertor_30_40.convertResource((org.hl7.fhir.dstu3.model.MedicationStatement) resource);
-        }
-
-        switch (outVersion) { // Because of the different versions, we need to cast differently for STU3 and R4
-
-            case DSTU2:
-                returnedValue = outParser.encodeResourceToString((org.hl7.fhir.dstu2.model.MedicationStatement) resource);
-                if (reasonForUse != null) {
-                    final String reasonSystem = reasonForUse.getCoding().get(0).getSystem();
-                    final String reasonCode = reasonForUse.getCoding().get(0).getCode();
-                    final String reasonDisplay = reasonForUse.getCoding().get(0).getDisplay();
-                    final org.hl7.fhir.dstu2.model.Coding reasonCoding = new org.hl7.fhir.dstu2.model.Coding().setSystem(reasonSystem).setCode(reasonCode).setDisplay(reasonDisplay);
-                    final org.hl7.fhir.dstu2.model.CodeableConcept reasonConcept = new org.hl7.fhir.dstu2.model.CodeableConcept(reasonCoding);
-                    ((org.hl7.fhir.dstu2.model.MedicationStatement) resource).setReasonForUse(reasonConcept);
-                }
-                break;
-
-            case DSTU3:
-                returnedValue = outParser.encodeResourceToString((org.hl7.fhir.dstu3.model.MedicationStatement) resource);
-                if (reasonForUse != null) {
-                    final String reasonSystem = reasonForUse.getCoding().get(0).getSystem();
-                    final String reasonCode = reasonForUse.getCoding().get(0).getCode();
-                    final String reasonDisplay = reasonForUse.getCoding().get(0).getDisplay();
-                    final org.hl7.fhir.dstu3.model.Coding reasonCoding = new org.hl7.fhir.dstu3.model.Coding().setSystem(reasonSystem).setCode(reasonCode).setDisplay(reasonDisplay);
-                    final org.hl7.fhir.dstu3.model.CodeableConcept reasonConcept = new org.hl7.fhir.dstu3.model.CodeableConcept(reasonCoding);
-                    ((org.hl7.fhir.dstu3.model.MedicationStatement) resource).addReasonCode(reasonConcept);
-                }
-                break;
-
-            case R4:
-                if (reasonForUse != null) {
-                    final String reasonSystem = reasonForUse.getCoding().get(0).getSystem();
-                    final String reasonCode = reasonForUse.getCoding().get(0).getCode();
-                    final String reasonDisplay = reasonForUse.getCoding().get(0).getDisplay();
-                    final Coding reasonCoding = new Coding().setSystem(reasonSystem).setCode(reasonCode).setDisplay(reasonDisplay);
-                    final CodeableConcept reasonConcept = new CodeableConcept(reasonCoding);
-                    ((MedicationStatement) resource).addReasonCode(reasonConcept);
-                }
-                returnedValue = outParser.encodeResourceToString((MedicationStatement) resource);
-        }*/
-        return returnedValue; // We return the resource converted and serialised to the version they asked for.
     }
 }

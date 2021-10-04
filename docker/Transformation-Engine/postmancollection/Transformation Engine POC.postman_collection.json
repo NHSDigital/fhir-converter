@@ -6,174 +6,612 @@
 	},
 	"item": [
 		{
-			"name": "Convert R4 Json to STU3 Json - MedicationRequest",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/fhir+json; fhirVersion=4.0",
-						"type": "text"
+			"name": "MedicationRequest",
+			"item": [
+				{
+					"name": "Convert R4 Json to STU3 Json - MedicationRequest",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/fhir+json; fhirVersion=4.0",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/fhir+json; fhirVersion=3.0",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"resourceType\": \"MedicationRequest\",\n  \"id\": \"medrx002\",\n  \"text\": {\n    \"status\": \"generated\",\n    \"div\": \"<div xmlns=\\\"http://www.w3.org/1999/xhtml\\\"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: medrx002</p><p><b>identifier</b>: 12345 (OFFICIAL)</p><p><b>status</b>: active</p><p><b>intent</b>: order</p><p><b>medication</b>: <a>prescribed medication</a></p><p><b>subject</b>: <a>Donald Duck</a></p><p><b>encounter</b>: <a>encounter that leads to this prescription</a></p><p><b>authoredOn</b>: 01/03/2015</p><p><b>requester</b>: <a>Patrick Pump</a></p><p><b>reasonCode</b>: Essential hypertension (disorder) <span>(Details : {SNOMED CT code '59621000' = 'Essential hypertension', given as 'Essential hypertension (disorder)'})</span></p><p><b>dosageInstruction</b>: </p></div>\"\n  },\n  \"identifier\": [\n    {\n      \"use\": \"official\",\n      \"system\": \"http://www.bmc.nl/portal/prescriptions\",\n      \"value\": \"12345\"\n    }\n  ],\n  \"status\": \"active\",\n  \"intent\": \"order\",\n  \"medicationReference\": {\n    \"reference\": \"Medication/med0316\",\n    \"display\": \"prescribed medication\"\n  },\n  \"subject\": {\n    \"reference\": \"Patient/pat1\",\n    \"display\": \"Donald Duck\"\n  },\n  \"encounter\": {\n    \"reference\": \"Encounter/f001\",\n    \"display\": \"encounter that leads to this prescription\"\n  },\n  \"authoredOn\": \"2015-03-01\",\n  \"requester\": {\n    \"reference\": \"Practitioner/f007\",\n    \"display\": \"Patrick Pump\"\n  },\n  \"reasonCode\": [\n    {\n      \"coding\": [\n        {\n          \"system\": \"http://snomed.info/sct\",\n          \"code\": \"59621000\",\n          \"display\": \"Essential hypertension (disorder)\"\n        }\n      ]\n    }\n  ],\n  \"dosageInstruction\": [\n    {\n      \"sequence\": 1,\n      \"text\": \"Take one tablet daily as directed\"\n    }\n  ]\n}"
+						},
+						"url": {
+							"raw": "localhost:9000/convert/",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"convert",
+								""
+							]
+						}
 					},
-					{
-						"key": "Accept",
-						"value": "application/fhir+json; fhirVersion=3.0",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n  \"resourceType\": \"MedicationRequest\",\n  \"id\": \"medrx002\",\n  \"text\": {\n    \"status\": \"generated\",\n    \"div\": \"<div xmlns=\\\"http://www.w3.org/1999/xhtml\\\"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: medrx002</p><p><b>identifier</b>: 12345 (OFFICIAL)</p><p><b>status</b>: active</p><p><b>intent</b>: order</p><p><b>medication</b>: <a>prescribed medication</a></p><p><b>subject</b>: <a>Donald Duck</a></p><p><b>encounter</b>: <a>encounter that leads to this prescription</a></p><p><b>authoredOn</b>: 01/03/2015</p><p><b>requester</b>: <a>Patrick Pump</a></p><p><b>reasonCode</b>: Essential hypertension (disorder) <span>(Details : {SNOMED CT code '59621000' = 'Essential hypertension', given as 'Essential hypertension (disorder)'})</span></p><p><b>dosageInstruction</b>: </p></div>\"\n  },\n  \"identifier\": [\n    {\n      \"use\": \"official\",\n      \"system\": \"http://www.bmc.nl/portal/prescriptions\",\n      \"value\": \"12345\"\n    }\n  ],\n  \"status\": \"active\",\n  \"intent\": \"order\",\n  \"medicationReference\": {\n    \"reference\": \"Medication/med0316\",\n    \"display\": \"prescribed medication\"\n  },\n  \"subject\": {\n    \"reference\": \"Patient/pat1\",\n    \"display\": \"Donald Duck\"\n  },\n  \"encounter\": {\n    \"reference\": \"Encounter/f001\",\n    \"display\": \"encounter that leads to this prescription\"\n  },\n  \"authoredOn\": \"2015-03-01\",\n  \"requester\": {\n    \"reference\": \"Practitioner/f007\",\n    \"display\": \"Patrick Pump\"\n  },\n  \"reasonCode\": [\n    {\n      \"coding\": [\n        {\n          \"system\": \"http://snomed.info/sct\",\n          \"code\": \"59621000\",\n          \"display\": \"Essential hypertension (disorder)\"\n        }\n      ]\n    }\n  ],\n  \"dosageInstruction\": [\n    {\n      \"sequence\": 1,\n      \"text\": \"Take one tablet daily as directed\"\n    }\n  ]\n}"
+					"response": []
 				},
-				"url": {
-					"raw": "localhost:8080/convert/",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"convert",
-						""
-					]
+				{
+					"name": "Convert ST3 Json to R4 Json - MedicationRequest",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/fhir+json; fhirVersion=3.0",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/fhir+json; fhirVersion=4.0",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"resourceType\": \"MedicationRequest\",\n    \"text\": {\n        \"status\": \"generated\",\n        \"div\": \"<div xmlns=\\\"http://www.w3.org/1999/xhtml\\\"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: medrx002</p><p><b>identifier</b>: 12345 (OFFICIAL)</p><p><b>status</b>: active</p><p><b>intent</b>: order</p><p><b>medication</b>: <a>prescribed medication</a></p><p><b>subject</b>: <a>Donald Duck</a></p><p><b>context</b>: <a>encounter that leads to this prescription</a></p><p><b>authoredOn</b>: 01/03/2015</p><h3>Requesters</h3><table><tr><td>-</td><td><b>Agent</b></td><td><b>OnBehalfOf</b></td></tr><tr><td>*</td><td><a>Patrick Pump</a></td><td><a>Organization/f002</a></td></tr></table><p><b>reasonCode</b>: Essential hypertension (disorder) <span>(Details : {SNOMED CT code '59621000' = 'Essential hypertension', given as 'Essential hypertension (disorder)'})</span></p><p><b>dosageInstruction</b>: </p></div>\"\n    },\n    \"identifier\": [\n        {\n            \"use\": \"official\",\n            \"system\": \"http://www.bmc.nl/portal/prescriptions\",\n            \"value\": \"12345\"\n        }\n    ],\n    \"status\": \"active\",\n    \"intent\": \"order\",\n    \"medicationReference\": {\n        \"reference\": \"Medication/med0316\",\n        \"display\": \"prescribed medication\"\n    },\n    \"subject\": {\n        \"reference\": \"Patient/pat1\",\n        \"display\": \"Donald Duck\"\n    },\n    \"context\": {\n        \"reference\": \"Encounter/f001\",\n        \"display\": \"encounter that leads to this prescription\"\n    },\n    \"authoredOn\": \"2015-03-01\",\n    \"requester\": {\n        \"agent\": {\n            \"reference\": \"Practitioner/f007\",\n            \"display\": \"Patrick Pump\"\n        }\n    },\n    \"reasonCode\": [\n        {\n            \"coding\": [\n                {\n                    \"system\": \"http://snomed.info/sct\",\n                    \"code\": \"59621000\",\n                    \"display\": \"Essential hypertension (disorder)\"\n                }\n            ]\n        }\n    ],\n    \"dosageInstruction\": [\n        {\n            \"sequence\": 1,\n            \"text\": \"Take one tablet daily as directed\"\n        }\n    ]\n}"
+						},
+						"url": {
+							"raw": "localhost:9000/convert/",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"convert",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Convert R4 Json to R4 xml - MedicationRequest",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/fhir+json; fhirVersion=4.0",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/fhir+xml; fhirVersion=4.0",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"resourceType\": \"MedicationRequest\",\n  \"id\": \"medrx002\",\n  \"text\": {\n    \"status\": \"generated\",\n    \"div\": \"<div xmlns=\\\"http://www.w3.org/1999/xhtml\\\"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: medrx002</p><p><b>identifier</b>: 12345 (OFFICIAL)</p><p><b>status</b>: active</p><p><b>intent</b>: order</p><p><b>medication</b>: <a>prescribed medication</a></p><p><b>subject</b>: <a>Donald Duck</a></p><p><b>encounter</b>: <a>encounter that leads to this prescription</a></p><p><b>authoredOn</b>: 01/03/2015</p><p><b>requester</b>: <a>Patrick Pump</a></p><p><b>reasonCode</b>: Essential hypertension (disorder) <span>(Details : {SNOMED CT code '59621000' = 'Essential hypertension', given as 'Essential hypertension (disorder)'})</span></p><p><b>dosageInstruction</b>: </p></div>\"\n  },\n  \"identifier\": [\n    {\n      \"use\": \"official\",\n      \"system\": \"http://www.bmc.nl/portal/prescriptions\",\n      \"value\": \"12345\"\n    }\n  ],\n  \"status\": \"active\",\n  \"intent\": \"order\",\n  \"medicationReference\": {\n    \"reference\": \"Medication/med0316\",\n    \"display\": \"prescribed medication\"\n  },\n  \"subject\": {\n    \"reference\": \"Patient/pat1\",\n    \"display\": \"Donald Duck\"\n  },\n  \"encounter\": {\n    \"reference\": \"Encounter/f001\",\n    \"display\": \"encounter that leads to this prescription\"\n  },\n  \"authoredOn\": \"2015-03-01\",\n  \"requester\": {\n    \"reference\": \"Practitioner/f007\",\n    \"display\": \"Patrick Pump\"\n  },\n  \"reasonCode\": [\n    {\n      \"coding\": [\n        {\n          \"system\": \"http://snomed.info/sct\",\n          \"code\": \"59621000\",\n          \"display\": \"Essential hypertension (disorder)\"\n        }\n      ]\n    }\n  ],\n  \"dosageInstruction\": [\n    {\n      \"sequence\": 1,\n      \"text\": \"Take one tablet daily as directed\"\n    }\n  ]\n}"
+						},
+						"url": {
+							"raw": "localhost:9000/convert/",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"convert",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Convert ST3 Json to R4 Xml - MedicationRequest",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/fhir+json; fhirVersion=3.0",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/fhir+xml; fhirVersion=4.0",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"resourceType\": \"MedicationRequest\",\n    \"text\": {\n        \"status\": \"generated\",\n        \"div\": \"<div xmlns=\\\"http://www.w3.org/1999/xhtml\\\"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: medrx002</p><p><b>identifier</b>: 12345 (OFFICIAL)</p><p><b>status</b>: active</p><p><b>intent</b>: order</p><p><b>medication</b>: <a>prescribed medication</a></p><p><b>subject</b>: <a>Donald Duck</a></p><p><b>context</b>: <a>encounter that leads to this prescription</a></p><p><b>authoredOn</b>: 01/03/2015</p><h3>Requesters</h3><table><tr><td>-</td><td><b>Agent</b></td><td><b>OnBehalfOf</b></td></tr><tr><td>*</td><td><a>Patrick Pump</a></td><td><a>Organization/f002</a></td></tr></table><p><b>reasonCode</b>: Essential hypertension (disorder) <span>(Details : {SNOMED CT code '59621000' = 'Essential hypertension', given as 'Essential hypertension (disorder)'})</span></p><p><b>dosageInstruction</b>: </p></div>\"\n    },\n    \"identifier\": [\n        {\n            \"use\": \"official\",\n            \"system\": \"http://www.bmc.nl/portal/prescriptions\",\n            \"value\": \"12345\"\n        }\n    ],\n    \"status\": \"active\",\n    \"intent\": \"order\",\n    \"medicationReference\": {\n        \"reference\": \"Medication/med0316\",\n        \"display\": \"prescribed medication\"\n    },\n    \"subject\": {\n        \"reference\": \"Patient/pat1\",\n        \"display\": \"Donald Duck\"\n    },\n    \"context\": {\n        \"reference\": \"Encounter/f001\",\n        \"display\": \"encounter that leads to this prescription\"\n    },\n    \"authoredOn\": \"2015-03-01\",\n    \"requester\": {\n        \"agent\": {\n            \"reference\": \"Practitioner/f007\",\n            \"display\": \"Patrick Pump\"\n        }\n    },\n    \"reasonCode\": [\n        {\n            \"coding\": [\n                {\n                    \"system\": \"http://snomed.info/sct\",\n                    \"code\": \"59621000\",\n                    \"display\": \"Essential hypertension (disorder)\"\n                }\n            ]\n        }\n    ],\n    \"dosageInstruction\": [\n        {\n            \"sequence\": 1,\n            \"text\": \"Take one tablet daily as directed\"\n        }\n    ]\n}"
+						},
+						"url": {
+							"raw": "localhost:9000/convert/",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"convert",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Convert R4 Xml to STU3 Xml - MedicationRequest",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/fhir+xml; fhirVersion=4.0",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/fhir+xml; fhirVersion=3.0",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<MedicationRequest xmlns=\"http://hl7.org/fhir\">\n    <text>\n        <status value=\"generated\"></status>\n        <div xmlns=\"http://www.w3.org/1999/xhtml\">\n            <p>\n                <b>Generated Narrative with Details</b>\n            </p>\n            <p>\n                <b>id</b>: medrx002\n            </p>\n            <p>\n                <b>identifier</b>: 12345 (OFFICIAL)\n            </p>\n            <p>\n                <b>status</b>: active\n            </p>\n            <p>\n                <b>intent</b>: order\n            </p>\n            <p>\n                <b>medication</b>:\n                <a>prescribed medication</a>\n            </p>\n            <p>\n                <b>subject</b>:\n                <a>Donald Duck</a>\n            </p>\n            <p>\n                <b>context</b>:\n                <a>encounter that leads to this prescription</a>\n            </p>\n            <p>\n                <b>authoredOn</b>: 01/03/2015\n            </p>\n            <h3>Requesters</h3>\n            <table>\n                <tr>\n                    <td>-</td>\n                    <td>\n                        <b>Agent</b>\n                    </td>\n                    <td>\n                        <b>OnBehalfOf</b>\n                    </td>\n                </tr>\n                <tr>\n                    <td>*</td>\n                    <td>\n                        <a>Patrick Pump</a>\n                    </td>\n                    <td>\n                        <a>Organization/f002</a>\n                    </td>\n                </tr>\n            </table>\n            <p>\n                <b>reasonCode</b>: Essential hypertension (disorder)\n                <span>(Details : {SNOMED CT code '59621000' = 'Essential hypertension', given as 'Essential hypertension (disorder)'})</span>\n            </p>\n            <p>\n                <b>dosageInstruction</b>:\n            </p>\n        </div>\n    </text>\n    <identifier>\n        <use value=\"official\"></use>\n        <system value=\"http://www.bmc.nl/portal/prescriptions\"></system>\n        <value value=\"12345\"></value>\n    </identifier>\n    <status value=\"active\"></status>\n    <intent value=\"order\"></intent>\n    <medicationReference>\n        <reference value=\"Medication/med0316\"></reference>\n        <display value=\"prescribed medication\"></display>\n    </medicationReference>\n    <subject>\n        <reference value=\"Patient/pat1\"></reference>\n        <display value=\"Donald Duck\"></display>\n    </subject>\n    <encounter>\n        <reference value=\"Encounter/f001\"></reference>\n        <display value=\"encounter that leads to this prescription\"></display>\n    </encounter>\n    <authoredOn value=\"2015-03-01\"></authoredOn>\n    <requester>\n        <reference value=\"Practitioner/f007\"></reference>\n        <display value=\"Patrick Pump\"></display>\n    </requester>\n    <reasonCode>\n        <coding>\n            <system value=\"http://snomed.info/sct\"></system>\n            <code value=\"59621000\"></code>\n            <display value=\"Essential hypertension (disorder)\"></display>\n        </coding>\n    </reasonCode>\n    <dosageInstruction>\n        <sequence value=\"1\"></sequence>\n        <text value=\"Take one tablet daily as directed\"></text>\n    </dosageInstruction>\n</MedicationRequest>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:9000/convert/",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"convert",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Convert STU3 Xml to R4 Xml - MedicationRequest",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/fhir+xml; fhirVersion=3.0",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/fhir+xml; fhirVersion=4.0",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<MedicationRequest xmlns=\"http://hl7.org/fhir\">\n    <text>\n        <status value=\"generated\"></status>\n        <div xmlns=\"http://www.w3.org/1999/xhtml\">\n            <p>\n                <b>Generated Narrative with Details</b>\n            </p>\n            <p>\n                <b>id</b>: medrx002\n            </p>\n            <p>\n                <b>identifier</b>: 12345 (OFFICIAL)\n            </p>\n            <p>\n                <b>status</b>: active\n            </p>\n            <p>\n                <b>intent</b>: order\n            </p>\n            <p>\n                <b>medication</b>:\n                <a>prescribed medication</a>\n            </p>\n            <p>\n                <b>subject</b>:\n                <a>Donald Duck</a>\n            </p>\n            <p>\n                <b>context</b>:\n                <a>encounter that leads to this prescription</a>\n            </p>\n            <p>\n                <b>authoredOn</b>: 01/03/2015\n            </p>\n            <h3>Requesters</h3>\n            <table>\n                <tr>\n                    <td>-</td>\n                    <td>\n                        <b>Agent</b>\n                    </td>\n                    <td>\n                        <b>OnBehalfOf</b>\n                    </td>\n                </tr>\n                <tr>\n                    <td>*</td>\n                    <td>\n                        <a>Patrick Pump</a>\n                    </td>\n                    <td>\n                        <a>Organization/f002</a>\n                    </td>\n                </tr>\n            </table>\n            <p>\n                <b>reasonCode</b>: Essential hypertension (disorder)\n                <span>(Details : {SNOMED CT code '59621000' = 'Essential hypertension', given as 'Essential hypertension (disorder)'})</span>\n            </p>\n            <p>\n                <b>dosageInstruction</b>:\n            </p>\n        </div>\n    </text>\n    <identifier>\n        <use value=\"official\"></use>\n        <system value=\"http://www.bmc.nl/portal/prescriptions\"></system>\n        <value value=\"12345\"></value>\n    </identifier>\n    <status value=\"active\"></status>\n    <intent value=\"order\"></intent>\n    <medicationReference>\n        <reference value=\"Medication/med0316\"></reference>\n        <display value=\"prescribed medication\"></display>\n    </medicationReference>\n    <subject>\n        <reference value=\"Patient/pat1\"></reference>\n        <display value=\"Donald Duck\"></display>\n    </subject>\n    <context>\n        <reference value=\"Encounter/f001\"></reference>\n        <display value=\"encounter that leads to this prescription\"></display>\n    </context>\n    <authoredOn value=\"2015-03-01\"></authoredOn>\n    <requester>\n        <agent>\n            <reference value=\"Practitioner/f007\"></reference>\n            <display value=\"Patrick Pump\"></display>\n        </agent>\n    </requester>\n    <reasonCode>\n        <coding>\n            <system value=\"http://snomed.info/sct\"></system>\n            <code value=\"59621000\"></code>\n            <display value=\"Essential hypertension (disorder)\"></display>\n        </coding>\n    </reasonCode>\n    <dosageInstruction>\n        <sequence value=\"1\"></sequence>\n        <text value=\"Take one tablet daily as directed\"></text>\n    </dosageInstruction>\n</MedicationRequest>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:9000/convert/",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"convert",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Convert STU3 Xml to R4 Json - MedicationRequest",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/fhir+xml; fhirVersion=3.0",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/fhir+json; fhirVersion=4.0",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<MedicationRequest xmlns=\"http://hl7.org/fhir\">\n    <text>\n        <status value=\"generated\"></status>\n        <div xmlns=\"http://www.w3.org/1999/xhtml\">\n            <p>\n                <b>Generated Narrative with Details</b>\n            </p>\n            <p>\n                <b>id</b>: medrx002\n            </p>\n            <p>\n                <b>identifier</b>: 12345 (OFFICIAL)\n            </p>\n            <p>\n                <b>status</b>: active\n            </p>\n            <p>\n                <b>intent</b>: order\n            </p>\n            <p>\n                <b>medication</b>:\n                <a>prescribed medication</a>\n            </p>\n            <p>\n                <b>subject</b>:\n                <a>Donald Duck</a>\n            </p>\n            <p>\n                <b>context</b>:\n                <a>encounter that leads to this prescription</a>\n            </p>\n            <p>\n                <b>authoredOn</b>: 01/03/2015\n            </p>\n            <h3>Requesters</h3>\n            <table>\n                <tr>\n                    <td>-</td>\n                    <td>\n                        <b>Agent</b>\n                    </td>\n                    <td>\n                        <b>OnBehalfOf</b>\n                    </td>\n                </tr>\n                <tr>\n                    <td>*</td>\n                    <td>\n                        <a>Patrick Pump</a>\n                    </td>\n                    <td>\n                        <a>Organization/f002</a>\n                    </td>\n                </tr>\n            </table>\n            <p>\n                <b>reasonCode</b>: Essential hypertension (disorder)\n                <span>(Details : {SNOMED CT code '59621000' = 'Essential hypertension', given as 'Essential hypertension (disorder)'})</span>\n            </p>\n            <p>\n                <b>dosageInstruction</b>:\n            </p>\n        </div>\n    </text>\n    <identifier>\n        <use value=\"official\"></use>\n        <system value=\"http://www.bmc.nl/portal/prescriptions\"></system>\n        <value value=\"12345\"></value>\n    </identifier>\n    <status value=\"active\"></status>\n    <intent value=\"order\"></intent>\n    <medicationReference>\n        <reference value=\"Medication/med0316\"></reference>\n        <display value=\"prescribed medication\"></display>\n    </medicationReference>\n    <subject>\n        <reference value=\"Patient/pat1\"></reference>\n        <display value=\"Donald Duck\"></display>\n    </subject>\n    <context>\n        <reference value=\"Encounter/f001\"></reference>\n        <display value=\"encounter that leads to this prescription\"></display>\n    </context>\n    <authoredOn value=\"2015-03-01\"></authoredOn>\n    <requester>\n        <agent>\n            <reference value=\"Practitioner/f007\"></reference>\n            <display value=\"Patrick Pump\"></display>\n        </agent>\n    </requester>\n    <reasonCode>\n        <coding>\n            <system value=\"http://snomed.info/sct\"></system>\n            <code value=\"59621000\"></code>\n            <display value=\"Essential hypertension (disorder)\"></display>\n        </coding>\n    </reasonCode>\n    <dosageInstruction>\n        <sequence value=\"1\"></sequence>\n        <text value=\"Take one tablet daily as directed\"></text>\n    </dosageInstruction>\n</MedicationRequest>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:9000/convert/",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"convert",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Convert R4 Xml to STU3 Json - MedicationRequest",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/fhir+xml; fhirVersion=4.0",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/fhir+json; fhirVersion=3.0",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<MedicationRequest xmlns=\"http://hl7.org/fhir\">\n    <text>\n        <status value=\"generated\"></status>\n        <div xmlns=\"http://www.w3.org/1999/xhtml\">\n            <p>\n                <b>Generated Narrative with Details</b>\n            </p>\n            <p>\n                <b>id</b>: medrx002\n            </p>\n            <p>\n                <b>identifier</b>: 12345 (OFFICIAL)\n            </p>\n            <p>\n                <b>status</b>: active\n            </p>\n            <p>\n                <b>intent</b>: order\n            </p>\n            <p>\n                <b>medication</b>:\n                <a>prescribed medication</a>\n            </p>\n            <p>\n                <b>subject</b>:\n                <a>Donald Duck</a>\n            </p>\n            <p>\n                <b>context</b>:\n                <a>encounter that leads to this prescription</a>\n            </p>\n            <p>\n                <b>authoredOn</b>: 01/03/2015\n            </p>\n            <h3>Requesters</h3>\n            <table>\n                <tr>\n                    <td>-</td>\n                    <td>\n                        <b>Agent</b>\n                    </td>\n                    <td>\n                        <b>OnBehalfOf</b>\n                    </td>\n                </tr>\n                <tr>\n                    <td>*</td>\n                    <td>\n                        <a>Patrick Pump</a>\n                    </td>\n                    <td>\n                        <a>Organization/f002</a>\n                    </td>\n                </tr>\n            </table>\n            <p>\n                <b>reasonCode</b>: Essential hypertension (disorder)\n                <span>(Details : {SNOMED CT code '59621000' = 'Essential hypertension', given as 'Essential hypertension (disorder)'})</span>\n            </p>\n            <p>\n                <b>dosageInstruction</b>:\n            </p>\n        </div>\n    </text>\n    <identifier>\n        <use value=\"official\"></use>\n        <system value=\"http://www.bmc.nl/portal/prescriptions\"></system>\n        <value value=\"12345\"></value>\n    </identifier>\n    <status value=\"active\"></status>\n    <intent value=\"order\"></intent>\n    <medicationReference>\n        <reference value=\"Medication/med0316\"></reference>\n        <display value=\"prescribed medication\"></display>\n    </medicationReference>\n    <subject>\n        <reference value=\"Patient/pat1\"></reference>\n        <display value=\"Donald Duck\"></display>\n    </subject>\n    <encounter>\n        <reference value=\"Encounter/f001\"></reference>\n        <display value=\"encounter that leads to this prescription\"></display>\n    </encounter>\n    <authoredOn value=\"2015-03-01\"></authoredOn>\n    <requester>\n        <reference value=\"Practitioner/f007\"></reference>\n        <display value=\"Patrick Pump\"></display>\n    </requester>\n    <reasonCode>\n        <coding>\n            <system value=\"http://snomed.info/sct\"></system>\n            <code value=\"59621000\"></code>\n            <display value=\"Essential hypertension (disorder)\"></display>\n        </coding>\n    </reasonCode>\n    <dosageInstruction>\n        <sequence value=\"1\"></sequence>\n        <text value=\"Take one tablet daily as directed\"></text>\n    </dosageInstruction>\n</MedicationRequest>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:9000/convert/",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"convert",
+								""
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		},
 		{
-			"name": "Convert R4 Json to R4 xml - MedicationRequest",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/fhir+json; fhirVersion=4.0",
-						"type": "text"
+			"name": "MedicationStatement",
+			"item": [
+				{
+					"name": "Convert STU3 Json to R4 Json - MedicationStatement",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/fhir+json; fhirVersion=3.0",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/fhir+json; fhirVersion=4.0",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"resourceType\": \"MedicationStatement\",\n    \"id\": \"example001\",\n    \"text\": {\n        \"status\": \"generated\",\n        \"div\": \"<div xmlns=\\\"http://www.w3.org/1999/xhtml\\\"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: example001</p><p><b>contained</b>: </p><p><b>identifier</b>: 12345689 (OFFICIAL)</p><p><b>status</b>: active</p><p><b>category</b>: Inpatient <span>(Details : {http://hl7.org/fhir/medication-statement-category code 'inpatient' = 'Inpatient', given as 'Inpatient'})</span></p><p><b>medication</b>: id: med0309; Tylenol PM <span>(Details : {http://hl7.org/fhir/sid/ndc code '50580-506-02' = '50580-506-02', given as 'Tylenol PM'})</span>; isBrand; Film-coated tablet (qualifier value) <span>(Details : {SNOMED CT code '385057009' = 'Film-coated tablet', given as 'Film-coated tablet (qualifier value)'})</span></p><p><b>effective</b>: 23/01/2015</p><p><b>dateAsserted</b>: 22/02/2015</p><p><b>informationSource</b>: <a>Donald Duck</a></p><p><b>subject</b>: <a>Donald Duck</a></p><p><b>derivedFrom</b>: <a>MedicationRequest/medrx002</a></p><p><b>taken</b>: n</p><p><b>reasonCode</b>: Restless Legs <span>(Details : {SNOMED CT code '32914008' = 'Restless legs', given as 'Restless Legs'})</span></p><p><b>note</b>: Patient indicates they miss the occasional dose</p><p><b>dosage</b>: </p></div>\"\n    },\n    \"contained\": [\n        {\n            \"resourceType\": \"Medication\",\n            \"id\": \"med0309\",\n            \"code\": {\n                \"coding\": [\n                    {\n                        \"system\": \"http://hl7.org/fhir/sid/ndc\",\n                        \"code\": \"50580-506-02\",\n                        \"display\": \"Tylenol PM\"\n                    }\n                ]\n            },\n            \"isBrand\": true,\n            \"form\": {\n                \"coding\": [\n                    {\n                        \"system\": \"http://snomed.info/sct\",\n                        \"code\": \"385057009\",\n                        \"display\": \"Film-coated tablet (qualifier value)\"\n                    }\n                ]\n            },\n            \"ingredient\": [\n                {\n                    \"itemCodeableConcept\": {\n                        \"coding\": [\n                            {\n                                \"system\": \"http://www.nlm.nih.gov/research/umls/rxnorm\",\n                                \"code\": \"315266\",\n                                \"display\": \"Acetaminophen 500 MG\"\n                            }\n                        ]\n                    },\n                    \"amount\": {\n                        \"numerator\": {\n                            \"value\": 500,\n                            \"system\": \"http://unitsofmeasure.org\",\n                            \"code\": \"mg\"\n                        },\n                        \"denominator\": {\n                            \"value\": 1,\n                            \"system\": \"http://hl7.org/fhir/v3/orderableDrugForm\",\n                            \"code\": \"Tab\"\n                        }\n                    }\n                },\n                {\n                    \"itemCodeableConcept\": {\n                        \"coding\": [\n                            {\n                                \"system\": \"http://www.nlm.nih.gov/research/umls/rxnorm\",\n                                \"code\": \"901813\",\n                                \"display\": \"Diphenhydramine Hydrochloride 25 mg\"\n                            }\n                        ]\n                    },\n                    \"amount\": {\n                        \"numerator\": {\n                            \"value\": 25,\n                            \"system\": \"http://unitsofmeasure.org\",\n                            \"code\": \"mg\"\n                        },\n                        \"denominator\": {\n                            \"value\": 1,\n                            \"system\": \"http://hl7.org/fhir/v3/orderableDrugForm\",\n                            \"code\": \"Tab\"\n                        }\n                    }\n                }\n            ],\n            \"package\": {\n                \"batch\": [\n                    {\n                        \"lotNumber\": \"9494788\",\n                        \"expirationDate\": \"2017-05-22\"\n                    }\n                ]\n            }\n        }\n    ],\n    \"identifier\": [\n        {\n            \"use\": \"official\",\n            \"system\": \"http://www.bmc.nl/portal/medstatements\",\n            \"value\": \"12345689\"\n        }\n    ],\n    \"status\": \"active\",\n    \"category\": {\n        \"coding\": [\n            {\n                \"system\": \"http://hl7.org/fhir/medication-statement-category\",\n                \"code\": \"inpatient\",\n                \"display\": \"Inpatient\"\n            }\n        ]\n    },\n    \"medicationReference\": {\n        \"reference\": \"#med0309\"\n    },\n    \"effectiveDateTime\": \"2015-01-23\",\n    \"dateAsserted\": \"2015-02-22\",\n    \"informationSource\": {\n        \"reference\": \"Patient/pat1\",\n        \"display\": \"Donald Duck\"\n    },\n    \"subject\": {\n        \"reference\": \"Patient/pat1\",\n        \"display\": \"Donald Duck\"\n    },\n    \"derivedFrom\": [\n        {\n            \"reference\": \"MedicationRequest/medrx002\"\n        }\n    ],\n    \"taken\": \"n\",\n    \"reasonCode\": [\n        {\n            \"coding\": [\n                {\n                    \"system\": \"http://snomed.info/sct\",\n                    \"code\": \"32914008\",\n                    \"display\": \"Restless Legs\"\n                }\n            ]\n        }\n    ],\n    \"note\": [\n        {\n            \"text\": \"Patient indicates they miss the occasional dose\"\n        }\n    ],\n    \"dosage\": [\n        {\n            \"sequence\": 1,\n            \"text\": \"1-2 tablets once daily at bedtime as needed for restless legs\",\n            \"additionalInstruction\": [\n                {\n                    \"text\": \"Taking at bedtime\"\n                }\n            ],\n            \"timing\": {\n                \"repeat\": {\n                    \"frequency\": 1,\n                    \"period\": 1,\n                    \"periodUnit\": \"d\"\n                }\n            },\n            \"asNeededCodeableConcept\": {\n                \"coding\": [\n                    {\n                        \"system\": \"http://snomed.info/sct\",\n                        \"code\": \"32914008\",\n                        \"display\": \"Restless Legs\"\n                    }\n                ]\n            },\n            \"route\": {\n                \"coding\": [\n                    {\n                        \"system\": \"http://snomed.info/sct\",\n                        \"code\": \"26643006\",\n                        \"display\": \"Oral Route\"\n                    }\n                ]\n            },\n            \"doseRange\": {\n                \"low\": {\n                    \"value\": 1,\n                    \"unit\": \"TAB\",\n                    \"system\": \"http://hl7.org/fhir/v3/orderableDrugForm\",\n                    \"code\": \"TAB\"\n                },\n                \"high\": {\n                    \"value\": 2,\n                    \"unit\": \"TAB\",\n                    \"system\": \"http://hl7.org/fhir/v3/orderableDrugForm\",\n                    \"code\": \"TAB\"\n                }\n            }\n        }\n    ]\n}"
+						},
+						"url": {
+							"raw": "localhost:9000/convert/",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"convert",
+								""
+							]
+						}
 					},
-					{
-						"key": "Accept",
-						"value": "application/fhir+xml; fhirVersion=4.0",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n  \"resourceType\": \"MedicationRequest\",\n  \"id\": \"medrx002\",\n  \"text\": {\n    \"status\": \"generated\",\n    \"div\": \"<div xmlns=\\\"http://www.w3.org/1999/xhtml\\\"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: medrx002</p><p><b>identifier</b>: 12345 (OFFICIAL)</p><p><b>status</b>: active</p><p><b>intent</b>: order</p><p><b>medication</b>: <a>prescribed medication</a></p><p><b>subject</b>: <a>Donald Duck</a></p><p><b>encounter</b>: <a>encounter that leads to this prescription</a></p><p><b>authoredOn</b>: 01/03/2015</p><p><b>requester</b>: <a>Patrick Pump</a></p><p><b>reasonCode</b>: Essential hypertension (disorder) <span>(Details : {SNOMED CT code '59621000' = 'Essential hypertension', given as 'Essential hypertension (disorder)'})</span></p><p><b>dosageInstruction</b>: </p></div>\"\n  },\n  \"identifier\": [\n    {\n      \"use\": \"official\",\n      \"system\": \"http://www.bmc.nl/portal/prescriptions\",\n      \"value\": \"12345\"\n    }\n  ],\n  \"status\": \"active\",\n  \"intent\": \"order\",\n  \"medicationReference\": {\n    \"reference\": \"Medication/med0316\",\n    \"display\": \"prescribed medication\"\n  },\n  \"subject\": {\n    \"reference\": \"Patient/pat1\",\n    \"display\": \"Donald Duck\"\n  },\n  \"encounter\": {\n    \"reference\": \"Encounter/f001\",\n    \"display\": \"encounter that leads to this prescription\"\n  },\n  \"authoredOn\": \"2015-03-01\",\n  \"requester\": {\n    \"reference\": \"Practitioner/f007\",\n    \"display\": \"Patrick Pump\"\n  },\n  \"reasonCode\": [\n    {\n      \"coding\": [\n        {\n          \"system\": \"http://snomed.info/sct\",\n          \"code\": \"59621000\",\n          \"display\": \"Essential hypertension (disorder)\"\n        }\n      ]\n    }\n  ],\n  \"dosageInstruction\": [\n    {\n      \"sequence\": 1,\n      \"text\": \"Take one tablet daily as directed\"\n    }\n  ]\n}"
+					"response": []
 				},
-				"url": {
-					"raw": "localhost:8080/convert/",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"convert",
-						""
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Convert R4 Json to STU3 Json - MedicationRequest",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/fhir+json; fhirVersion=4.0",
-						"type": "text"
+				{
+					"name": "Convert R4 Json to STU3 Json - MedicationStatement",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/fhir+json; fhirVersion=4.0",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/fhir+json; fhirVersion=3.0",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"resourceType\": \"MedicationStatement\",\n    \"id\": \"example001\",\n    \"text\": {\n        \"status\": \"generated\",\n        \"div\": \"<div xmlns=\\\"http://www.w3.org/1999/xhtml\\\"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: example001</p><p><b>contained</b>: </p><p><b>identifier</b>: 12345689 (OFFICIAL)</p><p><b>status</b>: active</p><p><b>category</b>: Inpatient <span>(Details : {http://hl7.org/fhir/medication-statement-category code 'inpatient' = 'Inpatient', given as 'Inpatient'})</span></p><p><b>medication</b>: id: med0309; Tylenol PM <span>(Details : {http://hl7.org/fhir/sid/ndc code '50580-506-02' = '50580-506-02', given as 'Tylenol PM'})</span>; isBrand; Film-coated tablet (qualifier value) <span>(Details : {SNOMED CT code '385057009' = 'Film-coated tablet', given as 'Film-coated tablet (qualifier value)'})</span></p><p><b>effective</b>: 23/01/2015</p><p><b>dateAsserted</b>: 22/02/2015</p><p><b>informationSource</b>: <a>Donald Duck</a></p><p><b>subject</b>: <a>Donald Duck</a></p><p><b>derivedFrom</b>: <a>MedicationRequest/medrx002</a></p><p><b>taken</b>: n</p><p><b>reasonCode</b>: Restless Legs <span>(Details : {SNOMED CT code '32914008' = 'Restless legs', given as 'Restless Legs'})</span></p><p><b>note</b>: Patient indicates they miss the occasional dose</p><p><b>dosage</b>: </p></div>\"\n    },\n    \"contained\": [\n        {\n            \"resourceType\": \"Medication\",\n            \"id\": \"med0309\",\n            \"code\": {\n                \"coding\": [\n                    {\n                        \"system\": \"http://hl7.org/fhir/sid/ndc\",\n                        \"code\": \"50580-506-02\",\n                        \"display\": \"Tylenol PM\"\n                    }\n                ]\n            },\n            \"form\": {\n                \"coding\": [\n                    {\n                        \"system\": \"http://snomed.info/sct\",\n                        \"code\": \"385057009\",\n                        \"display\": \"Film-coated tablet (qualifier value)\"\n                    }\n                ]\n            },\n            \"ingredient\": [\n                {\n                    \"itemCodeableConcept\": {\n                        \"coding\": [\n                            {\n                                \"system\": \"http://www.nlm.nih.gov/research/umls/rxnorm\",\n                                \"code\": \"315266\",\n                                \"display\": \"Acetaminophen 500 MG\"\n                            }\n                        ]\n                    },\n                    \"strength\": {\n                        \"numerator\": {\n                            \"value\": 500,\n                            \"system\": \"http://unitsofmeasure.org\",\n                            \"code\": \"mg\"\n                        },\n                        \"denominator\": {\n                            \"value\": 1,\n                            \"system\": \"http://hl7.org/fhir/v3/orderableDrugForm\",\n                            \"code\": \"Tab\"\n                        }\n                    }\n                },\n                {\n                    \"itemCodeableConcept\": {\n                        \"coding\": [\n                            {\n                                \"system\": \"http://www.nlm.nih.gov/research/umls/rxnorm\",\n                                \"code\": \"901813\",\n                                \"display\": \"Diphenhydramine Hydrochloride 25 mg\"\n                            }\n                        ]\n                    },\n                    \"strength\": {\n                        \"numerator\": {\n                            \"value\": 25,\n                            \"system\": \"http://unitsofmeasure.org\",\n                            \"code\": \"mg\"\n                        },\n                        \"denominator\": {\n                            \"value\": 1,\n                            \"system\": \"http://hl7.org/fhir/v3/orderableDrugForm\",\n                            \"code\": \"Tab\"\n                        }\n                    }\n                }\n            ],\n            \"batch\": {\n                \"lotNumber\": \"9494788\",\n                \"expirationDate\": \"2017-05-22\"\n            }\n        }\n    ],\n    \"identifier\": [\n        {\n            \"use\": \"official\",\n            \"system\": \"http://www.bmc.nl/portal/medstatements\",\n            \"value\": \"12345689\"\n        }\n    ],\n    \"status\": \"active\",\n    \"category\": {\n        \"coding\": [\n            {\n                \"system\": \"http://hl7.org/fhir/medication-statement-category\",\n                \"code\": \"inpatient\",\n                \"display\": \"Inpatient\"\n            }\n        ]\n    },\n    \"medicationReference\": {\n        \"reference\": \"#med0309\"\n    },\n    \"subject\": {\n        \"reference\": \"Patient/pat1\",\n        \"display\": \"Donald Duck\"\n    },\n    \"effectiveDateTime\": \"2015-01-23\",\n    \"dateAsserted\": \"2015-02-22\",\n    \"informationSource\": {\n        \"reference\": \"Patient/pat1\",\n        \"display\": \"Donald Duck\"\n    },\n    \"derivedFrom\": [\n        {\n            \"reference\": \"MedicationRequest/medrx002\"\n        }\n    ],\n    \"reasonCode\": [\n        {\n            \"coding\": [\n                {\n                    \"system\": \"http://snomed.info/sct\",\n                    \"code\": \"32914008\",\n                    \"display\": \"Restless Legs\"\n                }\n            ]\n        }\n    ],\n    \"note\": [\n        {\n            \"text\": \"Patient indicates they miss the occasional dose\"\n        }\n    ],\n    \"dosage\": [\n        {\n            \"sequence\": 1,\n            \"text\": \"1-2 tablets once daily at bedtime as needed for restless legs\",\n            \"additionalInstruction\": [\n                {\n                    \"text\": \"Taking at bedtime\"\n                }\n            ],\n            \"timing\": {\n                \"repeat\": {\n                    \"frequency\": 1,\n                    \"period\": 1,\n                    \"periodUnit\": \"d\"\n                }\n            },\n            \"asNeededCodeableConcept\": {\n                \"coding\": [\n                    {\n                        \"system\": \"http://snomed.info/sct\",\n                        \"code\": \"32914008\",\n                        \"display\": \"Restless Legs\"\n                    }\n                ]\n            },\n            \"route\": {\n                \"coding\": [\n                    {\n                        \"system\": \"http://snomed.info/sct\",\n                        \"code\": \"26643006\",\n                        \"display\": \"Oral Route\"\n                    }\n                ]\n            },\n            \"doseAndRate\": [\n                {\n                    \"doseRange\": {\n                        \"low\": {\n                            \"value\": 1,\n                            \"unit\": \"TAB\",\n                            \"system\": \"http://hl7.org/fhir/v3/orderableDrugForm\",\n                            \"code\": \"TAB\"\n                        },\n                        \"high\": {\n                            \"value\": 2,\n                            \"unit\": \"TAB\",\n                            \"system\": \"http://hl7.org/fhir/v3/orderableDrugForm\",\n                            \"code\": \"TAB\"\n                        }\n                    }\n                }\n            ]\n        }\n    ]\n}"
+						},
+						"url": {
+							"raw": "localhost:9000/convert/",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"convert",
+								""
+							]
+						}
 					},
-					{
-						"key": "Accept",
-						"value": "application/fhir+json; fhirVersion=3.0",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n  \"resourceType\": \"MedicationRequest\",\n  \"id\": \"medrx002\",\n  \"text\": {\n    \"status\": \"generated\",\n    \"div\": \"<div xmlns=\\\"http://www.w3.org/1999/xhtml\\\"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: medrx002</p><p><b>identifier</b>: 12345 (OFFICIAL)</p><p><b>status</b>: active</p><p><b>intent</b>: order</p><p><b>medication</b>: <a>prescribed medication</a></p><p><b>subject</b>: <a>Donald Duck</a></p><p><b>encounter</b>: <a>encounter that leads to this prescription</a></p><p><b>authoredOn</b>: 01/03/2015</p><p><b>requester</b>: <a>Patrick Pump</a></p><p><b>reasonCode</b>: Essential hypertension (disorder) <span>(Details : {SNOMED CT code '59621000' = 'Essential hypertension', given as 'Essential hypertension (disorder)'})</span></p><p><b>dosageInstruction</b>: </p></div>\"\n  },\n  \"identifier\": [\n    {\n      \"use\": \"official\",\n      \"system\": \"http://www.bmc.nl/portal/prescriptions\",\n      \"value\": \"12345\"\n    }\n  ],\n  \"status\": \"active\",\n  \"intent\": \"order\",\n  \"medicationReference\": {\n    \"reference\": \"Medication/med0316\",\n    \"display\": \"prescribed medication\"\n  },\n  \"subject\": {\n    \"reference\": \"Patient/pat1\",\n    \"display\": \"Donald Duck\"\n  },\n  \"encounter\": {\n    \"reference\": \"Encounter/f001\",\n    \"display\": \"encounter that leads to this prescription\"\n  },\n  \"authoredOn\": \"2015-03-01\",\n  \"requester\": {\n    \"reference\": \"Practitioner/f007\",\n    \"display\": \"Patrick Pump\"\n  },\n  \"reasonCode\": [\n    {\n      \"coding\": [\n        {\n          \"system\": \"http://snomed.info/sct\",\n          \"code\": \"59621000\",\n          \"display\": \"Essential hypertension (disorder)\"\n        }\n      ]\n    }\n  ],\n  \"dosageInstruction\": [\n    {\n      \"sequence\": 1,\n      \"text\": \"Take one tablet daily as directed\"\n    }\n  ]\n}"
+					"response": []
 				},
-				"url": {
-					"raw": "localhost:8080/convert/",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"convert",
-						""
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Convert ST3 Json to R4 Json - MedicationRequest",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/fhir+json; fhirVersion=3.0",
-						"type": "text"
+				{
+					"name": "Convert R4 Json to STU3 xml - MedicationStatement",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/fhir+json; fhirVersion=4.0",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/fhir+xml; fhirVersion=3.0",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"resourceType\": \"MedicationStatement\",\n    \"id\": \"example001\",\n    \"text\": {\n        \"status\": \"generated\",\n        \"div\": \"<div xmlns=\\\"http://www.w3.org/1999/xhtml\\\"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: example001</p><p><b>contained</b>: </p><p><b>identifier</b>: 12345689 (OFFICIAL)</p><p><b>status</b>: active</p><p><b>category</b>: Inpatient <span>(Details : {http://hl7.org/fhir/medication-statement-category code 'inpatient' = 'Inpatient', given as 'Inpatient'})</span></p><p><b>medication</b>: id: med0309; Tylenol PM <span>(Details : {http://hl7.org/fhir/sid/ndc code '50580-506-02' = '50580-506-02', given as 'Tylenol PM'})</span>; isBrand; Film-coated tablet (qualifier value) <span>(Details : {SNOMED CT code '385057009' = 'Film-coated tablet', given as 'Film-coated tablet (qualifier value)'})</span></p><p><b>effective</b>: 23/01/2015</p><p><b>dateAsserted</b>: 22/02/2015</p><p><b>informationSource</b>: <a>Donald Duck</a></p><p><b>subject</b>: <a>Donald Duck</a></p><p><b>derivedFrom</b>: <a>MedicationRequest/medrx002</a></p><p><b>taken</b>: n</p><p><b>reasonCode</b>: Restless Legs <span>(Details : {SNOMED CT code '32914008' = 'Restless legs', given as 'Restless Legs'})</span></p><p><b>note</b>: Patient indicates they miss the occasional dose</p><p><b>dosage</b>: </p></div>\"\n    },\n    \"contained\": [\n        {\n            \"resourceType\": \"Medication\",\n            \"id\": \"med0309\",\n            \"code\": {\n                \"coding\": [\n                    {\n                        \"system\": \"http://hl7.org/fhir/sid/ndc\",\n                        \"code\": \"50580-506-02\",\n                        \"display\": \"Tylenol PM\"\n                    }\n                ]\n            },\n            \"form\": {\n                \"coding\": [\n                    {\n                        \"system\": \"http://snomed.info/sct\",\n                        \"code\": \"385057009\",\n                        \"display\": \"Film-coated tablet (qualifier value)\"\n                    }\n                ]\n            },\n            \"ingredient\": [\n                {\n                    \"itemCodeableConcept\": {\n                        \"coding\": [\n                            {\n                                \"system\": \"http://www.nlm.nih.gov/research/umls/rxnorm\",\n                                \"code\": \"315266\",\n                                \"display\": \"Acetaminophen 500 MG\"\n                            }\n                        ]\n                    },\n                    \"strength\": {\n                        \"numerator\": {\n                            \"value\": 500,\n                            \"system\": \"http://unitsofmeasure.org\",\n                            \"code\": \"mg\"\n                        },\n                        \"denominator\": {\n                            \"value\": 1,\n                            \"system\": \"http://hl7.org/fhir/v3/orderableDrugForm\",\n                            \"code\": \"Tab\"\n                        }\n                    }\n                },\n                {\n                    \"itemCodeableConcept\": {\n                        \"coding\": [\n                            {\n                                \"system\": \"http://www.nlm.nih.gov/research/umls/rxnorm\",\n                                \"code\": \"901813\",\n                                \"display\": \"Diphenhydramine Hydrochloride 25 mg\"\n                            }\n                        ]\n                    },\n                    \"strength\": {\n                        \"numerator\": {\n                            \"value\": 25,\n                            \"system\": \"http://unitsofmeasure.org\",\n                            \"code\": \"mg\"\n                        },\n                        \"denominator\": {\n                            \"value\": 1,\n                            \"system\": \"http://hl7.org/fhir/v3/orderableDrugForm\",\n                            \"code\": \"Tab\"\n                        }\n                    }\n                }\n            ],\n            \"batch\": {\n                \"lotNumber\": \"9494788\",\n                \"expirationDate\": \"2017-05-22\"\n            }\n        }\n    ],\n    \"identifier\": [\n        {\n            \"use\": \"official\",\n            \"system\": \"http://www.bmc.nl/portal/medstatements\",\n            \"value\": \"12345689\"\n        }\n    ],\n    \"status\": \"active\",\n    \"category\": {\n        \"coding\": [\n            {\n                \"system\": \"http://hl7.org/fhir/medication-statement-category\",\n                \"code\": \"inpatient\",\n                \"display\": \"Inpatient\"\n            }\n        ]\n    },\n    \"medicationReference\": {\n        \"reference\": \"#med0309\"\n    },\n    \"subject\": {\n        \"reference\": \"Patient/pat1\",\n        \"display\": \"Donald Duck\"\n    },\n    \"effectiveDateTime\": \"2015-01-23\",\n    \"dateAsserted\": \"2015-02-22\",\n    \"informationSource\": {\n        \"reference\": \"Patient/pat1\",\n        \"display\": \"Donald Duck\"\n    },\n    \"derivedFrom\": [\n        {\n            \"reference\": \"MedicationRequest/medrx002\"\n        }\n    ],\n    \"reasonCode\": [\n        {\n            \"coding\": [\n                {\n                    \"system\": \"http://snomed.info/sct\",\n                    \"code\": \"32914008\",\n                    \"display\": \"Restless Legs\"\n                }\n            ]\n        }\n    ],\n    \"note\": [\n        {\n            \"text\": \"Patient indicates they miss the occasional dose\"\n        }\n    ],\n    \"dosage\": [\n        {\n            \"sequence\": 1,\n            \"text\": \"1-2 tablets once daily at bedtime as needed for restless legs\",\n            \"additionalInstruction\": [\n                {\n                    \"text\": \"Taking at bedtime\"\n                }\n            ],\n            \"timing\": {\n                \"repeat\": {\n                    \"frequency\": 1,\n                    \"period\": 1,\n                    \"periodUnit\": \"d\"\n                }\n            },\n            \"asNeededCodeableConcept\": {\n                \"coding\": [\n                    {\n                        \"system\": \"http://snomed.info/sct\",\n                        \"code\": \"32914008\",\n                        \"display\": \"Restless Legs\"\n                    }\n                ]\n            },\n            \"route\": {\n                \"coding\": [\n                    {\n                        \"system\": \"http://snomed.info/sct\",\n                        \"code\": \"26643006\",\n                        \"display\": \"Oral Route\"\n                    }\n                ]\n            },\n            \"doseAndRate\": [\n                {\n                    \"doseRange\": {\n                        \"low\": {\n                            \"value\": 1,\n                            \"unit\": \"TAB\",\n                            \"system\": \"http://hl7.org/fhir/v3/orderableDrugForm\",\n                            \"code\": \"TAB\"\n                        },\n                        \"high\": {\n                            \"value\": 2,\n                            \"unit\": \"TAB\",\n                            \"system\": \"http://hl7.org/fhir/v3/orderableDrugForm\",\n                            \"code\": \"TAB\"\n                        }\n                    }\n                }\n            ]\n        }\n    ]\n}"
+						},
+						"url": {
+							"raw": "localhost:9000/convert/",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"convert",
+								""
+							]
+						}
 					},
-					{
-						"key": "Accept",
-						"value": "application/fhir+json; fhirVersion=4.0",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"resourceType\": \"MedicationRequest\",\n    \"text\": {\n        \"status\": \"generated\",\n        \"div\": \"<div xmlns=\\\"http://www.w3.org/1999/xhtml\\\"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: medrx002</p><p><b>identifier</b>: 12345 (OFFICIAL)</p><p><b>status</b>: active</p><p><b>intent</b>: order</p><p><b>medication</b>: <a>prescribed medication</a></p><p><b>subject</b>: <a>Donald Duck</a></p><p><b>context</b>: <a>encounter that leads to this prescription</a></p><p><b>authoredOn</b>: 01/03/2015</p><h3>Requesters</h3><table><tr><td>-</td><td><b>Agent</b></td><td><b>OnBehalfOf</b></td></tr><tr><td>*</td><td><a>Patrick Pump</a></td><td><a>Organization/f002</a></td></tr></table><p><b>reasonCode</b>: Essential hypertension (disorder) <span>(Details : {SNOMED CT code '59621000' = 'Essential hypertension', given as 'Essential hypertension (disorder)'})</span></p><p><b>dosageInstruction</b>: </p></div>\"\n    },\n    \"identifier\": [\n        {\n            \"use\": \"official\",\n            \"system\": \"http://www.bmc.nl/portal/prescriptions\",\n            \"value\": \"12345\"\n        }\n    ],\n    \"status\": \"active\",\n    \"intent\": \"order\",\n    \"medicationReference\": {\n        \"reference\": \"Medication/med0316\",\n        \"display\": \"prescribed medication\"\n    },\n    \"subject\": {\n        \"reference\": \"Patient/pat1\",\n        \"display\": \"Donald Duck\"\n    },\n    \"context\": {\n        \"reference\": \"Encounter/f001\",\n        \"display\": \"encounter that leads to this prescription\"\n    },\n    \"authoredOn\": \"2015-03-01\",\n    \"requester\": {\n        \"agent\": {\n            \"reference\": \"Practitioner/f007\",\n            \"display\": \"Patrick Pump\"\n        }\n    },\n    \"reasonCode\": [\n        {\n            \"coding\": [\n                {\n                    \"system\": \"http://snomed.info/sct\",\n                    \"code\": \"59621000\",\n                    \"display\": \"Essential hypertension (disorder)\"\n                }\n            ]\n        }\n    ],\n    \"dosageInstruction\": [\n        {\n            \"sequence\": 1,\n            \"text\": \"Take one tablet daily as directed\"\n        }\n    ]\n}"
+					"response": []
 				},
-				"url": {
-					"raw": "localhost:8080/convert/",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"convert",
-						""
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Convert DSTU2 JSON to R4 JSON MedStatement",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/fhir+json; fhirVersion=2.0",
-						"type": "text"
+				{
+					"name": "Convert R4 Json to R4 xml - MedicationStatement Copy",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/fhir+json; fhirVersion=4.0",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/fhir+xml; fhirVersion=4.0",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"resourceType\": \"MedicationStatement\",\n    \"id\": \"example001\",\n    \"text\": {\n        \"status\": \"generated\",\n        \"div\": \"<div xmlns=\\\"http://www.w3.org/1999/xhtml\\\"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: example001</p><p><b>contained</b>: </p><p><b>identifier</b>: 12345689 (OFFICIAL)</p><p><b>status</b>: active</p><p><b>category</b>: Inpatient <span>(Details : {http://hl7.org/fhir/medication-statement-category code 'inpatient' = 'Inpatient', given as 'Inpatient'})</span></p><p><b>medication</b>: id: med0309; Tylenol PM <span>(Details : {http://hl7.org/fhir/sid/ndc code '50580-506-02' = '50580-506-02', given as 'Tylenol PM'})</span>; isBrand; Film-coated tablet (qualifier value) <span>(Details : {SNOMED CT code '385057009' = 'Film-coated tablet', given as 'Film-coated tablet (qualifier value)'})</span></p><p><b>effective</b>: 23/01/2015</p><p><b>dateAsserted</b>: 22/02/2015</p><p><b>informationSource</b>: <a>Donald Duck</a></p><p><b>subject</b>: <a>Donald Duck</a></p><p><b>derivedFrom</b>: <a>MedicationRequest/medrx002</a></p><p><b>taken</b>: n</p><p><b>reasonCode</b>: Restless Legs <span>(Details : {SNOMED CT code '32914008' = 'Restless legs', given as 'Restless Legs'})</span></p><p><b>note</b>: Patient indicates they miss the occasional dose</p><p><b>dosage</b>: </p></div>\"\n    },\n    \"contained\": [\n        {\n            \"resourceType\": \"Medication\",\n            \"id\": \"med0309\",\n            \"code\": {\n                \"coding\": [\n                    {\n                        \"system\": \"http://hl7.org/fhir/sid/ndc\",\n                        \"code\": \"50580-506-02\",\n                        \"display\": \"Tylenol PM\"\n                    }\n                ]\n            },\n            \"form\": {\n                \"coding\": [\n                    {\n                        \"system\": \"http://snomed.info/sct\",\n                        \"code\": \"385057009\",\n                        \"display\": \"Film-coated tablet (qualifier value)\"\n                    }\n                ]\n            },\n            \"ingredient\": [\n                {\n                    \"itemCodeableConcept\": {\n                        \"coding\": [\n                            {\n                                \"system\": \"http://www.nlm.nih.gov/research/umls/rxnorm\",\n                                \"code\": \"315266\",\n                                \"display\": \"Acetaminophen 500 MG\"\n                            }\n                        ]\n                    },\n                    \"strength\": {\n                        \"numerator\": {\n                            \"value\": 500,\n                            \"system\": \"http://unitsofmeasure.org\",\n                            \"code\": \"mg\"\n                        },\n                        \"denominator\": {\n                            \"value\": 1,\n                            \"system\": \"http://hl7.org/fhir/v3/orderableDrugForm\",\n                            \"code\": \"Tab\"\n                        }\n                    }\n                },\n                {\n                    \"itemCodeableConcept\": {\n                        \"coding\": [\n                            {\n                                \"system\": \"http://www.nlm.nih.gov/research/umls/rxnorm\",\n                                \"code\": \"901813\",\n                                \"display\": \"Diphenhydramine Hydrochloride 25 mg\"\n                            }\n                        ]\n                    },\n                    \"strength\": {\n                        \"numerator\": {\n                            \"value\": 25,\n                            \"system\": \"http://unitsofmeasure.org\",\n                            \"code\": \"mg\"\n                        },\n                        \"denominator\": {\n                            \"value\": 1,\n                            \"system\": \"http://hl7.org/fhir/v3/orderableDrugForm\",\n                            \"code\": \"Tab\"\n                        }\n                    }\n                }\n            ],\n            \"batch\": {\n                \"lotNumber\": \"9494788\",\n                \"expirationDate\": \"2017-05-22\"\n            }\n        }\n    ],\n    \"identifier\": [\n        {\n            \"use\": \"official\",\n            \"system\": \"http://www.bmc.nl/portal/medstatements\",\n            \"value\": \"12345689\"\n        }\n    ],\n    \"status\": \"active\",\n    \"category\": {\n        \"coding\": [\n            {\n                \"system\": \"http://hl7.org/fhir/medication-statement-category\",\n                \"code\": \"inpatient\",\n                \"display\": \"Inpatient\"\n            }\n        ]\n    },\n    \"medicationReference\": {\n        \"reference\": \"#med0309\"\n    },\n    \"subject\": {\n        \"reference\": \"Patient/pat1\",\n        \"display\": \"Donald Duck\"\n    },\n    \"effectiveDateTime\": \"2015-01-23\",\n    \"dateAsserted\": \"2015-02-22\",\n    \"informationSource\": {\n        \"reference\": \"Patient/pat1\",\n        \"display\": \"Donald Duck\"\n    },\n    \"derivedFrom\": [\n        {\n            \"reference\": \"MedicationRequest/medrx002\"\n        }\n    ],\n    \"reasonCode\": [\n        {\n            \"coding\": [\n                {\n                    \"system\": \"http://snomed.info/sct\",\n                    \"code\": \"32914008\",\n                    \"display\": \"Restless Legs\"\n                }\n            ]\n        }\n    ],\n    \"note\": [\n        {\n            \"text\": \"Patient indicates they miss the occasional dose\"\n        }\n    ],\n    \"dosage\": [\n        {\n            \"sequence\": 1,\n            \"text\": \"1-2 tablets once daily at bedtime as needed for restless legs\",\n            \"additionalInstruction\": [\n                {\n                    \"text\": \"Taking at bedtime\"\n                }\n            ],\n            \"timing\": {\n                \"repeat\": {\n                    \"frequency\": 1,\n                    \"period\": 1,\n                    \"periodUnit\": \"d\"\n                }\n            },\n            \"asNeededCodeableConcept\": {\n                \"coding\": [\n                    {\n                        \"system\": \"http://snomed.info/sct\",\n                        \"code\": \"32914008\",\n                        \"display\": \"Restless Legs\"\n                    }\n                ]\n            },\n            \"route\": {\n                \"coding\": [\n                    {\n                        \"system\": \"http://snomed.info/sct\",\n                        \"code\": \"26643006\",\n                        \"display\": \"Oral Route\"\n                    }\n                ]\n            },\n            \"doseAndRate\": [\n                {\n                    \"doseRange\": {\n                        \"low\": {\n                            \"value\": 1,\n                            \"unit\": \"TAB\",\n                            \"system\": \"http://hl7.org/fhir/v3/orderableDrugForm\",\n                            \"code\": \"TAB\"\n                        },\n                        \"high\": {\n                            \"value\": 2,\n                            \"unit\": \"TAB\",\n                            \"system\": \"http://hl7.org/fhir/v3/orderableDrugForm\",\n                            \"code\": \"TAB\"\n                        }\n                    }\n                }\n            ]\n        }\n    ]\n}"
+						},
+						"url": {
+							"raw": "localhost:9000/convert/",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"convert",
+								""
+							]
+						}
 					},
-					{
-						"key": "Accept",
-						"value": "application/fhir+json; fhirVersion=4.0",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"resourceType\": \"MedicationStatement\",\n    \"id\": \"example004\",\n    \"text\": {\n        \"status\": \"generated\",\n        \"div\": \"<div>\\n      <p>Amoxicillin 250mg capsule - one capsule three times daily</p>\\n    </div>\"\n    },\n    \"patient\": {\n        \"reference\": \"Patient/example\"\n    },\n    \"informationSource\": {\n        \"reference\": \"Patient/example\"\n    },\n    \"dateAsserted\": \"2015-02-22\",\n    \"status\": \"completed\",\n    \"wasNotTaken\": false,\n    \"reasonForUseCodeableConcept\": {\n        \"coding\": [\n            {\n                \"system\": \"http://snomed.info/sct\",\n                \"code\": \"65363002\",\n                \"display\": \"Otitis Media\"\n            }\n        ]\n    },\n    \"effectiveDateTime\": \"2014-01-23\",\n    \"note\": \"Patient indicates they miss the occasional dose\",\n    \"medicationReference\": {\n        \"reference\": \"Medication/MedicationExample6\"\n    },\n    \"dosage\": [\n        {\n            \"text\": \"one capsule three times daily\",\n            \"timing\": {\n                \"repeat\": {\n                    \"frequency\": 3,\n                    \"period\": 1,\n                    \"periodUnits\": \"d\"\n                }\n            },\n            \"asNeededBoolean\": false,\n            \"route\": {\n                \"coding\": [\n                    {\n                        \"system\": \"http://snomed.info/sct\",\n                        \"code\": \"260548002\",\n                        \"display\": \"Oral\"\n                    }\n                ]\n            },\n            \"quantityQuantity\": {\n                \"value\": 1\n            },\n            \"maxDosePerPeriod\": {\n                \"numerator\": {\n                    \"value\": 3,\n                    \"unit\": \"capsules\",\n                    \"system\": \"http://snomed.info/sct\",\n                    \"code\": \"385055001\"\n                },\n                \"denominator\": {\n                    \"value\": 1,\n                    \"system\": \"http://unitsofmeasure.org\",\n                    \"code\": \"d\"\n                }\n            }\n        }\n    ]\n}"
+					"response": []
 				},
-				"url": {
-					"raw": "localhost:8080/convert/",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"convert",
-						""
-					]
+				{
+					"name": "Convert STU3 xml to R4 xml - MedicationStatement",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/fhir+xml; fhirVersion=3.0",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/fhir+xml; fhirVersion=4.0",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<MedicationStatement xmlns=\"http://hl7.org/fhir\">\n    <id value=\"example001\"></id>\n    <text>\n        <status value=\"generated\"></status>\n        <div xmlns=\"http://www.w3.org/1999/xhtml\">\n            <p>\n                <b>Generated Narrative with Details</b>\n            </p>\n            <p>\n                <b>id</b>: example001\n            </p>\n            <p>\n                <b>contained</b>:\n            </p>\n            <p>\n                <b>identifier</b>: 12345689 (OFFICIAL)\n            </p>\n            <p>\n                <b>status</b>: active\n            </p>\n            <p>\n                <b>category</b>: Inpatient\n                <span>(Details : {http://hl7.org/fhir/medication-statement-category code 'inpatient' = 'Inpatient', given as 'Inpatient'})</span>\n            </p>\n            <p>\n                <b>medication</b>: id: med0309; Tylenol PM\n                <span>(Details : {http://hl7.org/fhir/sid/ndc code '50580-506-02' = '50580-506-02', given as 'Tylenol PM'})</span>; isBrand; Film-coated tablet (qualifier value)\n                <span>(Details : {SNOMED CT code '385057009' = 'Film-coated tablet', given as 'Film-coated tablet (qualifier value)'})</span>\n            </p>\n            <p>\n                <b>effective</b>: 23/01/2015\n            </p>\n            <p>\n                <b>dateAsserted</b>: 22/02/2015\n            </p>\n            <p>\n                <b>informationSource</b>:\n                <a>Donald Duck</a>\n            </p>\n            <p>\n                <b>subject</b>:\n                <a>Donald Duck</a>\n            </p>\n            <p>\n                <b>derivedFrom</b>:\n                <a>MedicationRequest/medrx002</a>\n            </p>\n            <p>\n                <b>taken</b>: n\n            </p>\n            <p>\n                <b>reasonCode</b>: Restless Legs\n                <span>(Details : {SNOMED CT code '32914008' = 'Restless legs', given as 'Restless Legs'})</span>\n            </p>\n            <p>\n                <b>note</b>: Patient indicates they miss the occasional dose\n            </p>\n            <p>\n                <b>dosage</b>:\n            </p>\n        </div>\n    </text>\n    <contained>\n        <Medication xmlns=\"http://hl7.org/fhir\">\n            <id value=\"med0309\"></id>\n            <code>\n                <coding>\n                    <system value=\"http://hl7.org/fhir/sid/ndc\"></system>\n                    <code value=\"50580-506-02\"></code>\n                    <display value=\"Tylenol PM\"></display>\n                </coding>\n            </code>\n            <form>\n                <coding>\n                    <system value=\"http://snomed.info/sct\"></system>\n                    <code value=\"385057009\"></code>\n                    <display value=\"Film-coated tablet (qualifier value)\"></display>\n                </coding>\n            </form>\n            <ingredient>\n                <itemCodeableConcept>\n                    <coding>\n                        <system value=\"http://www.nlm.nih.gov/research/umls/rxnorm\"></system>\n                        <code value=\"315266\"></code>\n                        <display value=\"Acetaminophen 500 MG\"></display>\n                    </coding>\n                </itemCodeableConcept>\n                <amount>\n                    <numerator>\n                        <value value=\"500\"></value>\n                        <system value=\"http://unitsofmeasure.org\"></system>\n                        <code value=\"mg\"></code>\n                    </numerator>\n                    <denominator>\n                        <value value=\"1\"></value>\n                        <system value=\"http://hl7.org/fhir/v3/orderableDrugForm\"></system>\n                        <code value=\"Tab\"></code>\n                    </denominator>\n                </amount>\n            </ingredient>\n            <ingredient>\n                <itemCodeableConcept>\n                    <coding>\n                        <system value=\"http://www.nlm.nih.gov/research/umls/rxnorm\"></system>\n                        <code value=\"901813\"></code>\n                        <display value=\"Diphenhydramine Hydrochloride 25 mg\"></display>\n                    </coding>\n                </itemCodeableConcept>\n                <amount>\n                    <numerator>\n                        <value value=\"25\"></value>\n                        <system value=\"http://unitsofmeasure.org\"></system>\n                        <code value=\"mg\"></code>\n                    </numerator>\n                    <denominator>\n                        <value value=\"1\"></value>\n                        <system value=\"http://hl7.org/fhir/v3/orderableDrugForm\"></system>\n                        <code value=\"Tab\"></code>\n                    </denominator>\n                </amount>\n            </ingredient>\n            <package>\n                <batch>\n                    <lotNumber value=\"9494788\"></lotNumber>\n                    <expirationDate value=\"2017-05-22\"></expirationDate>\n                </batch>\n            </package>\n        </Medication>\n    </contained>\n    <identifier>\n        <use value=\"official\"></use>\n        <system value=\"http://www.bmc.nl/portal/medstatements\"></system>\n        <value value=\"12345689\"></value>\n    </identifier>\n    <status value=\"active\"></status>\n    <category>\n        <coding>\n            <system value=\"http://hl7.org/fhir/medication-statement-category\"></system>\n            <code value=\"inpatient\"></code>\n            <display value=\"Inpatient\"></display>\n        </coding>\n    </category>\n    <medicationReference>\n        <reference value=\"#med0309\"></reference>\n    </medicationReference>\n    <effectiveDateTime value=\"2015-01-23\"></effectiveDateTime>\n    <dateAsserted value=\"2015-02-22\"></dateAsserted>\n    <informationSource>\n        <reference value=\"Patient/pat1\"></reference>\n        <display value=\"Donald Duck\"></display>\n    </informationSource>\n    <subject>\n        <reference value=\"Patient/pat1\"></reference>\n        <display value=\"Donald Duck\"></display>\n    </subject>\n    <derivedFrom>\n        <reference value=\"MedicationRequest/medrx002\"></reference>\n    </derivedFrom>\n    <reasonCode>\n        <coding>\n            <system value=\"http://snomed.info/sct\"></system>\n            <code value=\"32914008\"></code>\n            <display value=\"Restless Legs\"></display>\n        </coding>\n    </reasonCode>\n    <note>\n        <text value=\"Patient indicates they miss the occasional dose\"></text>\n    </note>\n    <dosage>\n        <sequence value=\"1\"></sequence>\n        <text value=\"1-2 tablets once daily at bedtime as needed for restless legs\"></text>\n        <additionalInstruction>\n            <text value=\"Taking at bedtime\"></text>\n        </additionalInstruction>\n        <timing>\n            <repeat>\n                <frequency value=\"1\"></frequency>\n                <period value=\"1\"></period>\n                <periodUnit value=\"d\"></periodUnit>\n            </repeat>\n        </timing>\n        <asNeededCodeableConcept>\n            <coding>\n                <system value=\"http://snomed.info/sct\"></system>\n                <code value=\"32914008\"></code>\n                <display value=\"Restless Legs\"></display>\n            </coding>\n        </asNeededCodeableConcept>\n        <route>\n            <coding>\n                <system value=\"http://snomed.info/sct\"></system>\n                <code value=\"26643006\"></code>\n                <display value=\"Oral Route\"></display>\n            </coding>\n        </route>\n        <doseRange>\n            <low>\n                <value value=\"1\"></value>\n                <unit value=\"TAB\"></unit>\n                <system value=\"http://hl7.org/fhir/v3/orderableDrugForm\"></system>\n                <code value=\"TAB\"></code>\n            </low>\n            <high>\n                <value value=\"2\"></value>\n                <unit value=\"TAB\"></unit>\n                <system value=\"http://hl7.org/fhir/v3/orderableDrugForm\"></system>\n                <code value=\"TAB\"></code>\n            </high>\n        </doseRange>\n    </dosage>\n</MedicationStatement>"
+						},
+						"url": {
+							"raw": "localhost:9000/convert/",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"convert",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Convert R4 xml to STU3 xml - MedicationStatement",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/fhir+xml; fhirVersion=4.0",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/fhir+xml; fhirVersion=3.0",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<MedicationStatement xmlns=\"http://hl7.org/fhir\">\n    <id value=\"example001\"></id>\n    <text>\n        <status value=\"generated\"></status>\n        <div xmlns=\"http://www.w3.org/1999/xhtml\">\n            <p>\n                <b>Generated Narrative with Details</b>\n            </p>\n            <p>\n                <b>id</b>: example001\n            </p>\n            <p>\n                <b>contained</b>:\n            </p>\n            <p>\n                <b>identifier</b>: 12345689 (OFFICIAL)\n            </p>\n            <p>\n                <b>status</b>: active\n            </p>\n            <p>\n                <b>category</b>: Inpatient\n                <span>(Details : {http://hl7.org/fhir/medication-statement-category code 'inpatient' = 'Inpatient', given as 'Inpatient'})</span>\n            </p>\n            <p>\n                <b>medication</b>: id: med0309; Tylenol PM\n                <span>(Details : {http://hl7.org/fhir/sid/ndc code '50580-506-02' = '50580-506-02', given as 'Tylenol PM'})</span>; isBrand; Film-coated tablet (qualifier value)\n                <span>(Details : {SNOMED CT code '385057009' = 'Film-coated tablet', given as 'Film-coated tablet (qualifier value)'})</span>\n            </p>\n            <p>\n                <b>effective</b>: 23/01/2015\n            </p>\n            <p>\n                <b>dateAsserted</b>: 22/02/2015\n            </p>\n            <p>\n                <b>informationSource</b>:\n                <a>Donald Duck</a>\n            </p>\n            <p>\n                <b>subject</b>:\n                <a>Donald Duck</a>\n            </p>\n            <p>\n                <b>derivedFrom</b>:\n                <a>MedicationRequest/medrx002</a>\n            </p>\n            <p>\n                <b>taken</b>: n\n            </p>\n            <p>\n                <b>reasonCode</b>: Restless Legs\n                <span>(Details : {SNOMED CT code '32914008' = 'Restless legs', given as 'Restless Legs'})</span>\n            </p>\n            <p>\n                <b>note</b>: Patient indicates they miss the occasional dose\n            </p>\n            <p>\n                <b>dosage</b>:\n            </p>\n        </div>\n    </text>\n    <contained>\n        <Medication xmlns=\"http://hl7.org/fhir\">\n            <id value=\"med0309\"></id>\n            <code>\n                <coding>\n                    <system value=\"http://hl7.org/fhir/sid/ndc\"></system>\n                    <code value=\"50580-506-02\"></code>\n                    <display value=\"Tylenol PM\"></display>\n                </coding>\n            </code>\n            <form>\n                <coding>\n                    <system value=\"http://snomed.info/sct\"></system>\n                    <code value=\"385057009\"></code>\n                    <display value=\"Film-coated tablet (qualifier value)\"></display>\n                </coding>\n            </form>\n            <ingredient>\n                <itemCodeableConcept>\n                    <coding>\n                        <system value=\"http://www.nlm.nih.gov/research/umls/rxnorm\"></system>\n                        <code value=\"315266\"></code>\n                        <display value=\"Acetaminophen 500 MG\"></display>\n                    </coding>\n                </itemCodeableConcept>\n                <strength>\n                    <numerator>\n                        <value value=\"500\"></value>\n                        <system value=\"http://unitsofmeasure.org\"></system>\n                        <code value=\"mg\"></code>\n                    </numerator>\n                    <denominator>\n                        <value value=\"1\"></value>\n                        <system value=\"http://hl7.org/fhir/v3/orderableDrugForm\"></system>\n                        <code value=\"Tab\"></code>\n                    </denominator>\n                </strength>\n            </ingredient>\n            <ingredient>\n                <itemCodeableConcept>\n                    <coding>\n                        <system value=\"http://www.nlm.nih.gov/research/umls/rxnorm\"></system>\n                        <code value=\"901813\"></code>\n                        <display value=\"Diphenhydramine Hydrochloride 25 mg\"></display>\n                    </coding>\n                </itemCodeableConcept>\n                <strength>\n                    <numerator>\n                        <value value=\"25\"></value>\n                        <system value=\"http://unitsofmeasure.org\"></system>\n                        <code value=\"mg\"></code>\n                    </numerator>\n                    <denominator>\n                        <value value=\"1\"></value>\n                        <system value=\"http://hl7.org/fhir/v3/orderableDrugForm\"></system>\n                        <code value=\"Tab\"></code>\n                    </denominator>\n                </strength>\n            </ingredient>\n            <batch>\n                <lotNumber value=\"9494788\"></lotNumber>\n                <expirationDate value=\"2017-05-22\"></expirationDate>\n            </batch>\n        </Medication>\n    </contained>\n    <identifier>\n        <use value=\"official\"></use>\n        <system value=\"http://www.bmc.nl/portal/medstatements\"></system>\n        <value value=\"12345689\"></value>\n    </identifier>\n    <status value=\"active\"></status>\n    <category>\n        <coding>\n            <system value=\"http://hl7.org/fhir/medication-statement-category\"></system>\n            <code value=\"inpatient\"></code>\n            <display value=\"Inpatient\"></display>\n        </coding>\n    </category>\n    <medicationReference>\n        <reference value=\"#med0309\"></reference>\n    </medicationReference>\n    <subject>\n        <reference value=\"Patient/pat1\"></reference>\n        <display value=\"Donald Duck\"></display>\n    </subject>\n    <effectiveDateTime value=\"2015-01-23\"></effectiveDateTime>\n    <dateAsserted value=\"2015-02-22\"></dateAsserted>\n    <informationSource>\n        <reference value=\"Patient/pat1\"></reference>\n        <display value=\"Donald Duck\"></display>\n    </informationSource>\n    <derivedFrom>\n        <reference value=\"MedicationRequest/medrx002\"></reference>\n    </derivedFrom>\n    <reasonCode>\n        <coding>\n            <system value=\"http://snomed.info/sct\"></system>\n            <code value=\"32914008\"></code>\n            <display value=\"Restless Legs\"></display>\n        </coding>\n    </reasonCode>\n    <note>\n        <text value=\"Patient indicates they miss the occasional dose\"></text>\n    </note>\n    <dosage>\n        <sequence value=\"1\"></sequence>\n        <text value=\"1-2 tablets once daily at bedtime as needed for restless legs\"></text>\n        <additionalInstruction>\n            <text value=\"Taking at bedtime\"></text>\n        </additionalInstruction>\n        <timing>\n            <repeat>\n                <frequency value=\"1\"></frequency>\n                <period value=\"1\"></period>\n                <periodUnit value=\"d\"></periodUnit>\n            </repeat>\n        </timing>\n        <asNeededCodeableConcept>\n            <coding>\n                <system value=\"http://snomed.info/sct\"></system>\n                <code value=\"32914008\"></code>\n                <display value=\"Restless Legs\"></display>\n            </coding>\n        </asNeededCodeableConcept>\n        <route>\n            <coding>\n                <system value=\"http://snomed.info/sct\"></system>\n                <code value=\"26643006\"></code>\n                <display value=\"Oral Route\"></display>\n            </coding>\n        </route>\n        <doseAndRate>\n            <doseRange>\n                <low>\n                    <value value=\"1\"></value>\n                    <unit value=\"TAB\"></unit>\n                    <system value=\"http://hl7.org/fhir/v3/orderableDrugForm\"></system>\n                    <code value=\"TAB\"></code>\n                </low>\n                <high>\n                    <value value=\"2\"></value>\n                    <unit value=\"TAB\"></unit>\n                    <system value=\"http://hl7.org/fhir/v3/orderableDrugForm\"></system>\n                    <code value=\"TAB\"></code>\n                </high>\n            </doseRange>\n        </doseAndRate>\n    </dosage>\n</MedicationStatement>"
+						},
+						"url": {
+							"raw": "localhost:9000/convert/",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"convert",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Convert STU3 xml to R4 Json - MedicationStatement",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/fhir+xml; fhirVersion=3.0",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/fhir+json; fhirVersion=4.0",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<MedicationStatement xmlns=\"http://hl7.org/fhir\">\n    <id value=\"example001\"></id>\n    <text>\n        <status value=\"generated\"></status>\n        <div xmlns=\"http://www.w3.org/1999/xhtml\">\n            <p>\n                <b>Generated Narrative with Details</b>\n            </p>\n            <p>\n                <b>id</b>: example001\n            </p>\n            <p>\n                <b>contained</b>:\n            </p>\n            <p>\n                <b>identifier</b>: 12345689 (OFFICIAL)\n            </p>\n            <p>\n                <b>status</b>: active\n            </p>\n            <p>\n                <b>category</b>: Inpatient\n                <span>(Details : {http://hl7.org/fhir/medication-statement-category code 'inpatient' = 'Inpatient', given as 'Inpatient'})</span>\n            </p>\n            <p>\n                <b>medication</b>: id: med0309; Tylenol PM\n                <span>(Details : {http://hl7.org/fhir/sid/ndc code '50580-506-02' = '50580-506-02', given as 'Tylenol PM'})</span>; isBrand; Film-coated tablet (qualifier value)\n                <span>(Details : {SNOMED CT code '385057009' = 'Film-coated tablet', given as 'Film-coated tablet (qualifier value)'})</span>\n            </p>\n            <p>\n                <b>effective</b>: 23/01/2015\n            </p>\n            <p>\n                <b>dateAsserted</b>: 22/02/2015\n            </p>\n            <p>\n                <b>informationSource</b>:\n                <a>Donald Duck</a>\n            </p>\n            <p>\n                <b>subject</b>:\n                <a>Donald Duck</a>\n            </p>\n            <p>\n                <b>derivedFrom</b>:\n                <a>MedicationRequest/medrx002</a>\n            </p>\n            <p>\n                <b>taken</b>: n\n            </p>\n            <p>\n                <b>reasonCode</b>: Restless Legs\n                <span>(Details : {SNOMED CT code '32914008' = 'Restless legs', given as 'Restless Legs'})</span>\n            </p>\n            <p>\n                <b>note</b>: Patient indicates they miss the occasional dose\n            </p>\n            <p>\n                <b>dosage</b>:\n            </p>\n        </div>\n    </text>\n    <contained>\n        <Medication xmlns=\"http://hl7.org/fhir\">\n            <id value=\"med0309\"></id>\n            <code>\n                <coding>\n                    <system value=\"http://hl7.org/fhir/sid/ndc\"></system>\n                    <code value=\"50580-506-02\"></code>\n                    <display value=\"Tylenol PM\"></display>\n                </coding>\n            </code>\n            <form>\n                <coding>\n                    <system value=\"http://snomed.info/sct\"></system>\n                    <code value=\"385057009\"></code>\n                    <display value=\"Film-coated tablet (qualifier value)\"></display>\n                </coding>\n            </form>\n            <ingredient>\n                <itemCodeableConcept>\n                    <coding>\n                        <system value=\"http://www.nlm.nih.gov/research/umls/rxnorm\"></system>\n                        <code value=\"315266\"></code>\n                        <display value=\"Acetaminophen 500 MG\"></display>\n                    </coding>\n                </itemCodeableConcept>\n                <amount>\n                    <numerator>\n                        <value value=\"500\"></value>\n                        <system value=\"http://unitsofmeasure.org\"></system>\n                        <code value=\"mg\"></code>\n                    </numerator>\n                    <denominator>\n                        <value value=\"1\"></value>\n                        <system value=\"http://hl7.org/fhir/v3/orderableDrugForm\"></system>\n                        <code value=\"Tab\"></code>\n                    </denominator>\n                </amount>\n            </ingredient>\n            <ingredient>\n                <itemCodeableConcept>\n                    <coding>\n                        <system value=\"http://www.nlm.nih.gov/research/umls/rxnorm\"></system>\n                        <code value=\"901813\"></code>\n                        <display value=\"Diphenhydramine Hydrochloride 25 mg\"></display>\n                    </coding>\n                </itemCodeableConcept>\n                <amount>\n                    <numerator>\n                        <value value=\"25\"></value>\n                        <system value=\"http://unitsofmeasure.org\"></system>\n                        <code value=\"mg\"></code>\n                    </numerator>\n                    <denominator>\n                        <value value=\"1\"></value>\n                        <system value=\"http://hl7.org/fhir/v3/orderableDrugForm\"></system>\n                        <code value=\"Tab\"></code>\n                    </denominator>\n                </amount>\n            </ingredient>\n            <package>\n                <batch>\n                    <lotNumber value=\"9494788\"></lotNumber>\n                    <expirationDate value=\"2017-05-22\"></expirationDate>\n                </batch>\n            </package>\n        </Medication>\n    </contained>\n    <identifier>\n        <use value=\"official\"></use>\n        <system value=\"http://www.bmc.nl/portal/medstatements\"></system>\n        <value value=\"12345689\"></value>\n    </identifier>\n    <status value=\"active\"></status>\n    <category>\n        <coding>\n            <system value=\"http://hl7.org/fhir/medication-statement-category\"></system>\n            <code value=\"inpatient\"></code>\n            <display value=\"Inpatient\"></display>\n        </coding>\n    </category>\n    <medicationReference>\n        <reference value=\"#med0309\"></reference>\n    </medicationReference>\n    <effectiveDateTime value=\"2015-01-23\"></effectiveDateTime>\n    <dateAsserted value=\"2015-02-22\"></dateAsserted>\n    <informationSource>\n        <reference value=\"Patient/pat1\"></reference>\n        <display value=\"Donald Duck\"></display>\n    </informationSource>\n    <subject>\n        <reference value=\"Patient/pat1\"></reference>\n        <display value=\"Donald Duck\"></display>\n    </subject>\n    <derivedFrom>\n        <reference value=\"MedicationRequest/medrx002\"></reference>\n    </derivedFrom>\n    <reasonCode>\n        <coding>\n            <system value=\"http://snomed.info/sct\"></system>\n            <code value=\"32914008\"></code>\n            <display value=\"Restless Legs\"></display>\n        </coding>\n    </reasonCode>\n    <note>\n        <text value=\"Patient indicates they miss the occasional dose\"></text>\n    </note>\n    <dosage>\n        <sequence value=\"1\"></sequence>\n        <text value=\"1-2 tablets once daily at bedtime as needed for restless legs\"></text>\n        <additionalInstruction>\n            <text value=\"Taking at bedtime\"></text>\n        </additionalInstruction>\n        <timing>\n            <repeat>\n                <frequency value=\"1\"></frequency>\n                <period value=\"1\"></period>\n                <periodUnit value=\"d\"></periodUnit>\n            </repeat>\n        </timing>\n        <asNeededCodeableConcept>\n            <coding>\n                <system value=\"http://snomed.info/sct\"></system>\n                <code value=\"32914008\"></code>\n                <display value=\"Restless Legs\"></display>\n            </coding>\n        </asNeededCodeableConcept>\n        <route>\n            <coding>\n                <system value=\"http://snomed.info/sct\"></system>\n                <code value=\"26643006\"></code>\n                <display value=\"Oral Route\"></display>\n            </coding>\n        </route>\n        <doseRange>\n            <low>\n                <value value=\"1\"></value>\n                <unit value=\"TAB\"></unit>\n                <system value=\"http://hl7.org/fhir/v3/orderableDrugForm\"></system>\n                <code value=\"TAB\"></code>\n            </low>\n            <high>\n                <value value=\"2\"></value>\n                <unit value=\"TAB\"></unit>\n                <system value=\"http://hl7.org/fhir/v3/orderableDrugForm\"></system>\n                <code value=\"TAB\"></code>\n            </high>\n        </doseRange>\n    </dosage>\n</MedicationStatement>"
+						},
+						"url": {
+							"raw": "localhost:9000/convert/",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"convert",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Convert STU3 xml to STU3 json - MedicationStatement",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/fhir+xml; fhirVersion=3.0",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/fhir+json; fhirVersion=3.0",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<MedicationStatement xmlns=\"http://hl7.org/fhir\">\n    <id value=\"example001\"></id>\n    <text>\n        <status value=\"generated\"></status>\n        <div xmlns=\"http://www.w3.org/1999/xhtml\">\n            <p>\n                <b>Generated Narrative with Details</b>\n            </p>\n            <p>\n                <b>id</b>: example001\n            </p>\n            <p>\n                <b>contained</b>:\n            </p>\n            <p>\n                <b>identifier</b>: 12345689 (OFFICIAL)\n            </p>\n            <p>\n                <b>status</b>: active\n            </p>\n            <p>\n                <b>category</b>: Inpatient\n                <span>(Details : {http://hl7.org/fhir/medication-statement-category code 'inpatient' = 'Inpatient', given as 'Inpatient'})</span>\n            </p>\n            <p>\n                <b>medication</b>: id: med0309; Tylenol PM\n                <span>(Details : {http://hl7.org/fhir/sid/ndc code '50580-506-02' = '50580-506-02', given as 'Tylenol PM'})</span>; isBrand; Film-coated tablet (qualifier value)\n                <span>(Details : {SNOMED CT code '385057009' = 'Film-coated tablet', given as 'Film-coated tablet (qualifier value)'})</span>\n            </p>\n            <p>\n                <b>effective</b>: 23/01/2015\n            </p>\n            <p>\n                <b>dateAsserted</b>: 22/02/2015\n            </p>\n            <p>\n                <b>informationSource</b>:\n                <a>Donald Duck</a>\n            </p>\n            <p>\n                <b>subject</b>:\n                <a>Donald Duck</a>\n            </p>\n            <p>\n                <b>derivedFrom</b>:\n                <a>MedicationRequest/medrx002</a>\n            </p>\n            <p>\n                <b>taken</b>: n\n            </p>\n            <p>\n                <b>reasonCode</b>: Restless Legs\n                <span>(Details : {SNOMED CT code '32914008' = 'Restless legs', given as 'Restless Legs'})</span>\n            </p>\n            <p>\n                <b>note</b>: Patient indicates they miss the occasional dose\n            </p>\n            <p>\n                <b>dosage</b>:\n            </p>\n        </div>\n    </text>\n    <contained>\n        <Medication xmlns=\"http://hl7.org/fhir\">\n            <id value=\"med0309\"></id>\n            <code>\n                <coding>\n                    <system value=\"http://hl7.org/fhir/sid/ndc\"></system>\n                    <code value=\"50580-506-02\"></code>\n                    <display value=\"Tylenol PM\"></display>\n                </coding>\n            </code>\n            <form>\n                <coding>\n                    <system value=\"http://snomed.info/sct\"></system>\n                    <code value=\"385057009\"></code>\n                    <display value=\"Film-coated tablet (qualifier value)\"></display>\n                </coding>\n            </form>\n            <ingredient>\n                <itemCodeableConcept>\n                    <coding>\n                        <system value=\"http://www.nlm.nih.gov/research/umls/rxnorm\"></system>\n                        <code value=\"315266\"></code>\n                        <display value=\"Acetaminophen 500 MG\"></display>\n                    </coding>\n                </itemCodeableConcept>\n                <amount>\n                    <numerator>\n                        <value value=\"500\"></value>\n                        <system value=\"http://unitsofmeasure.org\"></system>\n                        <code value=\"mg\"></code>\n                    </numerator>\n                    <denominator>\n                        <value value=\"1\"></value>\n                        <system value=\"http://hl7.org/fhir/v3/orderableDrugForm\"></system>\n                        <code value=\"Tab\"></code>\n                    </denominator>\n                </amount>\n            </ingredient>\n            <ingredient>\n                <itemCodeableConcept>\n                    <coding>\n                        <system value=\"http://www.nlm.nih.gov/research/umls/rxnorm\"></system>\n                        <code value=\"901813\"></code>\n                        <display value=\"Diphenhydramine Hydrochloride 25 mg\"></display>\n                    </coding>\n                </itemCodeableConcept>\n                <amount>\n                    <numerator>\n                        <value value=\"25\"></value>\n                        <system value=\"http://unitsofmeasure.org\"></system>\n                        <code value=\"mg\"></code>\n                    </numerator>\n                    <denominator>\n                        <value value=\"1\"></value>\n                        <system value=\"http://hl7.org/fhir/v3/orderableDrugForm\"></system>\n                        <code value=\"Tab\"></code>\n                    </denominator>\n                </amount>\n            </ingredient>\n            <package>\n                <batch>\n                    <lotNumber value=\"9494788\"></lotNumber>\n                    <expirationDate value=\"2017-05-22\"></expirationDate>\n                </batch>\n            </package>\n        </Medication>\n    </contained>\n    <identifier>\n        <use value=\"official\"></use>\n        <system value=\"http://www.bmc.nl/portal/medstatements\"></system>\n        <value value=\"12345689\"></value>\n    </identifier>\n    <status value=\"active\"></status>\n    <category>\n        <coding>\n            <system value=\"http://hl7.org/fhir/medication-statement-category\"></system>\n            <code value=\"inpatient\"></code>\n            <display value=\"Inpatient\"></display>\n        </coding>\n    </category>\n    <medicationReference>\n        <reference value=\"#med0309\"></reference>\n    </medicationReference>\n    <effectiveDateTime value=\"2015-01-23\"></effectiveDateTime>\n    <dateAsserted value=\"2015-02-22\"></dateAsserted>\n    <informationSource>\n        <reference value=\"Patient/pat1\"></reference>\n        <display value=\"Donald Duck\"></display>\n    </informationSource>\n    <subject>\n        <reference value=\"Patient/pat1\"></reference>\n        <display value=\"Donald Duck\"></display>\n    </subject>\n    <derivedFrom>\n        <reference value=\"MedicationRequest/medrx002\"></reference>\n    </derivedFrom>\n    <reasonCode>\n        <coding>\n            <system value=\"http://snomed.info/sct\"></system>\n            <code value=\"32914008\"></code>\n            <display value=\"Restless Legs\"></display>\n        </coding>\n    </reasonCode>\n    <note>\n        <text value=\"Patient indicates they miss the occasional dose\"></text>\n    </note>\n    <dosage>\n        <sequence value=\"1\"></sequence>\n        <text value=\"1-2 tablets once daily at bedtime as needed for restless legs\"></text>\n        <additionalInstruction>\n            <text value=\"Taking at bedtime\"></text>\n        </additionalInstruction>\n        <timing>\n            <repeat>\n                <frequency value=\"1\"></frequency>\n                <period value=\"1\"></period>\n                <periodUnit value=\"d\"></periodUnit>\n            </repeat>\n        </timing>\n        <asNeededCodeableConcept>\n            <coding>\n                <system value=\"http://snomed.info/sct\"></system>\n                <code value=\"32914008\"></code>\n                <display value=\"Restless Legs\"></display>\n            </coding>\n        </asNeededCodeableConcept>\n        <route>\n            <coding>\n                <system value=\"http://snomed.info/sct\"></system>\n                <code value=\"26643006\"></code>\n                <display value=\"Oral Route\"></display>\n            </coding>\n        </route>\n        <doseRange>\n            <low>\n                <value value=\"1\"></value>\n                <unit value=\"TAB\"></unit>\n                <system value=\"http://hl7.org/fhir/v3/orderableDrugForm\"></system>\n                <code value=\"TAB\"></code>\n            </low>\n            <high>\n                <value value=\"2\"></value>\n                <unit value=\"TAB\"></unit>\n                <system value=\"http://hl7.org/fhir/v3/orderableDrugForm\"></system>\n                <code value=\"TAB\"></code>\n            </high>\n        </doseRange>\n    </dosage>\n</MedicationStatement>"
+						},
+						"url": {
+							"raw": "localhost:9000/convert/",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"convert",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Convert STU3 xml to R4 xml - MedicationStatement Copy",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/fhir+xml; fhirVersion=3.0",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/fhir+xml; fhirVersion=4.0",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<MedicationStatement xmlns=\"http://hl7.org/fhir\">\n    <id value=\"example001\"></id>\n    <text>\n        <status value=\"generated\"></status>\n        <div xmlns=\"http://www.w3.org/1999/xhtml\">\n            <p>\n                <b>Generated Narrative with Details</b>\n            </p>\n            <p>\n                <b>id</b>: example001\n            </p>\n            <p>\n                <b>contained</b>:\n            </p>\n            <p>\n                <b>identifier</b>: 12345689 (OFFICIAL)\n            </p>\n            <p>\n                <b>status</b>: active\n            </p>\n            <p>\n                <b>category</b>: Inpatient\n                <span>(Details : {http://hl7.org/fhir/medication-statement-category code 'inpatient' = 'Inpatient', given as 'Inpatient'})</span>\n            </p>\n            <p>\n                <b>medication</b>: id: med0309; Tylenol PM\n                <span>(Details : {http://hl7.org/fhir/sid/ndc code '50580-506-02' = '50580-506-02', given as 'Tylenol PM'})</span>; isBrand; Film-coated tablet (qualifier value)\n                <span>(Details : {SNOMED CT code '385057009' = 'Film-coated tablet', given as 'Film-coated tablet (qualifier value)'})</span>\n            </p>\n            <p>\n                <b>effective</b>: 23/01/2015\n            </p>\n            <p>\n                <b>dateAsserted</b>: 22/02/2015\n            </p>\n            <p>\n                <b>informationSource</b>:\n                <a>Donald Duck</a>\n            </p>\n            <p>\n                <b>subject</b>:\n                <a>Donald Duck</a>\n            </p>\n            <p>\n                <b>derivedFrom</b>:\n                <a>MedicationRequest/medrx002</a>\n            </p>\n            <p>\n                <b>taken</b>: n\n            </p>\n            <p>\n                <b>reasonCode</b>: Restless Legs\n                <span>(Details : {SNOMED CT code '32914008' = 'Restless legs', given as 'Restless Legs'})</span>\n            </p>\n            <p>\n                <b>note</b>: Patient indicates they miss the occasional dose\n            </p>\n            <p>\n                <b>dosage</b>:\n            </p>\n        </div>\n    </text>\n    <contained>\n        <Medication xmlns=\"http://hl7.org/fhir\">\n            <id value=\"med0309\"></id>\n            <code>\n                <coding>\n                    <system value=\"http://hl7.org/fhir/sid/ndc\"></system>\n                    <code value=\"50580-506-02\"></code>\n                    <display value=\"Tylenol PM\"></display>\n                </coding>\n            </code>\n            <form>\n                <coding>\n                    <system value=\"http://snomed.info/sct\"></system>\n                    <code value=\"385057009\"></code>\n                    <display value=\"Film-coated tablet (qualifier value)\"></display>\n                </coding>\n            </form>\n            <ingredient>\n                <itemCodeableConcept>\n                    <coding>\n                        <system value=\"http://www.nlm.nih.gov/research/umls/rxnorm\"></system>\n                        <code value=\"315266\"></code>\n                        <display value=\"Acetaminophen 500 MG\"></display>\n                    </coding>\n                </itemCodeableConcept>\n                <amount>\n                    <numerator>\n                        <value value=\"500\"></value>\n                        <system value=\"http://unitsofmeasure.org\"></system>\n                        <code value=\"mg\"></code>\n                    </numerator>\n                    <denominator>\n                        <value value=\"1\"></value>\n                        <system value=\"http://hl7.org/fhir/v3/orderableDrugForm\"></system>\n                        <code value=\"Tab\"></code>\n                    </denominator>\n                </amount>\n            </ingredient>\n            <ingredient>\n                <itemCodeableConcept>\n                    <coding>\n                        <system value=\"http://www.nlm.nih.gov/research/umls/rxnorm\"></system>\n                        <code value=\"901813\"></code>\n                        <display value=\"Diphenhydramine Hydrochloride 25 mg\"></display>\n                    </coding>\n                </itemCodeableConcept>\n                <amount>\n                    <numerator>\n                        <value value=\"25\"></value>\n                        <system value=\"http://unitsofmeasure.org\"></system>\n                        <code value=\"mg\"></code>\n                    </numerator>\n                    <denominator>\n                        <value value=\"1\"></value>\n                        <system value=\"http://hl7.org/fhir/v3/orderableDrugForm\"></system>\n                        <code value=\"Tab\"></code>\n                    </denominator>\n                </amount>\n            </ingredient>\n            <package>\n                <batch>\n                    <lotNumber value=\"9494788\"></lotNumber>\n                    <expirationDate value=\"2017-05-22\"></expirationDate>\n                </batch>\n            </package>\n        </Medication>\n    </contained>\n    <identifier>\n        <use value=\"official\"></use>\n        <system value=\"http://www.bmc.nl/portal/medstatements\"></system>\n        <value value=\"12345689\"></value>\n    </identifier>\n    <status value=\"active\"></status>\n    <category>\n        <coding>\n            <system value=\"http://hl7.org/fhir/medication-statement-category\"></system>\n            <code value=\"inpatient\"></code>\n            <display value=\"Inpatient\"></display>\n        </coding>\n    </category>\n    <medicationReference>\n        <reference value=\"#med0309\"></reference>\n    </medicationReference>\n    <effectiveDateTime value=\"2015-01-23\"></effectiveDateTime>\n    <dateAsserted value=\"2015-02-22\"></dateAsserted>\n    <informationSource>\n        <reference value=\"Patient/pat1\"></reference>\n        <display value=\"Donald Duck\"></display>\n    </informationSource>\n    <subject>\n        <reference value=\"Patient/pat1\"></reference>\n        <display value=\"Donald Duck\"></display>\n    </subject>\n    <derivedFrom>\n        <reference value=\"MedicationRequest/medrx002\"></reference>\n    </derivedFrom>\n    <reasonCode>\n        <coding>\n            <system value=\"http://snomed.info/sct\"></system>\n            <code value=\"32914008\"></code>\n            <display value=\"Restless Legs\"></display>\n        </coding>\n    </reasonCode>\n    <note>\n        <text value=\"Patient indicates they miss the occasional dose\"></text>\n    </note>\n    <dosage>\n        <sequence value=\"1\"></sequence>\n        <text value=\"1-2 tablets once daily at bedtime as needed for restless legs\"></text>\n        <additionalInstruction>\n            <text value=\"Taking at bedtime\"></text>\n        </additionalInstruction>\n        <timing>\n            <repeat>\n                <frequency value=\"1\"></frequency>\n                <period value=\"1\"></period>\n                <periodUnit value=\"d\"></periodUnit>\n            </repeat>\n        </timing>\n        <asNeededCodeableConcept>\n            <coding>\n                <system value=\"http://snomed.info/sct\"></system>\n                <code value=\"32914008\"></code>\n                <display value=\"Restless Legs\"></display>\n            </coding>\n        </asNeededCodeableConcept>\n        <route>\n            <coding>\n                <system value=\"http://snomed.info/sct\"></system>\n                <code value=\"26643006\"></code>\n                <display value=\"Oral Route\"></display>\n            </coding>\n        </route>\n        <doseRange>\n            <low>\n                <value value=\"1\"></value>\n                <unit value=\"TAB\"></unit>\n                <system value=\"http://hl7.org/fhir/v3/orderableDrugForm\"></system>\n                <code value=\"TAB\"></code>\n            </low>\n            <high>\n                <value value=\"2\"></value>\n                <unit value=\"TAB\"></unit>\n                <system value=\"http://hl7.org/fhir/v3/orderableDrugForm\"></system>\n                <code value=\"TAB\"></code>\n            </high>\n        </doseRange>\n    </dosage>\n</MedicationStatement>"
+						},
+						"url": {
+							"raw": "localhost:9000/convert/",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"convert",
+								""
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		}
 	]
 }
