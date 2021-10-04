@@ -25,6 +25,7 @@
       </Step>
       <Step>
         <Name>OauthV2.VerifyAccessToken</Name>
+        <Condition>proxy.pathsuffix Not Matches "/_status"</Condition>
       </Step>
       <Step>
         <Name>Quota</Name>
