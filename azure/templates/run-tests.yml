@@ -13,9 +13,9 @@ steps:
    parameters:
     secret_file_ids:
      - ptl/app-credentials/jwt_testing/non-prod/JWT_TESTING_PRIVATE_KEY
- #     secret_ids:
- #      - ptl/app-credentials/fhir-converter/non-prod/CLIENT_ID_INT
- #      - ptl/app-credentials/fhir-converter/non-prod/CLIENT_SECRET_INT
+    secret_ids:
+     - ptl/app-credentials/fhir-converter/non-prod/CLIENT_ID_INT
+     - ptl/app-credentials/fhir-converter/non-prod/CLIENT_SECRET_INT
 
  - bash: |
     export RELEASE_RELEASEID=$(Build.BuildId)
@@ -23,8 +23,8 @@ steps:
     export PR_NO=$(echo "${FULLY_QUALIFIED_SERVICE_NAME}" | grep -P '(-pr-\d+$)' -o | grep -P '(\d+)' -o)
     export APIGEE_ENVIRONMENT="$(ENVIRONMENT)"
 
-    #export DEFAULT_CLIENT_ID="$(CLIENT_ID_INT)"
-    #export DEFAULT_CLIENT_SECRET="$(CLIENT_SECRET_INT)"
+    export DEFAULT_CLIENT_ID="$(CLIENT_ID_INT)"
+    export DEFAULT_CLIENT_SECRET="$(CLIENT_SECRET_INT)"
     export DEFAULT_CALLBACK_URL="https://nhsd-apim-testing-$(ENVIRONMENT).herokuapp.com/callback"
 
     export APIGEE_API_TOKEN="$(secret.AccessToken)"
