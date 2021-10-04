@@ -36,7 +36,7 @@ format:
 build-proxy:
 	scripts/build_proxy.sh
 
-_dist_include="pytest.ini poetry.lock poetry.toml pyproject.toml Makefile build/. tests"
+_dist_include="pytest.ini poetry.lock poetry.toml pyproject.toml Makefile build/. tests specification"
 
 release: clean publish build-proxy
 	mkdir -p dist

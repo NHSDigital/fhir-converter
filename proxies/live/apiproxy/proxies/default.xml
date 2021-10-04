@@ -62,9 +62,4 @@
   <RouteRule name="fhir-converter-target">
     <TargetEndpoint>fhir-converter-target</TargetEndpoint>
   </RouteRule>
-  <DefaultFaultRule>
-    <Step>
-      <Name>AssignMessage.Errors.CatchAllMessage</Name>
-    </Step>
-  </DefaultFaultRule>
 </ProxyEndpoint>
