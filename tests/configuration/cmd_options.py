@@ -93,12 +93,12 @@ def __validate_options(cmd_options):
     #  For certain environments we can't use apigee token. For those, user must provide information about default app
     apigee_api_permitted_envs = ['internal-dev', 'internal-qa', 'internal-dev-sandbox']
     if current_env not in apigee_api_permitted_envs:
-        client_id = cmd_options["--client-id"]
-        client_secret = cmd_options["--client-secret"]
+        client_id = cmd_options["--default-client-id"]
+        client_secret = cmd_options["--default-client-secret"]
         callback_url = cmd_options["--default-callback-url"]
         if not (client_id and client_secret and callback_url):
             raise Exception(
-                f"These options: --client-id, --client-secret and --default-callback-url "
+                f"These options: --default-client-id, --default-client-secret and --default-callback-url "
                 f"are required for environment: {current_env}")
 
     # internal-dev-sandbox environment is only allowed for pull requests, so --pr-no becomes mandatory
