@@ -94,7 +94,7 @@ def __validate_options(cmd_options):
     apigee_api_permitted_envs = ['internal-dev', 'internal-qa', 'internal-dev-sandbox']
     if current_env not in apigee_api_permitted_envs:
         client_id = cmd_options["--default-client-id"]
-        client_secret = cmd_options["--client-secret"]
+        client_secret = cmd_options["--default-client-secret"]
         callback_url = cmd_options["--default-callback-url"]
         if not (client_id and client_secret and callback_url):
             raise Exception(
