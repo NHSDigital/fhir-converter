@@ -8,117 +8,89 @@ x-meta:
   product_description: "This proxy function as a converter from FHIR R4 to STU3 and vice versa"
   pipeline_name_prefix: "FHIR-Converter"
 info:
-  version: 1.0.0
-  title: Transformation Engine Spec
-  license:
-    name: MIT
+  version: "{VERSION}"
+  title: FHIR Converter
+  description: |
+    ## Overview
+    This proxy function as a converter from FHIR R4 to STU3 and vice versa
   contact:
+    name: FHIR Converter
+    url: 'https://digital.nhs.uk/developer/help-and-support'
     email: api.management@nhs.net
-tags:
-  - name: api
-  - name: example
 servers:
-  - url: http://petstore.swagger.io
+  - url: 'https://sandbox.api.service.nhs.uk/fhir-converter'
+    description: Sandbox environment.
+  - url: 'https://int.api.service.nhs.uk/fhir-converter'
+    description: Integration test environment.
+  - url: 'https://api.service.nhs.uk/fhir-converter'
+    description: 'Production environment.'
+tags:
+  - name: FHIR Converter
 paths:
-  /pets:
-    get:
-      summary: List all pets
-      operationId: listPets
-      tags:
-        - pets
-      parameters:
-        - name: limit
-          in: query
-          description: How many items to return at one time (max 100)
-          required: false
-          schema:
-            type: integer
-            format: int32
-      responses:
-        '200':
-          description: A paged array of pets
-          headers:
-            x-next:
-              description: A link to the next page of responses
-              schema:
-                type: string
-          content:
-            application/json:   
-              schema:
-                $ref: "#/components/schemas/Pets"
-        default:
-          description: unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
+  '/convert':
     post:
-      summary: Create a pet
-      operationId: createPets
-      tags:
-        - pets
-      responses:
-        '201':
-          description: Null response
-        default:
-          description: unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
-  /pets/{petId}:
-    get:
-      summary: Info for a specific pet
-      operationId: showPetById
-      tags:
-        - pets
-      parameters:
-        - name: petId
-          in: path
-          required: true
-          description: The id of the pet to retrieve
-          schema:
-            type: string
+      summary: Convert FHIR payload
+      operationId: convert
+      requestBody:
+        content:
+          'application/fhir+json; fhirVersion=3.0':
+            examples:
+              Successful:
+                summary: STU3 JSON payload
+                value:
+                  $ref: "components/examples/MedicationRequest/stu3.json"
+          'application/fhir+xml; fhirVersion=3.0':
+            examples:
+              Successful:
+                summary: STU3 XML payload
+                value:
+                  $ref: "components/examples/MedicationRequest/stu3.xml"
+          'application/fhir+json; fhirVersion=4.0':
+            examples:
+              Successful:
+                summary: R4 JSON payload
+                value:
+                  $ref: "components/examples/MedicationRequest/r4.json"
+          'application/fhir+xml; fhirVersion=4.0':
+            examples:
+              Successful:
+                summary: R4 XML payload
+                value:
+                  $ref: "components/examples/MedicationRequest/r4.xml"
       responses:
         '200':
-          description: Expected response to a valid request
+          description: Successful convertion
           content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Pet"
-        default:
-          description: unexpected error
+            'application/fhir+json; fhirVersion=3.0':
+              examples:
+                Successful:
+                  summary: STU3 JSON response
+                  value:
+                    $ref: "components/examples/MedicationRequest/stu3.json"
+            'application/fhir+xml; fhirVersion=3.0':
+              examples:
+                Successful:
+                  summary: STU3 XML response
+                  value:
+                    $ref: "components/examples/MedicationRequest/stu3.xml"
+            'application/fhir+json; fhirVersion=4.0':
+              examples:
+                Successful:
+                  summary: R4 JSON response
+                  value:
+                    $ref: "components/examples/MedicationRequest/r4.json"
+            'application/fhir+xml; fhirVersion=4.0':
+              examples:
+                Successful:
+                  summary: R4 XML response
+                  value:
+                    $ref: "components/examples/MedicationRequest/r4.xml"
+        '400':
+          description: Invalid request
           content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
-components:
-  schemas:
-    Pet:
-      type: object
-      required:
-        - id
-        - name
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        tag:
-          type: string
-    Pets:
-      type: array
-      items:
-        $ref: "#/components/schemas/Pet"
-    Error:
-      type: object
-      required:
-        - code
-        - message
-      properties:
-        code:
-          type: integer
-          format: int32
-        message:
-          type: string
+            'application/fhir+json; fhirVersion=4.0':
+              examples:
+                'Invalid or missing header':
+                  summary: Invalid or missing header error
+                  value:
+                    $ref: "components/examples/400.json"
