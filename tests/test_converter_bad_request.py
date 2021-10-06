@@ -19,7 +19,7 @@ class TestConverterBadRequest:
     ])
     def test_converter_invalid_accept_header(self, url, token, accept):
         # Given
-        stu3_payload = load_example("stu3.json")
+        stu3_payload = load_example("MedicationRequest/stu3.json")
         headers = {
             "Authorization": f"Bearer {token}",
             "Content-Type": "application/fhir+json; fhirVersion=3.0",
@@ -36,7 +36,7 @@ class TestConverterBadRequest:
 
     def test_converter_missing_accept_header(self, url, token):
         # Given
-        stu3_payload = load_example("stu3.json")
+        stu3_payload = load_example("MedicationRequest/stu3.json")
         headers = {
             "Authorization": f"Bearer {token}",
             "Content-Type": "application/fhir+json; fhirVersion=3.0",
@@ -52,11 +52,12 @@ class TestConverterBadRequest:
     @pytest.mark.parametrize("content_type", [
         # "application/fhir+json; fhirVersion=3.0" <-- valid header
         "application/fhir+json; fhirVersion=2.0",
-        # "application/json; fhirVersion=5.0",
+        "application/json; fhirVersion=3.0",
+        "application/fhir+json; fhirVersion=5.0"
     ])
     def test_converter_invalid_content_type_header(self, url, token, content_type):
         # Given
-        stu3_payload = load_example("stu3.json")
+        stu3_payload = load_example("MedicationRequest/stu3.json")
         headers = {
             "Authorization": f"Bearer {token}",
             "Content-Type": content_type,
@@ -72,7 +73,7 @@ class TestConverterBadRequest:
 
     def test_converter_missing_content_type_header(self, url, token):
         # Given
-        stu3_payload = load_example("stu3.json")
+        stu3_payload = load_example("MedicationRequest/stu3.json")
         headers = {
             "Authorization": f"Bearer {token}",
             "Accept": "application/fhir+json; fhirVersion=4.0"
