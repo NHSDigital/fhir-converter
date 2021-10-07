@@ -30,7 +30,7 @@ class ConversionServiceTest {
     @InjectMocks
     private ConversionService fileConversionService;
 
-    private String medicationRequest_staticR4Json, medicationRequest_staticR3Json, medicationRequest_staticR3Xml, medicationRequest_staticR4Xml,
+    private String medicationRequest_staticR4Json, medicationRequest_staticR3Json,
         medicationStatement_staticR4Json, medicationStatement_staticR3Json, medicationStatement_staticR3Xml;
 
     @BeforeEach
@@ -39,10 +39,6 @@ class ConversionServiceTest {
         try {
             medicationRequest_staticR4Json = FileUtils.readFileToString(new File("src/test/resources/R4Medicationrequestexample.json"), StandardCharsets.UTF_8);
             medicationRequest_staticR3Json = FileUtils.readFileToString(new File("src/test/resources/STU3_MedRequest.json"), StandardCharsets.UTF_8);
-
-            medicationRequest_staticR3Xml = FileUtils.readFileToString(new File("src/test/resources/R3_MedicationRequest.xml"), StandardCharsets.UTF_8);
-            medicationRequest_staticR4Xml = FileUtils.readFileToString(new File("src/test/resources/R4_MedicationRequest.xml"), StandardCharsets.UTF_8);
-
 
             medicationStatement_staticR4Json = FileUtils.readFileToString(new File("src/test/resources/R4_MedicationStatement.json"), StandardCharsets.UTF_8);
             medicationStatement_staticR3Json = FileUtils.readFileToString(new File("src/test/resources/R3_MedicationStatement.json"), StandardCharsets.UTF_8);

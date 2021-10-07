@@ -1,9 +1,9 @@
 package nhsd.fhir.transformationenginepoc.controller;
 
-import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 import nhsd.fhir.transformationenginepoc.service.ConversionService;
 import org.apache.logging.log4j.util.Strings;
+import org.json.JSONObject;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -51,8 +51,7 @@ public class ConversionController {
 
         if (mediaTypeIn.getType().equals("json")) {
             try {
-                JsonParser parser = new JsonParser();
-                parser.parse(fhirSchema);
+                new JSONObject(fhirSchema);
             } catch (JsonSyntaxException jse) {
                 return ResponseEntity.badRequest()
                     .contentType(MediaType.APPLICATION_JSON)

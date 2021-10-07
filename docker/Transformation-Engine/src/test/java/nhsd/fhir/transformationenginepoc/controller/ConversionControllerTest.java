@@ -42,7 +42,7 @@ class ConversionControllerTest {
     }
 
     @Test
-    public void callConverterToConvert_R3_to_R4_json_json() throws Exception {
+    public void callConverterToConvert_R3_to_R4_json_json() {
         //given
         when(conversionService.convertFhirSchema(anyString(), anyString(), anyObject(), anyObject(), anyString())).thenReturn(staticR4Json);
 
@@ -55,7 +55,7 @@ class ConversionControllerTest {
     }
 
     @Test
-    public void callConverterToConvert_R4_to_R3_json_json() throws Exception {
+    public void callConverterToConvert_R4_to_R3_json_json() {
         //given
         when(conversionService.convertFhirSchema(anyString(), anyString(), anyObject(), anyObject(), anyString())).thenReturn(staticR3Json);
 

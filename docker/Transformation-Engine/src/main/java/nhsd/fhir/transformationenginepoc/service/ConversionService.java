@@ -4,7 +4,6 @@ import ca.uhn.fhir.context.FhirVersionEnum;
 import nhsd.fhir.transformationenginepoc.service.transformers.MedicationRequestTransformer;
 import nhsd.fhir.transformationenginepoc.service.transformers.MedicationStatementTransformer;
 import nhsd.fhir.transformationenginepoc.service.transformers.Transformer;
-import org.apache.logging.log4j.util.Strings;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.http.MediaType;
@@ -74,12 +73,6 @@ public class ConversionService {
 
 
     private FhirVersionEnum getFhirVerion(final String version) {
-
-        switch (version) {
-            case "3.0":
-                return FhirVersionEnum.DSTU3;
-            default:
-                return FhirVersionEnum.R4;
-        }
+        return "3.0".equals(version) ? FhirVersionEnum.DSTU3 : FhirVersionEnum.R4;
     }
 }
