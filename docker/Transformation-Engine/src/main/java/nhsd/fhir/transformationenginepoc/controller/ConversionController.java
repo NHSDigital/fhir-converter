@@ -4,7 +4,6 @@ import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 import nhsd.fhir.transformationenginepoc.service.ConversionService;
 import org.apache.logging.log4j.util.Strings;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -23,9 +22,11 @@ import java.io.StringReader;
 @RequestMapping(value = "/convert")
 public class ConversionController {
 
+    private final ConversionService fileConversionService;
 
-    @Autowired
-    private ConversionService fileConversionService;
+    public ConversionController(ConversionService conversionService) {
+        this.fileConversionService = conversionService;
+    }
 
     @PostMapping(consumes = MediaType.ALL_VALUE)
     public ResponseEntity<?> convert(@RequestHeader("Content-Type") final String content_type,
