@@ -77,7 +77,7 @@ class MedicationStatementTransformerTest {
     }
 
     @Test
-    public void convert_MedicationStatement_from_STU3_to_R4_Xml_to_Json() throws JSONException {
+    public void convert_MedicationStatement_from_STU3_Xml_to_R4_Json() throws JSONException {
         //given
         //init mocks
         //when
@@ -93,7 +93,7 @@ class MedicationStatementTransformerTest {
     }
 
     @Test
-    public void convert_MedicationStatement_from_R4_to_STU3_Xml_to_Json() throws JSONException {
+    public void convert_MedicationStatement_from_R4_Xml_to_STU3_Json() throws JSONException {
         //given
         //init mocks
         //when
