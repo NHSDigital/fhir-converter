@@ -1,4 +1,4 @@
-openapi: "3.0.0"
+openapi: 3.0.0
 x-nhs-api-spec-guid: c488b99d-f9df-481b-a903-f16cab4855a6
 x-meta:
   service_name: "fhir-converter"
@@ -15,82 +15,82 @@ info:
     This proxy function as a converter from FHIR R4 to STU3 and vice versa
   contact:
     name: FHIR Converter
-    url: 'https://digital.nhs.uk/developer/help-and-support'
+    url: "https://digital.nhs.uk/developer/help-and-support"
     email: api.management@nhs.net
 servers:
-  - url: 'https://sandbox.api.service.nhs.uk/fhir-converter'
+  - url: "https://sandbox.api.service.nhs.uk/fhir-converter"
     description: Sandbox environment.
-  - url: 'https://int.api.service.nhs.uk/fhir-converter'
+  - url: "https://int.api.service.nhs.uk/fhir-converter"
     description: Integration test environment.
-  - url: 'https://api.service.nhs.uk/fhir-converter'
-    description: 'Production environment.'
+  - url: "https://api.service.nhs.uk/fhir-converter"
+    description: "Production environment."
 tags:
   - name: FHIR Converter
 paths:
-  '/convert':
+  /convert:
     post:
       summary: Convert FHIR payload
       operationId: convert
       requestBody:
         content:
-          'application/fhir+json; fhirVersion=3.0':
+          "application/fhir+json; fhirVersion=3.0":
             examples:
               Successful:
                 summary: STU3 JSON payload
                 value:
                   $ref: "components/examples/MedicationRequest/stu3.json"
-          'application/fhir+xml; fhirVersion=3.0':
+          "application/fhir+xml; fhirVersion=3.0":
             examples:
               Successful:
                 summary: STU3 XML payload
                 value:
                   $ref: "components/examples/MedicationRequest/stu3.xml"
-          'application/fhir+json; fhirVersion=4.0':
+          "application/fhir+json; fhirVersion=4.0":
             examples:
               Successful:
                 summary: R4 JSON payload
                 value:
                   $ref: "components/examples/MedicationRequest/r4.json"
-          'application/fhir+xml; fhirVersion=4.0':
+          "application/fhir+xml; fhirVersion=4.0":
             examples:
               Successful:
                 summary: R4 XML payload
                 value:
                   $ref: "components/examples/MedicationRequest/r4.xml"
       responses:
-        '200':
+        "200":
           description: Successful convertion
           content:
-            'application/fhir+json; fhirVersion=3.0':
+            "application/fhir+json; fhirVersion=3.0":
               examples:
                 Successful:
                   summary: STU3 JSON response
                   value:
                     $ref: "components/examples/MedicationRequest/stu3.json"
-            'application/fhir+xml; fhirVersion=3.0':
+            "application/fhir+xml; fhirVersion=3.0":
               examples:
                 Successful:
                   summary: STU3 XML response
                   value:
                     $ref: "components/examples/MedicationRequest/stu3.xml"
-            'application/fhir+json; fhirVersion=4.0':
+            "application/fhir+json; fhirVersion=4.0":
               examples:
                 Successful:
                   summary: R4 JSON response
                   value:
                     $ref: "components/examples/MedicationRequest/r4.json"
-            'application/fhir+xml; fhirVersion=4.0':
+            "application/fhir+xml; fhirVersion=4.0":
               examples:
                 Successful:
                   summary: R4 XML response
                   value:
                     $ref: "components/examples/MedicationRequest/r4.xml"
-        '400':
+        "400":
           description: Invalid request
           content:
-            'application/fhir+json; fhirVersion=4.0':
+            "application/fhir+json; fhirVersion=4.0":
               examples:
-                'Invalid or missing header':
+                "Invalid or missing header":
                   summary: Invalid or missing header error
                   value:
                     $ref: "components/examples/400.json"
