@@ -60,7 +60,6 @@ public class ConversionService {
             } catch (final Exception e) {
                 e.printStackTrace();
             }
-            return null;
 
         } else {
             try {
@@ -69,8 +68,8 @@ public class ConversionService {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            return null;
         }
+        return null;
     }
 
 
