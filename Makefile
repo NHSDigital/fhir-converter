@@ -12,7 +12,7 @@ install-node:
 install: install-node install-python .git/hooks/pre-commit
 
 lint:
-#	npm run lint
+	npm run lint
 	find . -name '*.py' -not -path '**/.venv/*' | xargs poetry run flake8
 
 clean:
@@ -22,6 +22,7 @@ clean:
 publish: clean
 	mkdir -p build
 	npm run publish 2> /dev/null
+	mv build/openapi.json build/fhir-converter.json
 
 serve:
 	npm run serve
