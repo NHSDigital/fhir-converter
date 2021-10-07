@@ -28,10 +28,7 @@
         <Condition>proxy.pathsuffix Not Matches "/_status"</Condition>
       </Step>
       <Step>
-        <Name>Quota</Name>
-      </Step>
-      <Step>
-        <Name>SpikeArrest</Name>
+        <Name>FlowCallout.ApplyRateLimiting</Name>
       </Step>
       <Step>
         <Name>RaiseFault.InvalidContentType</Name>
