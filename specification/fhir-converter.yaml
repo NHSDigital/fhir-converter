@@ -33,24 +33,24 @@ paths:
       operationId: convert
       requestBody:
         content:
-#          "application/fhir+json; fhirVersion=3.0":
-#            examples:
-#              Successful:
-#                summary: STU3 JSON payload
-#                value:
-#                  $ref: "components/examples/MedicationRequest/stu3.json"
-#          "application/fhir+xml; fhirVersion=3.0":
-#            examples:
-#              Successful:
-#                summary: STU3 XML payload
-#                value:
-#                  $ref: "components/examples/MedicationRequest/stu3.xml"
-#          "application/fhir+json; fhirVersion=4.0":
-#            examples:
-#              Successful:
-#                summary: R4 JSON payload
-#                value:
-#                  $ref: "components/examples/MedicationRequest/r4.json"
+          "application/fhir+json; fhirVersion=3.0":
+            examples:
+              Successful:
+                summary: STU3 JSON payload
+                value:
+                  $ref: "components/examples/MedicationRequest/stu3.json"
+          "application/fhir+xml; fhirVersion=3.0":
+            examples:
+              Successful:
+                summary: STU3 XML payload
+                value:
+                  $ref: "components/examples/MedicationRequest/stu3.xml"
+          "application/fhir+json; fhirVersion=4.0":
+            examples:
+              Successful:
+                summary: R4 JSON payload
+                value:
+                  $ref: "components/examples/MedicationRequest/r4.json"
           "application/fhir+xml; fhirVersion=4.0":
             schema:
               xml:
@@ -69,24 +69,24 @@ paths:
                   summary: STU3 JSON response
                   value:
                     $ref: "components/examples/MedicationRequest/stu3.json"
-#            "application/fhir+xml; fhirVersion=3.0":
-#              examples:
-#                Successful:
-#                  summary: STU3 XML response
-#                  value:
-#                    $ref: "components/examples/MedicationRequest/stu3.xml"
-#            "application/fhir+json; fhirVersion=4.0":
-#              examples:
-#                Successful:
-#                  summary: R4 JSON response
-#                  value:
-#                    $ref: "components/examples/MedicationRequest/r4.json"
-#            "application/fhir+xml; fhirVersion=4.0":
-#              examples:
-#                Successful:
-#                  summary: R4 XML response
-#                  value:
-#                    $ref: "components/examples/MedicationRequest/r4.xml"
+            "application/fhir+xml; fhirVersion=3.0":
+              examples:
+                Successful:
+                  summary: STU3 XML response
+                  value:
+                    $ref: "components/examples/MedicationRequest/stu3.xml"
+            "application/fhir+json; fhirVersion=4.0":
+              examples:
+                Successful:
+                  summary: R4 JSON response
+                  value:
+                    $ref: "components/examples/MedicationRequest/r4.json"
+            "application/fhir+xml; fhirVersion=4.0":
+              examples:
+                Successful:
+                  summary: R4 XML response
+                  value:
+                    $ref: "components/examples/MedicationRequest/r4.xml"
         "400":
           description: Invalid request
           content:
