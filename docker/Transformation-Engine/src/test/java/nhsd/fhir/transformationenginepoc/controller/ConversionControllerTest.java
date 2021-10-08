@@ -14,8 +14,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.anyObject;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -44,7 +43,7 @@ class ConversionControllerTest {
     @Test
     public void callConverterToConvert_R3_to_R4_json_json() {
         //given
-        when(conversionService.convertFhirSchema(anyString(), anyString(), anyObject(), anyObject(), anyString())).thenReturn(staticR4Json);
+        when(conversionService.convertFhirSchema(anyString(), anyString(), any(), any(), anyString())).thenReturn(staticR4Json);
 
         //when
         ResponseEntity<?> responseEntity = conversionController.convert("application/fhir+json; fhirVersion=3.0", "application/fhir+json; fhirVersion=4.0", staticR3Json);
@@ -57,7 +56,7 @@ class ConversionControllerTest {
     @Test
     public void callConverterToConvert_R4_to_R3_json_json() {
         //given
-        when(conversionService.convertFhirSchema(anyString(), anyString(), anyObject(), anyObject(), anyString())).thenReturn(staticR3Json);
+        when(conversionService.convertFhirSchema(anyString(), anyString(), any(), any(), anyString())).thenReturn(staticR3Json);
 
         //when
         ResponseEntity<?> responseEntity = conversionController.convert("application/fhir+json; fhirVersion=4.0", "application/fhir+json; fhirVersion=3.0", staticR4Json);
