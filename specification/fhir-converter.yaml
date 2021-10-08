@@ -35,58 +35,56 @@ paths:
         content:
           "application/fhir+json; fhirVersion=3.0":
             examples:
-              Successful:
-                summary: STU3 JSON payload
-                value:
-                  $ref: "components/examples/MedicationRequest/stu3.json"
+              MedicationRequest:
+                $ref: "#/components/examples/MedicationRequest_STU3_JSON"
+              MedicationStatement:
+                $ref: "#/components/examples/MedicationStatement_STU3_JSON"
           "application/fhir+xml; fhirVersion=3.0":
             examples:
-              Successful:
-                summary: STU3 XML payload
-                value:
-                  $ref: "components/examples/MedicationRequest/stu3.xml"
+              MedicationRequest:
+                $ref: "#/components/examples/MedicationRequest_STU3_XML"
+              MedicationStatement:
+                $ref: "#/components/examples/MedicationStatement_STU3_XML"
           "application/fhir+json; fhirVersion=4.0":
             examples:
-              Successful:
-                summary: R4 JSON payload
-                value:
-                  $ref: "components/examples/MedicationRequest/r4.json"
+              MedicationRequest:
+                $ref: "#/components/examples/MedicationRequest_R4_JSON"
+              MedicationStatement:
+                $ref: "#/components/examples/MedicationStatement_R4_JSON"
           "application/fhir+xml; fhirVersion=4.0":
-            schema:
-              xml:
-                namespace: "http://hl7.org/fhir"
             examples:
-              Successful:
-                summary: R4 XML payload
-                externalValue: "components/examples/MedicationRequest/r4.xml"
+              MedicationRequest:
+                $ref: "#/components/examples/MedicationRequest_R4_XML"
+              MedicationStatement:
+                $ref: "#/components/examples/MedicationStatement_R4_XML"
       responses:
         "200":
           description: Successful convertion
           content:
             "application/fhir+json; fhirVersion=3.0":
               examples:
-                Successful:
-                  summary: STU3 JSON response
-                  value:
-                    $ref: "components/examples/MedicationRequest/stu3.json"
+                MedicationRequest:
+                  $ref: "#/components/examples/MedicationRequest_STU3_JSON"
+                MedicationStatement:
+                  $ref: "#/components/examples/MedicationStatement_STU3_JSON"
             "application/fhir+xml; fhirVersion=3.0":
               examples:
-                Successful:
-                  summary: STU3 XML response
-                  value:
-                    $ref: "components/examples/MedicationRequest/stu3.xml"
+                MedicationRequest:
+                  $ref: "#/components/examples/MedicationRequest_STU3_XML"
+                MedicationStatement:
+                  $ref: "#/components/examples/MedicationStatement_STU3_XML"
             "application/fhir+json; fhirVersion=4.0":
               examples:
-                Successful:
-                  summary: R4 JSON response
-                  value:
-                    $ref: "components/examples/MedicationRequest/r4.json"
+                MedicationRequest:
+                  $ref: "#/components/examples/MedicationRequest_R4_JSON"
+                MedicationStatement:
+                  $ref: "#/components/examples/MedicationStatement_R4_JSON"
             "application/fhir+xml; fhirVersion=4.0":
               examples:
-                Successful:
-                  summary: R4 XML response
-                  value:
-                    $ref: "components/examples/MedicationRequest/r4.xml"
+                MedicationRequest:
+                  $ref: "#/components/examples/MedicationRequest_R4_XML"
+                MedicationStatement:
+                  $ref: "#/components/examples/MedicationStatement_R4_XML"
         "400":
           description: Invalid request
           content:
@@ -96,3 +94,38 @@ paths:
                   summary: Invalid or missing header error
                   value:
                     $ref: "components/examples/400.json"
+
+components:
+  examples:
+    "MedicationRequest_R4_JSON":
+      summary: R4 JSON MedicationRequest
+      value:
+        $ref: "components/examples/MedicationRequest/r4.json"
+    "MedicationStatement_R4_JSON":
+      summary: R4 JSON MedicationStatement
+      value:
+        $ref: "components/examples/MedicationStatement/r4.json"
+    "MedicationRequest_R4_XML":
+      summary: R4 XML MedicationRequest
+      value:
+        $ref: "components/examples/MedicationRequest/r4.xml"
+    "MedicationStatement_R4_XML":
+      summary: R4 XML MedicationStatement
+      value:
+        $ref: "components/examples/MedicationStatement/r4.xml"
+    "MedicationRequest_STU3_JSON":
+      summary: STU3 JSON MedicationRequest
+      value:
+        $ref: "components/examples/MedicationRequest/stu3.json"
+    "MedicationStatement_STU3_JSON":
+      summary: STU3 JSON MedicationStatement
+      value:
+        $ref: "components/examples/MedicationStatement/stu3.json"
+    "MedicationRequest_STU3_XML":
+      summary: STU3 XML MedicationRequest
+      value:
+        $ref: "components/examples/MedicationRequest/stu3.xml"
+    "MedicationStatement_STU3_XML":
+      summary: STU3 XML MedicationStatement
+      value:
+        $ref: "components/examples/MedicationStatement/stu3.xml"
