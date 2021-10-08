@@ -4,7 +4,7 @@
   "description": "OAS (Swagger v3) API Definition for Template API",
   "scripts": {
     "lint": "node_modules/.bin/openapi-generator-cli validate -i specification/fhir-converter.yaml",
-    "publish": "./node_modules/.bin/openapi-generator-cli generate -i specification/fhir-converter.yaml -g openapi -o build || true",
+    "publish": "./node_modules/.bin/openapi-generator-cli generate -i specification/fhir-converter.yaml -g openapi -o build",
     "serve": "node_modules/.bin/speccy serve build/fhir-converter.json",
     "check-licenses": "node_modules/.bin/license-checker --failOn GPL --failOn LGPL"
   },
