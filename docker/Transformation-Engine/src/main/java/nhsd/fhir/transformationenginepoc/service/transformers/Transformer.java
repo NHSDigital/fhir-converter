@@ -22,7 +22,7 @@ import org.springframework.http.MediaType;
 
 
 public abstract class Transformer {
-    abstract public String transform(FhirVersionEnum inVersion, FhirVersionEnum outVersion, MediaType inMime, MediaType outMime, String resourceString);
+    abstract public String transform(FhirVersionEnum inVersion, FhirVersionEnum outVersion, MediaType inMime, MediaType outMime, String resourceString) throws Exception;
 
 
     FhirContext getSuitableContext(final FhirVersionEnum selectedVersion) {

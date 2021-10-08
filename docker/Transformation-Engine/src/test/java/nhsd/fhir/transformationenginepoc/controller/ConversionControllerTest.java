@@ -26,7 +26,7 @@ class ConversionControllerTest {
     @Mock
     private ConversionService conversionService;
 
-    private String staticR4Json, staticR3Json;
+    private String staticR4Json, staticR3Json, staticR4JsonWrongSchema, staticR3_MedicationStatement_Worng_Schema;
 
 
     @BeforeEach
@@ -35,13 +35,15 @@ class ConversionControllerTest {
         try {
             staticR4Json = FileUtils.readFileToString(new File("src/test/resources/R4Medicationrequestexample.json"), StandardCharsets.UTF_8);
             staticR3Json = FileUtils.readFileToString(new File("src/test/resources/STU3_MedRequest.json"), StandardCharsets.UTF_8);
+            staticR4JsonWrongSchema = FileUtils.readFileToString(new File("src/test/resources/STU3_MedRequest_Invalid_schema.json"), StandardCharsets.UTF_8);
+            staticR3_MedicationStatement_Worng_Schema = FileUtils.readFileToString(new File("src/test/resources/R3_MedicationStatement_Wrong_schema.xml"), StandardCharsets.UTF_8);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     @Test
-    public void callConverterToConvert_R3_to_R4_json_json() {
+    public void callConverterToConvert_R3_to_R4_json_json() throws Exception {
         //given
         when(conversionService.convertFhirSchema(anyString(), anyString(), any(), any(), anyString())).thenReturn(staticR4Json);
 
@@ -54,7 +56,7 @@ class ConversionControllerTest {
     }
 
     @Test
-    public void callConverterToConvert_R4_to_R3_json_json() {
+    public void callConverterToConvert_R4_to_R3_json_json() throws Exception {
         //given
         when(conversionService.convertFhirSchema(anyString(), anyString(), any(), any(), anyString())).thenReturn(staticR3Json);
 
@@ -79,5 +81,46 @@ class ConversionControllerTest {
         assertEquals(responseEntity.getBody(), "Invalid syntax for this request was provided. java.lang.ArrayIndexOutOfBoundsException: Index 1 out of bounds for length 1");
     }
 
+
+    @Test
+    public void callConverterToConvert_Wrong_Json_Payload(){
+        //given
+        //init mocks
+
+        //when
+        ResponseEntity<?> responseEntity = conversionController.convert("application/fhir+json; fhirVersion=3.0", "application/fhir+json; fhirVersion=3.0", staticR4JsonWrongSchema);
+
+        //then
+        assertEquals(responseEntity.getStatusCode(), HttpStatus.BAD_REQUEST);
+        assertEquals(responseEntity.getBody(), "Invalid syntax for this request was provided. Please check your JSON payload");
+
+    }
+
+
+    @Test
+    public void callConverterToConvert_Wrong_XML_Payload(){
+        //given
+        //init mocks
+
+        //when
+        ResponseEntity<?> responseEntity = conversionController.convert("application/fhir+xml; fhirVersion=3.0", "application/fhir+json; fhirVersion=3.0", staticR3_MedicationStatement_Worng_Schema);
+
+        //then
+        assertEquals(responseEntity.getStatusCode(), HttpStatus.BAD_REQUEST);
+        assertEquals(responseEntity.getBody(), "Invalid syntax for this request was provided. Please check your XML payload");
+
+    }
+
+    @Test
+    public void callConverterToConvert_Sending_A_different_version_ON_header(){
+        //given
+        //init mocks
+
+        //when
+        ResponseEntity<?> responseEntity = conversionController.convert("application/fhir+xml; fhirVersion=3.0", "application/fhir+json; fhirVersion=3.0", staticR4Json);
+
+        //then
+        assertEquals(responseEntity.getStatusCode(), HttpStatus.BAD_REQUEST);
+    }
 
 }

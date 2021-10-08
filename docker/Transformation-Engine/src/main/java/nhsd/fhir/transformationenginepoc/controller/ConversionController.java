@@ -1,8 +1,10 @@
 package nhsd.fhir.transformationenginepoc.controller;
 
+import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 import nhsd.fhir.transformationenginepoc.service.ConversionService;
 import org.apache.logging.log4j.util.Strings;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -49,17 +51,17 @@ public class ConversionController {
                 .body("Invalid syntax for this request was provided. " + e);
         }
 
-        if (mediaTypeIn.getType().equals("json")) {
+        if (mediaTypeIn.getSubtype().equals("json")) {
             try {
                 new JSONObject(fhirSchema);
-            } catch (JsonSyntaxException jse) {
+            } catch (JSONException jse) {
                 return ResponseEntity.badRequest()
                     .contentType(MediaType.APPLICATION_JSON)
                     .body("Invalid syntax for this request was provided. Please check your JSON payload");
             }
         }
 
-        if (mediaTypeIn.getType().equals("xml")) {
+        if (mediaTypeIn.getSubtype().equals("xml")) {
             try {
                 SAXParserFactory.newInstance().newSAXParser().getXMLReader().parse(new InputSource(new StringReader(fhirSchema)));
             } catch (ParserConfigurationException | SAXException | IOException ex) {
@@ -75,7 +77,7 @@ public class ConversionController {
         } catch (Exception e) {
             return ResponseEntity.unprocessableEntity()
                 .contentType(MediaType.APPLICATION_JSON)
-                .body("Sorry. Something went wrong with our conversion. Please, try again.");
+                .body(e.getMessage());
         }
 
         return ResponseEntity.ok()

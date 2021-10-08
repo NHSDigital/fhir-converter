@@ -81,7 +81,7 @@ class ConversionServiceTest {
     }
 
     @Test
-    public void convert_MedicationRequest_from_STU3_to_R4_Json_to_xml() throws ParserConfigurationException, IOException, SAXException {
+    public void convert_MedicationRequest_from_STU3_to_R4_Json_to_xml() throws Exception {
         //given
         //init mocks
         //when
@@ -100,7 +100,7 @@ class ConversionServiceTest {
     }
 
     @Test
-    public void convert_MedicationRequest_from_R4_to_R4_json_to_xml() throws ParserConfigurationException, IOException, SAXException {
+    public void convert_MedicationRequest_from_R4_to_R4_json_to_xml() throws Exception {
         //given
         //init mocks
         //when
@@ -120,7 +120,7 @@ class ConversionServiceTest {
     }
 
     @Test
-    public void convert_MedicationStatement_from_R3_to_R4_json_to_json() throws JSONException {
+    public void convert_MedicationStatement_from_R3_to_R4_json_to_json() throws Exception {
         //given
         //init mocks
         //when
@@ -136,7 +136,7 @@ class ConversionServiceTest {
     }
 
     @Test
-    public void convert_MedicationStatement_from_R4_to_R3_json_to_json() throws JSONException {
+    public void convert_MedicationStatement_from_R4_to_R3_json_to_json() throws Exception {
         //given
         //init mocks
         //when
@@ -152,7 +152,7 @@ class ConversionServiceTest {
     }
 
     @Test
-    public void convert_MedicationStatement_from_R3_to_R3_xml_to_json() throws JSONException {
+    public void convert_MedicationStatement_from_R3_to_R3_xml_to_json() throws Exception {
         //given
         //init mocks
         //when
@@ -168,7 +168,7 @@ class ConversionServiceTest {
     }
 
     @Test
-    public void convert_MedicationStatement_from_R3_to_R3_xml_to_xml() throws ParserConfigurationException, IOException, SAXException {
+    public void convert_MedicationStatement_from_R3_to_R3_xml_to_xml() throws Exception {
         //given
         //init mocks
         //when

@@ -18,7 +18,7 @@ import java.io.StringReader;
 @Service
 public class ConversionService {
 
-    public String convertFhirSchema(final String currentVersion, final String targetVersion, final MediaType content_type, final MediaType return_type, final String fhirSchema) {
+    public String convertFhirSchema(final String currentVersion, final String targetVersion, final MediaType content_type, final MediaType return_type, final String fhirSchema) throws Exception {
 
         final String resourceType = getResourceType(content_type, fhirSchema);
 

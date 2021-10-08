@@ -28,7 +28,7 @@ import org.springframework.http.MediaType;
 public class MedicationStatementTransformer extends Transformer {
 
     @Override
-    public String transform(final FhirVersionEnum inVersion, final FhirVersionEnum outVersion, final MediaType inMime, final MediaType outMime, final String resourceString) {
+    public String transform(final FhirVersionEnum inVersion, final FhirVersionEnum outVersion, final MediaType inMime, final MediaType outMime, final String resourceString) throws Exception {
 
         //base converter
         final BaseAdvisor_30_40 baseAdvisor_30_40 = new BaseAdvisor_30_40();
@@ -74,7 +74,7 @@ public class MedicationStatementTransformer extends Transformer {
                 converstionResult =  outParser.encodeResourceToString((org.hl7.fhir.r4.model.MedicationStatement) resource);
             }
         } catch (Exception e){
-            return e.getMessage();
+            throw new Exception(e.getMessage());
         }
 
         return converstionResult;
