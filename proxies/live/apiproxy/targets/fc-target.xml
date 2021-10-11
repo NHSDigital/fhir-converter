@@ -13,6 +13,9 @@
       <Step>
         <Name>AssignMessage.Errors.RateLimitExceeded</Name>
       </Step>
+      <Step>
+        <Name>AssignMessage.Errors.CatchAllMessage</Name>
+      </Step>
       <Condition>(error.status.code Equals "429")</Condition>
     </FaultRule>
   </FaultRules>
