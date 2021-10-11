@@ -9,6 +9,12 @@
       </Step>
       <Condition>oauthV2.OauthV2.VerifyAccessToken.failed</Condition>
     </FaultRule>
+    <FaultRule name="rate_limit_exceeded">
+      <Step>
+        <Name>AssignMessage.Errors.RateLimitExceeded</Name>
+      </Step>
+      <Condition>(error.status.code Equals "429")</Condition>
+    </FaultRule>
   </FaultRules>
   <DefaultFaultRule>
       <Step>
