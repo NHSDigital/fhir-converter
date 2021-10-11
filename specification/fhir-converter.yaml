@@ -34,24 +34,28 @@ paths:
       requestBody:
         content:
           "application/fhir+json; fhirVersion=3.0":
+            schema: {}
             examples:
               MedicationRequest:
                 $ref: "#/components/examples/MedicationRequest_STU3_JSON"
               MedicationStatement:
                 $ref: "#/components/examples/MedicationStatement_STU3_JSON"
           "application/fhir+xml; fhirVersion=3.0":
+            schema: {}
             examples:
               MedicationRequest:
                 $ref: "#/components/examples/MedicationRequest_STU3_XML"
               MedicationStatement:
                 $ref: "#/components/examples/MedicationStatement_STU3_XML"
           "application/fhir+json; fhirVersion=4.0":
+            schema: {}
             examples:
               MedicationRequest:
                 $ref: "#/components/examples/MedicationRequest_R4_JSON"
               MedicationStatement:
                 $ref: "#/components/examples/MedicationStatement_R4_JSON"
           "application/fhir+xml; fhirVersion=4.0":
+            schema: {}
             examples:
               MedicationRequest:
                 $ref: "#/components/examples/MedicationRequest_R4_XML"
