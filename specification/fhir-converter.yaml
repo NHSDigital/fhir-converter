@@ -39,26 +39,24 @@ paths:
                 $ref: "#/components/examples/MedicationRequest_STU3_JSON"
               MedicationStatement:
                 $ref: "#/components/examples/MedicationStatement_STU3_JSON"
-              Foo:
-                value: "{\n}"
           "application/fhir+xml; fhirVersion=3.0":
             examples:
               MedicationRequest:
                 $ref: "#/components/examples/MedicationRequest_STU3_XML"
               MedicationStatement:
                 $ref: "#/components/examples/MedicationStatement_STU3_XML"
-#          "application/fhir+json; fhirVersion=4.0":
-#            examples:
-#              MedicationRequest:
-#                $ref: "#/components/examples/MedicationRequest_R4_JSON"
-#              MedicationStatement:
-#                $ref: "#/components/examples/MedicationStatement_R4_JSON"
-#          "application/fhir+xml; fhirVersion=4.0":
-#            examples:
-#              MedicationRequest:
-#                $ref: "#/components/examples/MedicationRequest_R4_XML"
-#              MedicationStatement:
-#                $ref: "#/components/examples/MedicationStatement_R4_XML"
+          "application/fhir+json; fhirVersion=4.0":
+            examples:
+              MedicationRequest:
+                $ref: "#/components/examples/MedicationRequest_R4_JSON"
+              MedicationStatement:
+                $ref: "#/components/examples/MedicationStatement_R4_JSON"
+          "application/fhir+xml; fhirVersion=4.0":
+            examples:
+              MedicationRequest:
+                $ref: "#/components/examples/MedicationRequest_R4_XML"
+              MedicationStatement:
+                $ref: "#/components/examples/MedicationStatement_R4_XML"
       responses:
         "200":
           description: Successful convertion
@@ -69,24 +67,24 @@ paths:
                   $ref: "#/components/examples/MedicationRequest_STU3_JSON"
                 MedicationStatement:
                   $ref: "#/components/examples/MedicationStatement_STU3_JSON"
-#            "application/fhir+xml; fhirVersion=3.0":
-#              examples:
-#                MedicationRequest:
-#                  $ref: "#/components/examples/MedicationRequest_STU3_XML"
-#                MedicationStatement:
-#                  $ref: "#/components/examples/MedicationStatement_STU3_XML"
-#            "application/fhir+json; fhirVersion=4.0":
-#              examples:
-#                MedicationRequest:
-#                  $ref: "#/components/examples/MedicationRequest_R4_JSON"
-#                MedicationStatement:
-#                  $ref: "#/components/examples/MedicationStatement_R4_JSON"
-#            "application/fhir+xml; fhirVersion=4.0":
-#              examples:
-#                MedicationRequest:
-#                  $ref: "#/components/examples/MedicationRequest_R4_XML"
-#                MedicationStatement:
-#                  $ref: "#/components/examples/MedicationStatement_R4_XML"
+            "application/fhir+xml; fhirVersion=3.0":
+              examples:
+                MedicationRequest:
+                  $ref: "#/components/examples/MedicationRequest_STU3_XML"
+                MedicationStatement:
+                  $ref: "#/components/examples/MedicationStatement_STU3_XML"
+            "application/fhir+json; fhirVersion=4.0":
+              examples:
+                MedicationRequest:
+                  $ref: "#/components/examples/MedicationRequest_R4_JSON"
+                MedicationStatement:
+                  $ref: "#/components/examples/MedicationStatement_R4_JSON"
+            "application/fhir+xml; fhirVersion=4.0":
+              examples:
+                MedicationRequest:
+                  $ref: "#/components/examples/MedicationRequest_R4_XML"
+                MedicationStatement:
+                  $ref: "#/components/examples/MedicationStatement_R4_XML"
         "400":
           description: Invalid request
           content:
