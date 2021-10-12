@@ -2,7 +2,6 @@ package nhsd.fhir.transformationenginepoc.service.transformers;
 
 import ca.uhn.fhir.context.FhirVersionEnum;
 import org.apache.commons.io.FileUtils;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,11 +9,9 @@ import org.mockito.InjectMocks;
 import org.springframework.http.MediaType;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
@@ -26,22 +23,17 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 class MedicationStatementTransformerTest {
 
-    @InjectMocks
     private MedicationStatementTransformer medicationStatementTransformer;
 
     private String medicationStatement_staticR4Json, medicationStatement_staticR3Json, medicationStatement_staticR3Xml, medicationStatement_staticR4Xml;
 
     @BeforeEach
-    void setUp() {
-        initMocks(this);
-        try {
-            medicationStatement_staticR4Json = FileUtils.readFileToString(new File("src/test/resources/R4_MedicationStatement.json"), StandardCharsets.UTF_8);
-            medicationStatement_staticR3Json = FileUtils.readFileToString(new File("src/test/resources/R3_MedicationStatement.json"), StandardCharsets.UTF_8);
-            medicationStatement_staticR3Xml = FileUtils.readFileToString(new File("src/test/resources/R3_MedicationStatement.xml"), StandardCharsets.UTF_8);
-            medicationStatement_staticR4Xml = FileUtils.readFileToString(new File("src/test/resources/R4_MedicationStatement.xml"), StandardCharsets.UTF_8);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    void setUp() throws IOException {
+        medicationStatementTransformer = new MedicationStatementTransformer();
+        medicationStatement_staticR4Json = FileUtils.readFileToString(new File("src/test/resources/R4_MedicationStatement.json"), StandardCharsets.UTF_8);
+        medicationStatement_staticR3Json = FileUtils.readFileToString(new File("src/test/resources/R3_MedicationStatement.json"), StandardCharsets.UTF_8);
+        medicationStatement_staticR3Xml = FileUtils.readFileToString(new File("src/test/resources/R3_MedicationStatement.xml"), StandardCharsets.UTF_8);
+        medicationStatement_staticR4Xml = FileUtils.readFileToString(new File("src/test/resources/R4_MedicationStatement.xml"), StandardCharsets.UTF_8);
     }
 
     @Test

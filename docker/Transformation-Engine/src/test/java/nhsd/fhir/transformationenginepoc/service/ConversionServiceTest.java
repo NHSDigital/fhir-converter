@@ -1,51 +1,42 @@
 package nhsd.fhir.transformationenginepoc.service;
 
 import org.apache.commons.io.FileUtils;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.http.MediaType;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 import java.nio.charset.StandardCharsets;
 
-import static junit.framework.TestCase.*;
-import static org.mockito.MockitoAnnotations.initMocks;
+import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertNotNull;
 
 @RunWith(MockitoJUnitRunner.class)
 class ConversionServiceTest {
 
-    @InjectMocks
     private ConversionService fileConversionService;
 
     private String medicationRequest_staticR4Json, medicationRequest_staticR3Json,
         medicationStatement_staticR4Json, medicationStatement_staticR3Json, medicationStatement_staticR3Xml;
 
     @BeforeEach
-    public void setUp() {
-        initMocks(this);
-        try {
-            medicationRequest_staticR4Json = FileUtils.readFileToString(new File("src/test/resources/R4Medicationrequestexample.json"), StandardCharsets.UTF_8);
-            medicationRequest_staticR3Json = FileUtils.readFileToString(new File("src/test/resources/STU3_MedRequest.json"), StandardCharsets.UTF_8);
+    public void setUp() throws IOException {
+        fileConversionService = new ConversionService();
+        medicationRequest_staticR4Json = FileUtils.readFileToString(new File("src/test/resources/R4Medicationrequestexample.json"), StandardCharsets.UTF_8);
+        medicationRequest_staticR3Json = FileUtils.readFileToString(new File("src/test/resources/STU3_MedRequest.json"), StandardCharsets.UTF_8);
 
-            medicationStatement_staticR4Json = FileUtils.readFileToString(new File("src/test/resources/R4_MedicationStatement.json"), StandardCharsets.UTF_8);
-            medicationStatement_staticR3Json = FileUtils.readFileToString(new File("src/test/resources/R3_MedicationStatement.json"), StandardCharsets.UTF_8);
-            medicationStatement_staticR3Xml = FileUtils.readFileToString(new File("src/test/resources/R3_MedicationStatement.xml"), StandardCharsets.UTF_8);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        medicationStatement_staticR4Json = FileUtils.readFileToString(new File("src/test/resources/R4_MedicationStatement.json"), StandardCharsets.UTF_8);
+        medicationStatement_staticR3Json = FileUtils.readFileToString(new File("src/test/resources/R3_MedicationStatement.json"), StandardCharsets.UTF_8);
+        medicationStatement_staticR3Xml = FileUtils.readFileToString(new File("src/test/resources/R3_MedicationStatement.xml"), StandardCharsets.UTF_8);
     }
 
     @Test

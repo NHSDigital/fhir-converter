@@ -6,7 +6,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.springframework.http.MediaType;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
@@ -22,24 +21,19 @@ import java.nio.charset.StandardCharsets;
 
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
-import static org.mockito.MockitoAnnotations.initMocks;
 
 class MedicationRequestTransformerTest {
 
-    @InjectMocks
     private MedicationRequestTransformer medicationRequestTransformer;
 
     private String medicationRequest_staticR4Json, medicationRequest_staticR3Json;
-    @BeforeEach
-    void setUp() {
-        initMocks(this);
-        try {
-            medicationRequest_staticR4Json = FileUtils.readFileToString(new File("src/test/resources/R4Medicationrequestexample.json"), StandardCharsets.UTF_8);
-            medicationRequest_staticR3Json = FileUtils.readFileToString(new File("src/test/resources/STU3_MedRequest.json"), StandardCharsets.UTF_8);
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    @BeforeEach
+    void setUp() throws IOException {
+        medicationRequestTransformer = new MedicationRequestTransformer();
+        medicationRequest_staticR4Json = FileUtils.readFileToString(new File("src/test/resources/R4Medicationrequestexample.json"), StandardCharsets.UTF_8);
+        medicationRequest_staticR3Json = FileUtils.readFileToString(new File("src/test/resources/STU3_MedRequest.json"), StandardCharsets.UTF_8);
+
     }
 
     @Test

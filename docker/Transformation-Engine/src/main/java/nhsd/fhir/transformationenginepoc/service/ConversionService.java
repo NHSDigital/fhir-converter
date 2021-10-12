@@ -4,15 +4,17 @@ import ca.uhn.fhir.context.FhirVersionEnum;
 import nhsd.fhir.transformationenginepoc.service.transformers.MedicationRequestTransformer;
 import nhsd.fhir.transformationenginepoc.service.transformers.MedicationStatementTransformer;
 import nhsd.fhir.transformationenginepoc.service.transformers.Transformer;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
 import java.io.StringReader;
 
 @Service
@@ -46,29 +48,17 @@ public class ConversionService {
         return transformerToUse;
     }
 
-    private String getResourceType(MediaType content_type, final String fhirSchema) {
+    private String getResourceType(MediaType content_type, final String fhirSchema) throws ParserConfigurationException, IOException, SAXException {
 
         if (content_type.getSubtype().equals("xml")) {
             final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = null;
-            try {
-                builder = factory.newDocumentBuilder();
-
-                final Document doc = builder.parse(new InputSource(new StringReader(fhirSchema)));
-                return doc.getFirstChild().getNodeName();
-            } catch (final Exception e) {
-                e.printStackTrace();
-            }
-
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            final Document doc = builder.parse(new InputSource(new StringReader(fhirSchema)));
+            return doc.getFirstChild().getNodeName();
         } else {
-            try {
-                final JSONObject json = new JSONObject(fhirSchema);
-                return json.getString("resourceType");
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+            final JSONObject json = new JSONObject(fhirSchema);
+            return json.getString("resourceType");
         }
-        return null;
     }
 
 

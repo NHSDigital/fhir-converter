@@ -135,11 +135,15 @@
       <artifactId>hapi-fhir-converter</artifactId>
       <version>5.5.0</version>
     </dependency>
+
+
+
     <dependency>
       <groupId>ca.uhn.hapi.fhir</groupId>
       <artifactId>hapi-fhir-validation</artifactId>
       <version>5.5.0</version>
     </dependency>
+
     <dependency>
       <groupId>ca.uhn.hapi.fhir</groupId>
       <artifactId>org.hl7.fhir.utilities</artifactId>
@@ -165,11 +169,6 @@
     </dependency>
 
 
-    <dependency>
-      <groupId>org.json</groupId>
-      <artifactId>json</artifactId>
-      <version>20210307</version>
-    </dependency>
   </dependencies>
 
   <build>

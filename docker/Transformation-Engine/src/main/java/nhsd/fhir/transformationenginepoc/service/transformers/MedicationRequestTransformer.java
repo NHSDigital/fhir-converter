@@ -22,6 +22,7 @@ import ca.uhn.fhir.parser.StrictErrorHandler;
 import org.apache.logging.log4j.util.Strings;
 import org.hl7.fhir.convertors.advisors.impl.BaseAdvisor_30_40;
 import org.hl7.fhir.convertors.conv30_40.VersionConvertor_30_40;
+import org.hl7.fhir.r4.model.MedicationRequest;
 import org.springframework.http.MediaType;
 
 
