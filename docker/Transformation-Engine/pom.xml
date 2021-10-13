@@ -75,6 +75,7 @@
     <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-core</artifactId>
+      <version>3.9.0</version>
       <scope>test</scope>
     </dependency>
 
@@ -134,11 +135,15 @@
       <artifactId>hapi-fhir-converter</artifactId>
       <version>5.5.0</version>
     </dependency>
+
+
+
     <dependency>
       <groupId>ca.uhn.hapi.fhir</groupId>
       <artifactId>hapi-fhir-validation</artifactId>
       <version>5.5.0</version>
     </dependency>
+
     <dependency>
       <groupId>ca.uhn.hapi.fhir</groupId>
       <artifactId>org.hl7.fhir.utilities</artifactId>
