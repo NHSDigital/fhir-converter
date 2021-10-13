@@ -35,47 +35,45 @@ public class MedicationStatementTransformer extends Transformer {
         final VersionConvertor_30_40 versionConvertor_30_40 = new VersionConvertor_30_40(baseAdvisor_30_40);
         String converstionResult = Strings.EMPTY;
 
-        try {
-            // Set up contexts
-            final FhirContext inContext = getSuitableContext(inVersion);
-            final FhirContext outContext = getSuitableContext(outVersion);
 
-            // Instantiate parsers
-            final IParser inParser = getSuitableParser(inContext, inMime);
-            inParser.setParserErrorHandler(new StrictErrorHandler());
-            final IParser outParser = getSuitableParser(outContext, outMime);
-            outParser.setParserErrorHandler(new StrictErrorHandler());
+        // Set up contexts
+        final FhirContext inContext = getSuitableContext(inVersion);
+        final FhirContext outContext = getSuitableContext(outVersion);
 
-            // Initialize resource with the right version
-            Object resource = null;
+        // Instantiate parsers
+        final IParser inParser = getSuitableParser(inContext, inMime);
+        inParser.setParserErrorHandler(new StrictErrorHandler());
+        final IParser outParser = getSuitableParser(outContext, outMime);
+        outParser.setParserErrorHandler(new StrictErrorHandler());
 
-            //handling with multiple formats and same version.
-            if (inVersion == FhirVersionEnum.DSTU3 && outVersion == FhirVersionEnum.DSTU3) {
-                resource = (org.hl7.fhir.dstu3.model.MedicationStatement) inParser.parseResource(org.hl7.fhir.dstu3.model.MedicationStatement.class, resourceString);
-                return outParser.encodeResourceToString((org.hl7.fhir.dstu3.model.MedicationStatement)resource);
-            } else if (inVersion == FhirVersionEnum.R4 && outVersion == FhirVersionEnum.R4) {
-                resource = (org.hl7.fhir.r4.model.MedicationStatement) inParser.parseResource(org.hl7.fhir.r4.model.MedicationStatement.class, resourceString);
-                return outParser.encodeResourceToString((org.hl7.fhir.r4.model.MedicationStatement) resource);
-            }
+        // Initialize resource with the right version
+        Object resource = null;
 
-            //create resource from the incoming payload
-            if (inVersion.equals(FhirVersionEnum.DSTU3)) {
-                resource = (org.hl7.fhir.dstu3.model.MedicationStatement) inParser.parseResource(org.hl7.fhir.dstu3.model.MedicationStatement.class, resourceString);
-                resource = versionConvertor_30_40.convertResource((org.hl7.fhir.dstu3.model.MedicationStatement) resource);
-            } else {
-                resource = (org.hl7.fhir.r4.model.MedicationStatement) inParser.parseResource(org.hl7.fhir.r4.model.MedicationStatement.class, resourceString);
-                resource = versionConvertor_30_40.convertResource((org.hl7.fhir.r4.model.MedicationStatement) resource);
-            }
-
-            //conversation between versions
-            if (outVersion.equals(FhirVersionEnum.DSTU3)) {
-                converstionResult = outParser.encodeResourceToString((org.hl7.fhir.dstu3.model.MedicationStatement) resource);
-            } else {
-                converstionResult =  outParser.encodeResourceToString((org.hl7.fhir.r4.model.MedicationStatement) resource);
-            }
-        } catch (Exception e){
-            return e.getMessage();
+        //handling with multiple formats and same version.
+        if (inVersion == FhirVersionEnum.DSTU3 && outVersion == FhirVersionEnum.DSTU3) {
+            resource = (org.hl7.fhir.dstu3.model.MedicationStatement) inParser.parseResource(org.hl7.fhir.dstu3.model.MedicationStatement.class, resourceString);
+            return outParser.encodeResourceToString((org.hl7.fhir.dstu3.model.MedicationStatement) resource);
+        } else if (inVersion == FhirVersionEnum.R4 && outVersion == FhirVersionEnum.R4) {
+            resource = (org.hl7.fhir.r4.model.MedicationStatement) inParser.parseResource(org.hl7.fhir.r4.model.MedicationStatement.class, resourceString);
+            return outParser.encodeResourceToString((org.hl7.fhir.r4.model.MedicationStatement) resource);
         }
+
+        //create resource from the incoming payload
+        if (inVersion.equals(FhirVersionEnum.DSTU3)) {
+            resource = (org.hl7.fhir.dstu3.model.MedicationStatement) inParser.parseResource(org.hl7.fhir.dstu3.model.MedicationStatement.class, resourceString);
+            resource = versionConvertor_30_40.convertResource((org.hl7.fhir.dstu3.model.MedicationStatement) resource);
+        } else {
+            resource = (org.hl7.fhir.r4.model.MedicationStatement) inParser.parseResource(org.hl7.fhir.r4.model.MedicationStatement.class, resourceString);
+            resource = versionConvertor_30_40.convertResource((org.hl7.fhir.r4.model.MedicationStatement) resource);
+        }
+
+        //conversation between versions
+        if (outVersion.equals(FhirVersionEnum.DSTU3)) {
+            converstionResult = outParser.encodeResourceToString((org.hl7.fhir.dstu3.model.MedicationStatement) resource);
+        } else {
+            converstionResult = outParser.encodeResourceToString((org.hl7.fhir.r4.model.MedicationStatement) resource);
+        }
+
 
         return converstionResult;
 

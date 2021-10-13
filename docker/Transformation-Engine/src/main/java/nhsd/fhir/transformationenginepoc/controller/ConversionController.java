@@ -1,10 +1,9 @@
 package nhsd.fhir.transformationenginepoc.controller;
 
-import com.google.gson.JsonParser;
-import com.google.gson.JsonSyntaxException;
 import nhsd.fhir.transformationenginepoc.service.ConversionService;
 import org.apache.logging.log4j.util.Strings;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -23,9 +22,11 @@ import java.io.StringReader;
 @RequestMapping(value = "/convert")
 public class ConversionController {
 
+    private final ConversionService fileConversionService;
 
-    @Autowired
-    private ConversionService fileConversionService;
+    public ConversionController(ConversionService conversionService) {
+        this.fileConversionService = conversionService;
+    }
 
     @PostMapping(consumes = MediaType.ALL_VALUE)
     public ResponseEntity<?> convert(@RequestHeader("Content-Type") final String content_type,
@@ -48,18 +49,17 @@ public class ConversionController {
                 .body("Invalid syntax for this request was provided. " + e);
         }
 
-        if (mediaTypeIn.getType().equals("json")) {
+        if (mediaTypeIn.getSubtype().equals("json")) {
             try {
-                JsonParser parser = new JsonParser();
-                parser.parse(fhirSchema);
-            } catch (JsonSyntaxException jse) {
+                new JSONObject(fhirSchema);
+            } catch (JSONException jse) {
                 return ResponseEntity.badRequest()
                     .contentType(MediaType.APPLICATION_JSON)
                     .body("Invalid syntax for this request was provided. Please check your JSON payload");
             }
         }
 
-        if (mediaTypeIn.getType().equals("xml")) {
+        if (mediaTypeIn.getSubtype().equals("xml")) {
             try {
                 SAXParserFactory.newInstance().newSAXParser().getXMLReader().parse(new InputSource(new StringReader(fhirSchema)));
             } catch (ParserConfigurationException | SAXException | IOException ex) {
@@ -75,7 +75,7 @@ public class ConversionController {
         } catch (Exception e) {
             return ResponseEntity.unprocessableEntity()
                 .contentType(MediaType.APPLICATION_JSON)
-                .body("Sorry. Something went wrong with our conversion. Please, try again.");
+                .body(e.getMessage());
         }
 
         return ResponseEntity.ok()
