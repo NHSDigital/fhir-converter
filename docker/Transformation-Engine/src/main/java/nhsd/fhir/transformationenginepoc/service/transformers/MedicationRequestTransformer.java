@@ -22,7 +22,6 @@ import ca.uhn.fhir.parser.StrictErrorHandler;
 import org.apache.logging.log4j.util.Strings;
 import org.hl7.fhir.convertors.advisors.impl.BaseAdvisor_30_40;
 import org.hl7.fhir.convertors.conv30_40.VersionConvertor_30_40;
-import org.hl7.fhir.r4.model.MedicationRequest;
 import org.springframework.http.MediaType;
 
 
@@ -53,7 +52,7 @@ public class MedicationRequestTransformer extends Transformer {
             //handling with multiple formats and same version.
             if (inVersion == FhirVersionEnum.DSTU3 && outVersion == FhirVersionEnum.DSTU3) {
                 resource = (org.hl7.fhir.dstu3.model.MedicationRequest) inParser.parseResource(org.hl7.fhir.dstu3.model.MedicationRequest.class, resourceString);
-                return outParser.encodeResourceToString((org.hl7.fhir.dstu3.model.MedicationRequest)resource);
+                return outParser.encodeResourceToString((org.hl7.fhir.dstu3.model.MedicationRequest) resource);
             } else if (inVersion == FhirVersionEnum.R4 && outVersion == FhirVersionEnum.R4) {
                 resource = (org.hl7.fhir.r4.model.MedicationRequest) inParser.parseResource(org.hl7.fhir.r4.model.MedicationRequest.class, resourceString);
                 return outParser.encodeResourceToString((org.hl7.fhir.r4.model.MedicationRequest) resource);
@@ -72,9 +71,9 @@ public class MedicationRequestTransformer extends Transformer {
             if (outVersion.equals(FhirVersionEnum.DSTU3)) {
                 converstionResult = outParser.encodeResourceToString((org.hl7.fhir.dstu3.model.MedicationRequest) resource);
             } else {
-                converstionResult =  outParser.encodeResourceToString((org.hl7.fhir.r4.model.MedicationRequest) resource);
+                converstionResult = outParser.encodeResourceToString((org.hl7.fhir.r4.model.MedicationRequest) resource);
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             return e.getMessage();
         }
 

@@ -64,9 +64,6 @@ class ConversionControllerTest {
 
     @Test
     public void callConverterToConvert_Wrong_Json_Payload() {
-        //given
-        //init mocks
-
         //when
         ResponseEntity<?> responseEntity = conversionController.convert("application/fhir+json; fhirVersion=3.0", "application/fhir+json; fhirVersion=3.0", staticR4JsonWrongSchema);
 
@@ -79,9 +76,6 @@ class ConversionControllerTest {
 
     @Test
     public void callConverterToConvert_Wrong_XML_Payload() {
-        //given
-        //init mocks
-
         //when
         ResponseEntity<?> responseEntity = conversionController.convert("application/fhir+xml; fhirVersion=3.0", "application/fhir+json; fhirVersion=3.0", staticR3_MedicationStatement_Worng_Schema);
 
@@ -93,9 +87,6 @@ class ConversionControllerTest {
 
     @Test
     public void callConverterToConvert_Sending_A_different_version_ON_header() {
-        //given
-        //init mocks
-
         //when
         ResponseEntity<?> responseEntity = conversionController.convert("application/fhir+xml; fhirVersion=3.0", "application/fhir+json; fhirVersion=3.0", staticR4Json);
 

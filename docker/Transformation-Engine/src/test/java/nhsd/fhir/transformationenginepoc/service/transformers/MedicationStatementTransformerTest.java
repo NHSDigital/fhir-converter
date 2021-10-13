@@ -5,7 +5,6 @@ import org.apache.commons.io.FileUtils;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.springframework.http.MediaType;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
@@ -19,7 +18,6 @@ import java.nio.charset.StandardCharsets;
 
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
-import static org.mockito.MockitoAnnotations.initMocks;
 
 class MedicationStatementTransformerTest {
 
@@ -38,8 +36,6 @@ class MedicationStatementTransformerTest {
 
     @Test
     public void convert_MedicationStatement_from_STU3_to_R4_Json_to_Json() throws Exception {
-        //given
-        //init mocks
         //when
         String transform = medicationStatementTransformer.transform(FhirVersionEnum.DSTU3, FhirVersionEnum.R4, MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, medicationStatement_staticR3Json);
 
@@ -54,8 +50,6 @@ class MedicationStatementTransformerTest {
 
     @Test
     public void convert_MedicationStatement_from_R4_to_STU3_Json_to_Json() throws Exception {
-        //given
-        //init mocks
         //when
         String transform = medicationStatementTransformer.transform(FhirVersionEnum.R4, FhirVersionEnum.DSTU3, MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, medicationStatement_staticR4Json);
 
@@ -70,8 +64,6 @@ class MedicationStatementTransformerTest {
 
     @Test
     public void convert_MedicationStatement_from_STU3_Xml_to_R4_Json() throws Exception {
-        //given
-        //init mocks
         //when
         String transform = medicationStatementTransformer.transform(FhirVersionEnum.DSTU3, FhirVersionEnum.R4, MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON, medicationStatement_staticR3Xml);
 
@@ -86,8 +78,6 @@ class MedicationStatementTransformerTest {
 
     @Test
     public void convert_MedicationStatement_from_R4_Xml_to_STU3_Json() throws Exception {
-        //given
-        //init mocks
         //when
         String transform = medicationStatementTransformer.transform(FhirVersionEnum.R4, FhirVersionEnum.DSTU3, MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON, medicationStatement_staticR4Xml);
 
@@ -102,40 +92,34 @@ class MedicationStatementTransformerTest {
 
     @Test
     public void convert_MedicationStatement_from_R4_to_STU3_Json_to_Xml() throws Exception {
-        //given
-        //init mocks
         //when
         String transform = medicationStatementTransformer.transform(FhirVersionEnum.R4, FhirVersionEnum.DSTU3, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, medicationStatement_staticR4Json);
 
         //then
         assertNotNull(transform);
-        String modelName = null;
 
         final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         final DocumentBuilder builder = factory.newDocumentBuilder();
         final Document doc = builder.parse(new InputSource(new StringReader(transform)));
 
-        modelName = doc.getFirstChild().getNodeName();
+        String modelName = doc.getFirstChild().getNodeName();
 
         assertEquals(modelName, "MedicationStatement");
     }
 
     @Test
     public void convert_MedicationStatement_from_STU3_to_R4_Json_to_Xml() throws Exception {
-        //given
-        //init mocks
         //when
         String transform = medicationStatementTransformer.transform(FhirVersionEnum.DSTU3, FhirVersionEnum.R4, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, medicationStatement_staticR3Json);
 
         //then
         assertNotNull(transform);
-        String modelName = null;
 
         final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         final DocumentBuilder builder = factory.newDocumentBuilder();
         final Document doc = builder.parse(new InputSource(new StringReader(transform)));
 
-        modelName = doc.getFirstChild().getNodeName();
+        String modelName = doc.getFirstChild().getNodeName();
 
         assertEquals(modelName, "MedicationStatement");
     }

@@ -52,7 +52,7 @@ public class MedicationStatementTransformer extends Transformer {
             //handling with multiple formats and same version.
             if (inVersion == FhirVersionEnum.DSTU3 && outVersion == FhirVersionEnum.DSTU3) {
                 resource = (org.hl7.fhir.dstu3.model.MedicationStatement) inParser.parseResource(org.hl7.fhir.dstu3.model.MedicationStatement.class, resourceString);
-                return outParser.encodeResourceToString((org.hl7.fhir.dstu3.model.MedicationStatement)resource);
+                return outParser.encodeResourceToString((org.hl7.fhir.dstu3.model.MedicationStatement) resource);
             } else if (inVersion == FhirVersionEnum.R4 && outVersion == FhirVersionEnum.R4) {
                 resource = (org.hl7.fhir.r4.model.MedicationStatement) inParser.parseResource(org.hl7.fhir.r4.model.MedicationStatement.class, resourceString);
                 return outParser.encodeResourceToString((org.hl7.fhir.r4.model.MedicationStatement) resource);
@@ -71,9 +71,9 @@ public class MedicationStatementTransformer extends Transformer {
             if (outVersion.equals(FhirVersionEnum.DSTU3)) {
                 converstionResult = outParser.encodeResourceToString((org.hl7.fhir.dstu3.model.MedicationStatement) resource);
             } else {
-                converstionResult =  outParser.encodeResourceToString((org.hl7.fhir.r4.model.MedicationStatement) resource);
+                converstionResult = outParser.encodeResourceToString((org.hl7.fhir.r4.model.MedicationStatement) resource);
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
 

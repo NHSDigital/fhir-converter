@@ -38,8 +38,6 @@ class MedicationRequestTransformerTest {
 
     @Test
     public void convert_MedicationStatement_from_STU3_to_R4_Json_to_Json() throws JSONException {
-        //given
-        //init mocks
         //when
         String transform = medicationRequestTransformer.transform(FhirVersionEnum.DSTU3, FhirVersionEnum.R4, MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, medicationRequest_staticR3Json);
 
@@ -54,8 +52,6 @@ class MedicationRequestTransformerTest {
 
     @Test
     public void convert_MedicationStatement_from_R4_to_STU3_Json_to_Json() throws JSONException {
-        //given
-        //init mocks
         //when
         String transform = medicationRequestTransformer.transform(FhirVersionEnum.R4, FhirVersionEnum.DSTU3, MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, medicationRequest_staticR4Json);
 
@@ -70,40 +66,34 @@ class MedicationRequestTransformerTest {
 
     @Test
     public void convert_MedicationStatement_from_R4_to_STU3_Json_to_Xml() throws ParserConfigurationException, IOException, SAXException {
-        //given
-        //init mocks
         //when
         String transform = medicationRequestTransformer.transform(FhirVersionEnum.R4, FhirVersionEnum.DSTU3, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, medicationRequest_staticR4Json);
 
         //then
         assertNotNull(transform);
-        String modelName = null;
 
         final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         final DocumentBuilder builder = factory.newDocumentBuilder();
         final Document doc = builder.parse(new InputSource(new StringReader(transform)));
 
-        modelName = doc.getFirstChild().getNodeName();
+        String modelName = doc.getFirstChild().getNodeName();
 
         assertEquals(modelName, "MedicationRequest");
     }
 
     @Test
     public void convert_MedicationStatement_from_STU3_to_R4_Json_to_Xml() throws ParserConfigurationException, IOException, SAXException {
-        //given
-        //init mocks
         //when
         String transform = medicationRequestTransformer.transform(FhirVersionEnum.DSTU3, FhirVersionEnum.R4, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, medicationRequest_staticR3Json);
 
         //then
         assertNotNull(transform);
-        String modelName = null;
 
         final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         final DocumentBuilder builder = factory.newDocumentBuilder();
         final Document doc = builder.parse(new InputSource(new StringReader(transform)));
 
-        modelName = doc.getFirstChild().getNodeName();
+        String modelName = doc.getFirstChild().getNodeName();
 
         assertEquals(modelName, "MedicationRequest");
     }
