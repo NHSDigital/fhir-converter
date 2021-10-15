@@ -6,7 +6,7 @@ This project is based on HAPI project which is an open-source library that allow
 
 ### Request
 
-`POST /convert/`
+`POST /$convert/`
 
 To convert FHIR 
 
