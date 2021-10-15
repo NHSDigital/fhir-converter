@@ -7,7 +7,7 @@ from .example_loader import load_example
 class TestConverter:
     @pytest.fixture()
     def url(self, proxy_url: str) -> str:
-        return f"{proxy_url}/convert"
+        return f"{proxy_url}/$convert"
 
     # #####################
     # STU3 to R4 ########

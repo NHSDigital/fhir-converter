@@ -19,7 +19,7 @@ import java.io.StringReader;
 
 @Validated
 @RestController
-@RequestMapping(value = "/convert")
+@RequestMapping(value = "/$convert")
 public class ConversionController {
 
     private final ConversionService fileConversionService;

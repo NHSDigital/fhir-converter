@@ -7,7 +7,7 @@ from .example_loader import load_example, load_error
 class TestConverterBadRequest:
     @pytest.fixture()
     def url(self, proxy_url: str) -> str:
-        return f"{proxy_url}/convert"
+        return f"{proxy_url}/$convert"
 
     @pytest.mark.parametrize("accept", [
         # "application/fhir+json; fhirVersion=4.0" -> valid header
