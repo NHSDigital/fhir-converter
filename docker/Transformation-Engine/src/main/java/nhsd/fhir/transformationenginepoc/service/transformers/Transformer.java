@@ -18,14 +18,30 @@ package nhsd.fhir.transformationenginepoc.service.transformers;
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.context.FhirVersionEnum;
 import ca.uhn.fhir.parser.IParser;
+import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.springframework.http.MediaType;
 
 
 public abstract class Transformer {
     abstract public String transform(FhirVersionEnum inVersion, FhirVersionEnum outVersion, MediaType inMime, MediaType outMime, String resourceString) throws Exception;
 
+    protected  <T extends IBaseResource> String encode(T resource, FhirVersionEnum outVersion, MediaType outMime) {
+        FhirContext outContext = getSuitableContext(outVersion);
+        IParser outParser = getSuitableParser(outContext, outMime);
 
-    FhirContext getSuitableContext(final FhirVersionEnum selectedVersion) {
+        return outParser.encodeResourceToString(resource);
+
+        /*
+        if (outVersion.equals(FhirVersionEnum.DSTU3)) {
+            return outParser.encodeResourceToString((org.hl7.fhir.dstu3.model.Bundle) resource);
+        } else {
+            return outParser.encodeResourceToString((org.hl7.fhir.r4.model.Bundle) resource);
+        }
+
+         */
+    }
+
+    protected FhirContext getSuitableContext(final FhirVersionEnum selectedVersion) {
         switch (selectedVersion) {
             case DSTU3:
                 return FhirContext.forDstu3();
@@ -36,8 +52,7 @@ public abstract class Transformer {
         }
     }
 
-
-    IParser getSuitableParser(final FhirContext ctx, final MediaType type) {
+    protected IParser getSuitableParser(final FhirContext ctx, final MediaType type) {
         return type.getSubtype().equals("xml") ? ctx.newXmlParser() : ctx.newJsonParser();
     }
 }

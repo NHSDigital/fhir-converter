@@ -3,89 +3,66 @@ package nhsd.fhir.transformationenginepoc.service.transformers;
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.context.FhirVersionEnum;
 import ca.uhn.fhir.parser.IParser;
-import org.hl7.fhir.convertors.VersionConvertor_30_40;
+import org.hl7.fhir.convertors.advisors.impl.BaseAdvisor_30_40;
+import org.hl7.fhir.convertors.conv30_40.VersionConvertor_30_40;
+import org.hl7.fhir.dstu3.model.Bundle.BundleEntryComponent;
 import org.hl7.fhir.dstu3.model.ResourceType;
-import org.hl7.fhir.r4.model.Bundle;
+import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.springframework.http.MediaType;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 public class BundleTransformer extends Transformer {
 
-    private static final Logger LOG = Logger.getLogger(BundleTransformer.class.getName());
+    private static final VersionConvertor_30_40 CONVERTER = new VersionConvertor_30_40(new BaseAdvisor_30_40());
 
     @Override
     public String transform(FhirVersionEnum inVersion, FhirVersionEnum outVersion, MediaType inMime, MediaType outMime, String resourceString) throws Exception {
-        String returnedValue = "";
-
-        // Set up contexts
         FhirContext inContext = getSuitableContext(inVersion);
-        FhirContext outContext = getSuitableContext(outVersion);
-
-        // Instantiate parsers
         IParser inParser = getSuitableParser(inContext, inMime);
-        IParser outParser = getSuitableParser(outContext, outMime);
 
-        Object resource; // We'll first parse the object into this.
-
-        switch(inVersion) {
+        switch (inVersion) {
             case DSTU3:
-                resource = (org.hl7.fhir.dstu3.model.Bundle) inParser.parseResource(org.hl7.fhir.dstu3.model.Bundle.class, resourceString);
-/**
- * This section is specific to handling Bundles with ReferralRequest resources in, which were migrated to ServiceRequest between STU3 and R4.
- *
- * Sadly we're currently binning them EVEN IF we're outputting STU3, that needs resolving really.
- */
-                org.hl7.fhir.dstu3.model.Bundle STU3Bundle = (org.hl7.fhir.dstu3.model.Bundle) resource;
-                List<org.hl7.fhir.dstu3.model.Bundle.BundleEntryComponent> entries = STU3Bundle.getEntry();
-                List<org.hl7.fhir.dstu3.model.Bundle.BundleEntryComponent> newEntries = new ArrayList<org.hl7.fhir.dstu3.model.Bundle.BundleEntryComponent>();
-                Iterator<org.hl7.fhir.dstu3.model.Bundle.BundleEntryComponent> iterator = entries.iterator();
-                while(iterator.hasNext()) {
-                    org.hl7.fhir.dstu3.model.Bundle.BundleEntryComponent entry = iterator.next();
+                org.hl7.fhir.dstu3.model.Bundle stu3Resource = inParser.parseResource(org.hl7.fhir.dstu3.model.Bundle.class, resourceString);
+                // This section is specific to handling Bundles with ReferralRequest resources in, which were migrated to ServiceRequest between STU3 and R4.
+                // Sadly we're currently binning them EVEN IF we're outputting STU3, that needs resolving really.
+                List<BundleEntryComponent> nonReferralResources = stu3Resource.getEntry().stream()
+                        .filter(e -> e.getResource().getResourceType() != ResourceType.ReferralRequest
+                        ).collect(Collectors.toList());
 
-                    ResourceType r = entry.getResource().getResourceType();
+                stu3Resource.setEntry(nonReferralResources);
 
-                    if(r.equals(ResourceType.ReferralRequest) == false) {
-                        newEntries.add(entry);
-                        LOG.info("Adding entry of type: " + entry.getResource().getResourceType());
-                    } else {
-                        LOG.info("Skipping entry of type: " + entry.getResource().getResourceType());
-                    }
-                }
-                STU3Bundle.setEntry(newEntries);
-                resource = STU3Bundle;
-
-/**
- * End of that special sauce bit.
- */
-                break;
-
-
+                return convert(stu3Resource, inVersion, outVersion, outMime);
 
             case R4:
-                resource = (Bundle) inParser.parseResource(Bundle.class, resourceString); //TODO: I guess we should add equivalent here to catch ServiceRequests?
-                break;
+                //TODO: I guess we should add equivalent here to catch ServiceRequests?
+                org.hl7.fhir.r4.model.Resource r4Resource = inParser.parseResource(org.hl7.fhir.r4.model.Bundle.class, resourceString);
+
+                return convert(r4Resource, inVersion, outVersion, outMime);
 
             default:
-                resource = "";
+                return "";
         }
+    }
 
-        // Here we have the resource in an object, convert as necessary...
-        // STU3 to R4
-        if(inVersion == FhirVersionEnum.DSTU3 && outVersion == FhirVersionEnum.R4){
-            resource = (Bundle) VersionConvertor_30_40.convertResource((org.hl7.fhir.dstu3.model.Bundle) resource, true);
-        }
+    private <T extends IBaseResource> String convert(T resource, FhirVersionEnum inVersion, FhirVersionEnum outVersion, MediaType outMime) {
+        if (inVersion == FhirVersionEnum.DSTU3 && outVersion == FhirVersionEnum.R4) {
+            org.hl7.fhir.r4.model.Resource converted = CONVERTER.convertResource((org.hl7.fhir.dstu3.model.Bundle) resource);
+            return encode(converted, outVersion, outMime);
 
-        switch(outVersion) {
-            case DSTU3:
-                returnedValue = outParser.encodeResourceToString((org.hl7.fhir.dstu3.model.Bundle) resource);
-                break;
-            case R4:
-                returnedValue = outParser.encodeResourceToString((Bundle) resource);
+        } else if (inVersion == FhirVersionEnum.R4 && outVersion == FhirVersionEnum.DSTU3) {
+            org.hl7.fhir.dstu3.model.Resource converted = CONVERTER.convertResource((org.hl7.fhir.r4.model.Bundle) resource);
+            return encode(converted, outVersion, outMime);
+
+        } else if (inVersion == FhirVersionEnum.R4 && outVersion == FhirVersionEnum.R4) {
+            return encode(resource, outVersion, outMime);
+
+        } else if (inVersion == FhirVersionEnum.DSTU3 && outVersion == FhirVersionEnum.DSTU3) {
+            return encode(resource, outVersion, outMime);
+
+        } else {
+            return "";
         }
-        return returnedValue;
     }
 }

@@ -1,6 +1,7 @@
 package nhsd.fhir.transformationenginepoc.service;
 
 import ca.uhn.fhir.context.FhirVersionEnum;
+import nhsd.fhir.transformationenginepoc.service.transformers.BundleTransformer;
 import nhsd.fhir.transformationenginepoc.service.transformers.MedicationRequestTransformer;
 import nhsd.fhir.transformationenginepoc.service.transformers.MedicationStatementTransformer;
 import nhsd.fhir.transformationenginepoc.service.transformers.Transformer;
@@ -39,6 +40,10 @@ public class ConversionService {
 
             case "MedicationRequest":
                 transformerToUse = new MedicationRequestTransformer();
+                break;
+
+            case "Bundle":
+                transformerToUse = new BundleTransformer();
                 break;
 
             default:
