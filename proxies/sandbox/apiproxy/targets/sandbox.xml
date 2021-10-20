@@ -32,19 +32,11 @@
       </Step>
       <Step>
         <Name>RaiseFault.InvalidContentType</Name>
-        <Condition>proxy.pathsuffix Not Matches "/_status" and request.header.Content-Type != "application/fhir+json;
-          fhirVersion=3.0" and request.header.Content-Type != "application/fhir+xml; fhirVersion=3.0" and
-          request.header.Content-Type != "application/fhir+json; fhirVersion=4.0" and request.header.Content-Type !=
-          "application/fhir+xml; fhirVersion=4.0"
-        </Condition>
+        <Condition>proxy.pathsuffix Not Matches "/_status" and request.header.Content-Type != "application/fhir+json; fhirVersion=3.0" and request.header.Content-Type != "application/fhir+xml; fhirVersion=3.0" and request.header.Content-Type != "application/fhir+json; fhirVersion=4.0" and request.header.Content-Type != "application/fhir+xml; fhirVersion=4.0" </Condition>
       </Step>
       <Step>
         <Name>RaiseFault.InvalidAcceptHeader</Name>
-        <Condition>proxy.pathsuffix Not Matches "/_status" and request.header.Accept != "application/fhir+json;
-          fhirVersion=4.0" and request.header.Accept != "application/fhir+xml; fhirVersion=4.0" and
-          request.header.Accept != "application/fhir+json; fhirVersion=3.0" and request.header.Accept !=
-          "application/fhir+xml; fhirVersion=3.0"
-        </Condition>
+        <Condition>proxy.pathsuffix Not Matches "/_status" and request.header.Accept != "application/fhir+json; fhirVersion=4.0" and request.header.Accept != "application/fhir+xml; fhirVersion=4.0" and request.header.Accept != "application/fhir+json; fhirVersion=3.0" and request.header.Accept != "application/fhir+xml; fhirVersion=3.0" </Condition>
       </Step>
     </Request>
   </PreFlow>
