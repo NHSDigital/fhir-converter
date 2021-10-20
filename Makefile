@@ -42,8 +42,10 @@ release: clean publish build-proxy
 	mkdir -p dist
 	for f in $(_dist_include); do cp -r $$f dist; done
 	cp ecs-proxies-deploy.yml dist/ecs-deploy-internal-dev.yml
+	cp ecs-proxies-deploy.yml dist/ecs-deploy-internal-dev-sandbox.yml
 	cp ecs-proxies-deploy.yml dist/ecs-deploy-internal-qa.yml
 	cp ecs-proxies-deploy.yml dist/ecs-deploy-int.yml
+	cp ecs-proxies-deploy.yml dist/ecs-deploy-sandbox.yml
 
 smoketest:
 #	this target is for end to end smoketests this would be run 'post deploy' to verify an environment is working
