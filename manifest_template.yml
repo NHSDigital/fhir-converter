@@ -5,7 +5,7 @@ APIGEE_ENVIRONMENTS:
   - name: internal-dev
     display_name: Internal Development
   - name: internal-dev-sandbox
-     display_name: Internal Development Sandbox
+    display_name: Internal Development Sandbox
   - name: internal-qa
     display_name: Internal QA
   # - name: internal-qa-sandbox
@@ -13,7 +13,7 @@ APIGEE_ENVIRONMENTS:
   # - name: ref
   #   display_name: Reference
   - name: sandbox
-     display_name: Sandbox
+    display_name: Sandbox
 # Enable int environment when ready by uncommenting:
   - name: int
     display_name: Integration Testing
