@@ -48,3 +48,8 @@ extends:
           - internal_qa
         post_deploy:
           - template: ./templates/run-tests.yml
+      - environment: sandbox
+        proxy_path: sandbox
+        enable_status_monitoring: true
+        post_deploy:
+          - template: ./templates/run-tests.yml

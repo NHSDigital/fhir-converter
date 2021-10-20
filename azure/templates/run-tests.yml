@@ -20,7 +20,7 @@ steps:
  - bash: |
     export RELEASE_RELEASEID=$(Build.BuildId)
     export SOURCE_COMMIT_ID=$(Build.SourceVersion)
-    export PR_NO=$(echo "${FULLY_QUALIFIED_SERVICE_NAME}" | grep -P '(-pr-\d+$)' -o | grep -P '(\d+)' -o)
+    export PR_NO=$(echo "${FULLY_QUALIFIED_SERVICE_NAME}" | grep -P '(-pr-\d+)' -o | grep -P '(\d+)' -o)
     export APIGEE_ENVIRONMENT="$(ENVIRONMENT)"
 
     export DEFAULT_CLIENT_ID="$(CLIENT_ID_INT)"
