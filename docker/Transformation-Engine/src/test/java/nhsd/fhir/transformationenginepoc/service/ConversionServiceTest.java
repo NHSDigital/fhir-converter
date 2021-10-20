@@ -16,12 +16,15 @@ import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
 
 @RunWith(MockitoJUnitRunner.class)
 class ConversionServiceTest {
+    private final static List<String> EMPTY_INCLUDE_RESOURCES = new ArrayList<>();
 
     private ConversionService fileConversionService;
 
@@ -42,7 +45,7 @@ class ConversionServiceTest {
     @Test
     public void convert_MedicationRequest_from_STU3_to_R4_Json_to_Json() throws Exception {
         //when
-        String convert = fileConversionService.convertFhirSchema("3.0", "4.0", MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, medicationRequest_staticR3Json);
+        String convert = fileConversionService.convertFhirSchema("3.0", "4.0", MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, medicationRequest_staticR3Json, EMPTY_INCLUDE_RESOURCES);
 
         //then
         final JSONObject r3Json = new JSONObject(convert);
@@ -56,7 +59,7 @@ class ConversionServiceTest {
     @Test
     public void convert_MedicationRequest_from_R4_to_STU3_Json_to_Json() throws Exception {
         //when
-        String convert = fileConversionService.convertFhirSchema("4.0", "3.0", MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, medicationRequest_staticR4Json);
+        String convert = fileConversionService.convertFhirSchema("4.0", "3.0", MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, medicationRequest_staticR4Json, EMPTY_INCLUDE_RESOURCES);
 
         //then
         final JSONObject r3Json = new JSONObject(convert);
@@ -70,7 +73,7 @@ class ConversionServiceTest {
     @Test
     public void convert_MedicationRequest_from_STU3_to_R4_Json_to_xml() throws Exception {
         //when
-        String convert = fileConversionService.convertFhirSchema("3.0", "4.0", MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, medicationRequest_staticR3Json);
+        String convert = fileConversionService.convertFhirSchema("3.0", "4.0", MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, medicationRequest_staticR3Json, EMPTY_INCLUDE_RESOURCES);
 
         //then
         assertNotNull(convert);
@@ -86,7 +89,7 @@ class ConversionServiceTest {
     @Test
     public void convert_MedicationRequest_from_R4_to_R4_json_to_xml() throws Exception {
         //when
-        String convert = fileConversionService.convertFhirSchema("4.0", "4.0", MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, medicationRequest_staticR4Json);
+        String convert = fileConversionService.convertFhirSchema("4.0", "4.0", MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, medicationRequest_staticR4Json, EMPTY_INCLUDE_RESOURCES);
 
         //then
         assertNotNull(convert);
@@ -102,7 +105,7 @@ class ConversionServiceTest {
     @Test
     public void convert_MedicationStatement_from_R3_to_R4_json_to_json() throws Exception {
         //when
-        String convert = fileConversionService.convertFhirSchema("3.0", "4.0", MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, medicationStatement_staticR3Json);
+        String convert = fileConversionService.convertFhirSchema("3.0", "4.0", MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, medicationStatement_staticR3Json, EMPTY_INCLUDE_RESOURCES);
 
         //then
         final JSONObject r3Json = new JSONObject(convert);
@@ -116,7 +119,7 @@ class ConversionServiceTest {
     @Test
     public void convert_MedicationStatement_from_R4_to_R3_json_to_json() throws Exception {
         //when
-        String convert = fileConversionService.convertFhirSchema("4.0", "3.0", MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, medicationStatement_staticR4Json);
+        String convert = fileConversionService.convertFhirSchema("4.0", "3.0", MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, medicationStatement_staticR4Json, EMPTY_INCLUDE_RESOURCES);
 
         //then
         final JSONObject r3Json = new JSONObject(convert);
@@ -130,7 +133,7 @@ class ConversionServiceTest {
     @Test
     public void convert_MedicationStatement_from_R3_to_R3_xml_to_json() throws Exception {
         //when
-        String convert = fileConversionService.convertFhirSchema("3.0", "3.0", MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON, medicationStatement_staticR3Xml);
+        String convert = fileConversionService.convertFhirSchema("3.0", "3.0", MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON, medicationStatement_staticR3Xml, EMPTY_INCLUDE_RESOURCES);
 
         //then
         final JSONObject r3Json = new JSONObject(convert);
@@ -144,7 +147,7 @@ class ConversionServiceTest {
     @Test
     public void convert_MedicationStatement_from_R3_to_R3_xml_to_xml() throws Exception {
         //when
-        String convert = fileConversionService.convertFhirSchema("3.0", "3.0", MediaType.APPLICATION_XML, MediaType.APPLICATION_XML, medicationStatement_staticR3Xml);
+        String convert = fileConversionService.convertFhirSchema("3.0", "3.0", MediaType.APPLICATION_XML, MediaType.APPLICATION_XML, medicationStatement_staticR3Xml, EMPTY_INCLUDE_RESOURCES);
 
         //then
         assertNotNull(convert);

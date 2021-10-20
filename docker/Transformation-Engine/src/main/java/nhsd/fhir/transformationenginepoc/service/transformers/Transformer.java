@@ -30,15 +30,6 @@ public abstract class Transformer {
         IParser outParser = getSuitableParser(outContext, outMime);
 
         return outParser.encodeResourceToString(resource);
-
-        /*
-        if (outVersion.equals(FhirVersionEnum.DSTU3)) {
-            return outParser.encodeResourceToString((org.hl7.fhir.dstu3.model.Bundle) resource);
-        } else {
-            return outParser.encodeResourceToString((org.hl7.fhir.r4.model.Bundle) resource);
-        }
-
-         */
     }
 
     protected FhirContext getSuitableContext(final FhirVersionEnum selectedVersion) {

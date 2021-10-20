@@ -6,7 +6,6 @@ import ca.uhn.fhir.parser.IParser;
 import org.hl7.fhir.convertors.advisors.impl.BaseAdvisor_30_40;
 import org.hl7.fhir.convertors.conv30_40.VersionConvertor_30_40;
 import org.hl7.fhir.dstu3.model.Bundle.BundleEntryComponent;
-import org.hl7.fhir.dstu3.model.ResourceType;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.springframework.http.MediaType;
 
@@ -16,6 +15,12 @@ import java.util.stream.Collectors;
 public class BundleTransformer extends Transformer {
 
     private static final VersionConvertor_30_40 CONVERTER = new VersionConvertor_30_40(new BaseAdvisor_30_40());
+
+    private final List<String> includeResources;
+
+    public BundleTransformer(List<String> desiredResources) {
+        this.includeResources = desiredResources;
+    }
 
     @Override
     public String transform(FhirVersionEnum inVersion, FhirVersionEnum outVersion, MediaType inMime, MediaType outMime, String resourceString) throws Exception {
@@ -27,11 +32,11 @@ public class BundleTransformer extends Transformer {
                 org.hl7.fhir.dstu3.model.Bundle stu3Resource = inParser.parseResource(org.hl7.fhir.dstu3.model.Bundle.class, resourceString);
                 // This section is specific to handling Bundles with ReferralRequest resources in, which were migrated to ServiceRequest between STU3 and R4.
                 // Sadly we're currently binning them EVEN IF we're outputting STU3, that needs resolving really.
-                List<BundleEntryComponent> nonReferralResources = stu3Resource.getEntry().stream()
-                        .filter(e -> e.getResource().getResourceType() != ResourceType.ReferralRequest
+                List<BundleEntryComponent> filteredResources = stu3Resource.getEntry().stream()
+                        .filter(e -> includeResources.contains(e.getResource().getResourceType().name())
                         ).collect(Collectors.toList());
 
-                stu3Resource.setEntry(nonReferralResources);
+                stu3Resource.setEntry(filteredResources);
 
                 return convert(stu3Resource, inVersion, outVersion, outMime);
 
