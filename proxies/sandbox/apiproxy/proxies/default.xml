@@ -60,9 +60,4 @@
   <RouteRule name="sandbox">
     <TargetEndpoint>sandbox</TargetEndpoint>
   </RouteRule>
-  <DefaultFaultRule>
-    <Step>
-      <Name>AssignMessage.Errors.CatchAllMessage</Name>
-    </Step>
-  </DefaultFaultRule>
 </ProxyEndpoint>

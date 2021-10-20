@@ -7,11 +7,7 @@ import org.json.JSONObject;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
@@ -26,7 +22,7 @@ import java.util.List;
 
 @Validated
 @RestController
-@RequestMapping(value = "/convert")
+@RequestMapping(value = "/$convert")
 public class ConversionController {
 
     private final ConversionService fileConversionService;

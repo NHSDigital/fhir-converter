@@ -84,7 +84,7 @@ servers:
 tags:
   - name: FHIR Converter
 paths:
-  /convert:
+  /$convert:
     post:
       summary: Convert FHIR payload
       operationId: convert
