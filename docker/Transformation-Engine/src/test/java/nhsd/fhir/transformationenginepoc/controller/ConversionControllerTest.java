@@ -28,13 +28,12 @@ class ConversionControllerTest {
         staticR3Json = FileUtils.readFileToString(new File("src/test/resources/STU3_MedRequest.json"), StandardCharsets.UTF_8);
         staticR4JsonWrongSchema = FileUtils.readFileToString(new File("src/test/resources/STU3_MedRequest_Invalid_schema.json"), StandardCharsets.UTF_8);
         staticR3_MedicationStatement_Worng_Schema = FileUtils.readFileToString(new File("src/test/resources/R3_MedicationStatement_Wrong_schema.xml"), StandardCharsets.UTF_8);
-
     }
 
     @Test
     public void callConverterToConvert_R3_to_R4_json_json() {
         //when
-        ResponseEntity<?> responseEntity = conversionController.convert("application/fhir+json; fhirVersion=3.0", "application/fhir+json; fhirVersion=4.0", staticR3Json);
+        ResponseEntity<?> responseEntity = conversionController.convert("application/fhir+json; fhirVersion=3.0", "application/fhir+json; fhirVersion=4.0", "", staticR3Json);
 
         //then
         assertEquals(responseEntity.getStatusCode(), HttpStatus.OK);
@@ -44,7 +43,7 @@ class ConversionControllerTest {
     @Test
     public void callConverterToConvert_R4_to_R3_json_json() throws Exception {
         //when
-        ResponseEntity<?> responseEntity = conversionController.convert("application/fhir+json; fhirVersion=4.0", "application/fhir+json; fhirVersion=3.0", staticR4Json);
+        ResponseEntity<?> responseEntity = conversionController.convert("application/fhir+json; fhirVersion=4.0", "application/fhir+json; fhirVersion=3.0", "", staticR4Json);
 
         //then
         assertEquals(responseEntity.getStatusCode(), HttpStatus.OK);
@@ -54,7 +53,7 @@ class ConversionControllerTest {
     @Test
     public void callConverterToConvert_Wrong_Headers() {
         //when
-        ResponseEntity<?> responseEntity = conversionController.convert("", "application/fhir+json; fhirVersion=3.0", staticR4Json);
+        ResponseEntity<?> responseEntity = conversionController.convert("", "application/fhir+json; fhirVersion=3.0", "", staticR4Json);
 
         //then
         assertEquals(responseEntity.getStatusCode(), HttpStatus.BAD_REQUEST);
@@ -65,7 +64,7 @@ class ConversionControllerTest {
     @Test
     public void callConverterToConvert_Wrong_Json_Payload() {
         //when
-        ResponseEntity<?> responseEntity = conversionController.convert("application/fhir+json; fhirVersion=3.0", "application/fhir+json; fhirVersion=3.0", staticR4JsonWrongSchema);
+        ResponseEntity<?> responseEntity = conversionController.convert("application/fhir+json; fhirVersion=3.0", "application/fhir+json; fhirVersion=3.0", "", staticR4JsonWrongSchema);
 
         //then
         assertEquals(responseEntity.getStatusCode(), HttpStatus.BAD_REQUEST);
@@ -77,7 +76,7 @@ class ConversionControllerTest {
     @Test
     public void callConverterToConvert_Wrong_XML_Payload() {
         //when
-        ResponseEntity<?> responseEntity = conversionController.convert("application/fhir+xml; fhirVersion=3.0", "application/fhir+json; fhirVersion=3.0", staticR3_MedicationStatement_Worng_Schema);
+        ResponseEntity<?> responseEntity = conversionController.convert("application/fhir+xml; fhirVersion=3.0", "application/fhir+json; fhirVersion=3.0", "", staticR3_MedicationStatement_Worng_Schema);
 
         //then
         assertEquals(responseEntity.getStatusCode(), HttpStatus.BAD_REQUEST);
@@ -88,7 +87,7 @@ class ConversionControllerTest {
     @Test
     public void callConverterToConvert_Sending_A_different_version_ON_header() {
         //when
-        ResponseEntity<?> responseEntity = conversionController.convert("application/fhir+xml; fhirVersion=3.0", "application/fhir+json; fhirVersion=3.0", staticR4Json);
+        ResponseEntity<?> responseEntity = conversionController.convert("application/fhir+xml; fhirVersion=3.0", "application/fhir+json; fhirVersion=3.0", "", staticR4Json);
 
         //then
         assertEquals(responseEntity.getStatusCode(), HttpStatus.BAD_REQUEST);

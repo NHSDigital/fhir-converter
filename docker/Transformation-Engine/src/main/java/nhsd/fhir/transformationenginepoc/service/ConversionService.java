@@ -1,6 +1,7 @@
 package nhsd.fhir.transformationenginepoc.service;
 
 import ca.uhn.fhir.context.FhirVersionEnum;
+import nhsd.fhir.transformationenginepoc.service.transformers.BundleTransformer;
 import nhsd.fhir.transformationenginepoc.service.transformers.MedicationRequestTransformer;
 import nhsd.fhir.transformationenginepoc.service.transformers.MedicationStatementTransformer;
 import nhsd.fhir.transformationenginepoc.service.transformers.Transformer;
@@ -16,20 +17,21 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.List;
 
 @Service
 public class ConversionService {
 
-    public String convertFhirSchema(final String currentVersion, final String targetVersion, final MediaType content_type, final MediaType return_type, final String fhirSchema) throws Exception {
+    public String convertFhirSchema(final String currentVersion, final String targetVersion, final MediaType content_type, final MediaType return_type, final String fhirSchema, List<String> desiredResources) throws Exception {
 
         final String resourceType = getResourceType(content_type, fhirSchema);
 
-        final Transformer transformerToUse = getTransformer(resourceType);
+        final Transformer transformerToUse = getTransformer(resourceType, desiredResources);
 
         return transformerToUse.transform(getFhirVerion(currentVersion), getFhirVerion(targetVersion), content_type, return_type, fhirSchema);
     }
 
-    private Transformer getTransformer(final String resourceType) {
+    private Transformer getTransformer(final String resourceType, List<String> desiredResources) {
 
         final Transformer transformerToUse;
         switch (resourceType) {
@@ -39,6 +41,10 @@ public class ConversionService {
 
             case "MedicationRequest":
                 transformerToUse = new MedicationRequestTransformer();
+                break;
+
+            case "Bundle":
+                transformerToUse = new BundleTransformer(desiredResources);
                 break;
 
             default:

@@ -16,6 +16,9 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParserFactory;
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @Validated
 @RestController
@@ -31,17 +34,22 @@ public class ConversionController {
     @PostMapping(consumes = MediaType.ALL_VALUE)
     public ResponseEntity<?> convert(@RequestHeader("Content-Type") final String content_type,
                                      @RequestHeader("Accept") final String accept,
+                                     @RequestHeader(value = "X-Include-Resources", required = false) final String includeResourcesHeader,
                                      @NotNull @RequestBody final String fhirSchema) {
 
 
         String currentVersion, targetVersion;
         MediaType mediaTypeIn, mediaTypeInOut;
+        List<String> includeResources = new ArrayList<>();
 
         try {
             currentVersion = content_type.split(";")[1].split("=")[1];
             targetVersion = accept.split(";")[1].split("=")[1];
             mediaTypeIn = content_type.split(";")[0].contains("xml") ? MediaType.APPLICATION_XML : MediaType.APPLICATION_JSON;
             mediaTypeInOut = accept.split(";")[0].contains("xml") ? MediaType.APPLICATION_XML : MediaType.APPLICATION_JSON;
+            if (includeResourcesHeader != null) {
+                includeResources.addAll(Arrays.asList(includeResourcesHeader.split("\\|")));
+            }
 
         } catch (Exception e) {
             return ResponseEntity.badRequest()
@@ -71,7 +79,7 @@ public class ConversionController {
 
         String convertedFhir = Strings.EMPTY;
         try {
-            convertedFhir = fileConversionService.convertFhirSchema(currentVersion, targetVersion, mediaTypeIn, mediaTypeInOut, fhirSchema);
+            convertedFhir = fileConversionService.convertFhirSchema(currentVersion, targetVersion, mediaTypeIn, mediaTypeInOut, fhirSchema, includeResources);
         } catch (Exception e) {
             return ResponseEntity.unprocessableEntity()
                 .contentType(MediaType.APPLICATION_JSON)
