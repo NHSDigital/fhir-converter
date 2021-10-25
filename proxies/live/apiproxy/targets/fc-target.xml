@@ -20,13 +20,13 @@
       <Step>
         <Name>RaiseFault.404PageNotFound</Name>
         <Condition>
-          (proxy.pathsuffix Not Matches "/_status") AND (proxy.pathsuffix Not Matches "/convert")
+          (proxy.pathsuffix Not Matches "/_status") AND (proxy.pathsuffix Not Matches "/$convert")
         </Condition>
       </Step>
-      <Step>
+      <!-- <Step>
         <Name>OauthV2.VerifyAccessToken</Name>
         <Condition>proxy.pathsuffix Not Matches "/_status"</Condition>
-      </Step>
+      </Step> -->
       <Step>
         <Name>Quota</Name>
       </Step>

@@ -1,14 +1,17 @@
 package nhsd.fhir.transformationenginepoc.controller;
 
-import com.google.gson.JsonParser;
-import com.google.gson.JsonSyntaxException;
 import nhsd.fhir.transformationenginepoc.service.ConversionService;
 import org.apache.logging.log4j.util.Strings;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
@@ -17,30 +20,40 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParserFactory;
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @Validated
 @RestController
-@RequestMapping(value = "/convert")
+@RequestMapping(value = "/$convert")
 public class ConversionController {
 
+    private final ConversionService fileConversionService;
 
-    @Autowired
-    private ConversionService fileConversionService;
+    public ConversionController(ConversionService conversionService) {
+        this.fileConversionService = conversionService;
+    }
 
     @PostMapping(consumes = MediaType.ALL_VALUE)
     public ResponseEntity<?> convert(@RequestHeader("Content-Type") final String content_type,
                                      @RequestHeader("Accept") final String accept,
+                                     @RequestHeader(value = "X-Include-Resources", required = false) final String includeResourcesHeader,
                                      @NotNull @RequestBody final String fhirSchema) {
 
 
         String currentVersion, targetVersion;
         MediaType mediaTypeIn, mediaTypeInOut;
+        List<String> includeResources = new ArrayList<>();
 
         try {
             currentVersion = content_type.split(";")[1].split("=")[1];
             targetVersion = accept.split(";")[1].split("=")[1];
             mediaTypeIn = content_type.split(";")[0].contains("xml") ? MediaType.APPLICATION_XML : MediaType.APPLICATION_JSON;
             mediaTypeInOut = accept.split(";")[0].contains("xml") ? MediaType.APPLICATION_XML : MediaType.APPLICATION_JSON;
+            if (includeResourcesHeader != null) {
+                includeResources.addAll(Arrays.asList(includeResourcesHeader.split("\\|")));
+            }
 
         } catch (Exception e) {
             return ResponseEntity.badRequest()
@@ -48,18 +61,17 @@ public class ConversionController {
                 .body("Invalid syntax for this request was provided. " + e);
         }
 
-        if (mediaTypeIn.getType().equals("json")) {
+        if (mediaTypeIn.getSubtype().equals("json")) {
             try {
-                JsonParser parser = new JsonParser();
-                parser.parse(fhirSchema);
-            } catch (JsonSyntaxException jse) {
+                new JSONObject(fhirSchema);
+            } catch (JSONException jse) {
                 return ResponseEntity.badRequest()
                     .contentType(MediaType.APPLICATION_JSON)
                     .body("Invalid syntax for this request was provided. Please check your JSON payload");
             }
         }
 
-        if (mediaTypeIn.getType().equals("xml")) {
+        if (mediaTypeIn.getSubtype().equals("xml")) {
             try {
                 SAXParserFactory.newInstance().newSAXParser().getXMLReader().parse(new InputSource(new StringReader(fhirSchema)));
             } catch (ParserConfigurationException | SAXException | IOException ex) {
@@ -71,11 +83,11 @@ public class ConversionController {
 
         String convertedFhir = Strings.EMPTY;
         try {
-            convertedFhir = fileConversionService.convertFhirSchema(currentVersion, targetVersion, mediaTypeIn, mediaTypeInOut, fhirSchema);
+            convertedFhir = fileConversionService.convertFhirSchema(currentVersion, targetVersion, mediaTypeIn, mediaTypeInOut, fhirSchema, includeResources);
         } catch (Exception e) {
             return ResponseEntity.unprocessableEntity()
                 .contentType(MediaType.APPLICATION_JSON)
-                .body("Sorry. Something went wrong with our conversion. Please, try again.");
+                .body(e.getMessage());
         }
 
         return ResponseEntity.ok()

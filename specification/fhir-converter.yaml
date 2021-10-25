@@ -10,9 +10,66 @@ x-meta:
 info:
   version: "{VERSION}"
   title: FHIR Converter
-  description: |
+  description:  |
     ## Overview
-    This proxy function as a converter from FHIR R4 to STU3 and vice versa
+    Use this API to converter resource types `MedicationRequest` and `MedicationStatements` from FHIR R4 to STU3 and vice versa. This APi supports both STU3 GP Connect and R4 UK Core profile
+
+    You can:
+      - post either a `MedicationRequest` or `MedicationStatement`
+
+    You cannot:
+      - convert between any other resource types
+
+    The API is synchronous - you recieve your converted resource in the response body.
+
+    The following describes the end-to-end process:
+    1. The sending system sends the source payload to the FHIR Converter API.
+    2. The FHIR Converter API converts the source payload to the target version.
+    3. The sending system recieves the converted payload in the response.
+
+    ## Who can use this API
+    This API can only be used where there is a legal basis to do so. Make sure you have a valid use case before you go too far with your development. You must do this before you can go live (see ‘Onboarding’ below).
+
+    ## API status and roadmap
+    This API is in [alpha](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#api-status), meaning:
+      * it is available for testing in integration environment
+      * we expect to make breaking changes based on developer feedback
+    ### Roadmap
+
+    To see our roadmap, or to suggest, comment or vote on features for this API, see our [interactive product backlog](https://nhs-digital-api-management.featureupvote.com/?order=popular&filter=allexceptdone&tag=fhir-converter&deleted=0#controls).
+
+    If you have any other queries, please [contact us](https://digital.nhs.uk/developer/help-and-support).
+
+    ## Technology
+    This API uses HTTP POST to submit data.
+
+    The data payload conforms to the [FHIR](https://digital.nhs.uk/developer/guides-and-documentation/api-technologies-at-nhs-digital#fhir) global standard for health care data exchange.
+    Specifically, it is aligned with [FHIR UK Core](https://digital.nhs.uk/services/fhir-uk-core), which is built on FHIR Release 4, or [FHIR GP Connect](https://digital.nhs.uk/services/gp-connect), which is built on FHIR STU3.
+
+    ## Network access
+    This API is available on the internet.
+
+    For more details, see [Network access for APIs](https://digital.nhs.uk/developer/guides-and-documentation/network-access-for-apis).
+
+    ## Security and authorisation
+    ### Open-access authentication
+    The FHIR Converter API is [open-access](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation#open-access-apis), which means:
+        * we do not authenticate or authorise the calling application
+        * we do not authenticate or authorise the end user - they might not even be present We generally use open-access APIs for public data, where security is not a concern. Our open-access APIs are generally RESTful APIs. For more details on how to access them, see our [open-access REST API tutorial](https://digital.nhs.uk/developer/guides-and-documentation/tutorials/open-access-rest-api-tutorial).
+
+    ### Environments and testing
+
+    | Environment       | Base URL                                                               |
+    | ----------------- | ---------------------------------------------------------------------- |
+    | Integration test  | `https://int.api.service.nhs.uk/fhir-converter`                        |
+    | Production        | Not yet available                                                      |
+
+    Our [integration test environment](https://digital.nhs.uk/developer/guides-and-documentation/testing#integration-testing):
+    - is for formal integration testing
+    - is for receiving data quality reports of test data
+
+    For more details see [integration testing with our RESTful APIs](https://digital.nhs.uk/developer/guides-and-documentation/testing#integration-testing-with-our-restful-apis).
+
   contact:
     name: FHIR Converter
     url: "https://digital.nhs.uk/developer/help-and-support"
@@ -27,7 +84,7 @@ servers:
 tags:
   - name: FHIR Converter
 paths:
-  /convert:
+  /$convert:
     post:
       summary: Convert FHIR payload
       operationId: convert
