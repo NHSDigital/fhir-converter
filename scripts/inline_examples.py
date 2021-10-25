@@ -14,11 +14,11 @@ def main(file: str):
     with open(file, 'r') as f:
         spec = json.load(f)
 
-        req_path = parse("$.paths.['/convert'].post.requestBody.content.*.examples.*.['$ref']")
+        req_path = parse("$.paths.['/$convert'].post.requestBody.content.*.examples.*.['$ref']")
         req_examples = req_path.find(spec)
         inline_examples(spec, req_examples)
 
-        res_path = parse("$.paths.['/convert'].post.responses.*.content.*.examples.*.['$ref']")
+        res_path = parse("$.paths.['/$convert'].post.responses.*.content.*.examples.*.['$ref']")
         res_examples = res_path.find(spec)
         inline_examples(spec, res_examples)
 
