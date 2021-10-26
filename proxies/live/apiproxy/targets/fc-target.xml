@@ -9,6 +9,15 @@
       </Step>
       <Condition>oauthV2.OauthV2.VerifyAccessToken.failed</Condition>
     </FaultRule>
+    <FaultRule name="rate_limit_exceeded">
+      <Step>
+        <Name>AssignMessage.Errors.RateLimitExceeded</Name>
+      </Step>
+      <Step>
+        <Name>AssignMessage.Errors.CatchAllMessage</Name>
+      </Step>
+      <Condition>(error.status.code Equals "429")</Condition>
+    </FaultRule>
   </FaultRules>
   <DefaultFaultRule>
       <Step>
@@ -23,15 +32,12 @@
           (proxy.pathsuffix Not Matches "/_status") AND (proxy.pathsuffix Not Matches "/$convert")
         </Condition>
       </Step>
-      <!-- <Step>
+      <Step>
         <Name>OauthV2.VerifyAccessToken</Name>
         <Condition>proxy.pathsuffix Not Matches "/_status"</Condition>
-      </Step> -->
-      <Step>
-        <Name>Quota</Name>
       </Step>
       <Step>
-        <Name>SpikeArrest</Name>
+        <Name>FlowCallout.ApplyRateLimiting</Name>
       </Step>
       <Step>
         <Name>RaiseFault.InvalidContentType</Name>
