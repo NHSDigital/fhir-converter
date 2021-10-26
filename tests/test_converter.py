@@ -7,18 +7,19 @@ from .example_loader import load_example
 class TestConverter:
     @pytest.fixture()
     def url(self, proxy_url: str) -> str:
-        return f"{proxy_url}/convert"
+        return f"{proxy_url}/$convert"
 
     # #####################
     # STU3 to R4 ########
     # #####################
-    def test_converter_json_stu3_to_json_r4(self, url, token):
+    @pytest.mark.parametrize("resource", ["MedicationRequest", "MedicationStatement"])
+    def test_converter_json_stu3_to_json_r4(self, resource, url, token):
         # Given
-        stu3_payload = load_example("stu3.json")
+        stu3_payload = load_example(f"{resource}/stu3.json")
         headers = {
             "Authorization": f"Bearer {token}",
             "Content-Type": "application/fhir+json; fhirVersion=3.0",
-            "Accept": "application/fhir+json; fhirVersion=4.0"
+            "Accept": "application/fhir+json; fhirVersion=4.0",
         }
 
         # When
@@ -26,16 +27,17 @@ class TestConverter:
 
         # Then
         assert res.status_code == 200
-        expected_response = load_example("stu3_to_r4_200.json")
+        expected_response = load_example(f"{resource}/r4.json")
         assert res.json() == expected_response
 
-    def test_converter_json_stu3_to_xml_r4(self, url, token):
+    @pytest.mark.parametrize("resource", ["MedicationRequest", "MedicationStatement"])
+    def test_converter_json_stu3_to_xml_r4(self, resource, url, token):
         # Given
-        stu3_payload = load_example("stu3.json")
+        stu3_payload = load_example(f"{resource}/stu3.json")
         headers = {
             "Authorization": f"Bearer {token}",
             "Content-Type": "application/fhir+json; fhirVersion=3.0",
-            "Accept": "application/fhir+xml; fhirVersion=4.0"
+            "Accept": "application/fhir+xml; fhirVersion=4.0",
         }
 
         # When
@@ -43,16 +45,17 @@ class TestConverter:
 
         # Then
         assert res.status_code == 200
-        expected_response = load_example("stu3_to_r4_200.xml")
+        expected_response = load_example(f"{resource}/r4.xml")
         assert res.text == expected_response
 
-    def test_converter_xml_stu3_to_json_r4(self, url, token):
+    @pytest.mark.parametrize("resource", ["MedicationRequest", "MedicationStatement"])
+    def test_converter_xml_stu3_to_json_r4(self, resource, url, token):
         # Given
-        stu3_payload = load_example("stu3.xml")
+        stu3_payload = load_example(f"{resource}/stu3.xml")
         headers = {
             "Authorization": f"Bearer {token}",
             "Content-Type": "application/fhir+xml; fhirVersion=3.0",
-            "Accept": "application/fhir+json; fhirVersion=4.0"
+            "Accept": "application/fhir+json; fhirVersion=4.0",
         }
 
         # When
@@ -60,16 +63,17 @@ class TestConverter:
 
         # Then
         assert res.status_code == 200
-        expected_response = load_example("stu3_to_r4_200.json")
+        expected_response = load_example(f"{resource}/r4.json")
         assert res.json() == expected_response
 
-    def test_converter_xml_stu3_to_xml_r4(self, url, token):
+    @pytest.mark.parametrize("resource", ["MedicationRequest", "MedicationStatement"])
+    def test_converter_xml_stu3_to_xml_r4(self, resource, url, token):
         # Given
-        stu3_payload = load_example("stu3.xml")
+        stu3_payload = load_example(f"{resource}/stu3.xml")
         headers = {
             "Authorization": f"Bearer {token}",
             "Content-Type": "application/fhir+xml; fhirVersion=3.0",
-            "Accept": "application/fhir+xml; fhirVersion=4.0"
+            "Accept": "application/fhir+xml; fhirVersion=4.0",
         }
 
         # When
@@ -77,20 +81,20 @@ class TestConverter:
 
         # Then
         assert res.status_code == 200
-        expected_response = load_example("stu3_to_r4_200.xml")
+        expected_response = load_example(f"{resource}/r4.xml")
         assert res.text == expected_response
 
     # #####################
     # STU3 to STU3 ########
     # #####################
-
-    def test_converter_json_stu3_to_xml_stu3(self, url, token):
+    @pytest.mark.parametrize("resource", ["MedicationRequest", "MedicationStatement"])
+    def test_converter_json_stu3_to_xml_stu3(self, resource, url, token):
         # Given
-        stu3_payload = load_example("stu3.json")
+        stu3_payload = load_example(f"{resource}/stu3.json")
         headers = {
             "Authorization": f"Bearer {token}",
             "Content-Type": "application/fhir+json; fhirVersion=3.0",
-            "Accept": "application/fhir+xml; fhirVersion=3.0"
+            "Accept": "application/fhir+xml; fhirVersion=3.0",
         }
 
         # When
@@ -98,16 +102,17 @@ class TestConverter:
 
         # Then
         assert res.status_code == 200
-        expected_response = load_example("stu3.xml")
+        expected_response = load_example(f"{resource}/stu3.xml")
         assert res.text == expected_response
 
-    def test_converter_xml_stu3_to_json_stu3(self, url, token):
+    @pytest.mark.parametrize("resource", ["MedicationRequest", "MedicationStatement"])
+    def test_converter_xml_stu3_to_json_stu3(self, resource, url, token):
         # Given
-        stu3_payload = load_example("stu3.xml")
+        stu3_payload = load_example(f"{resource}/stu3.xml")
         headers = {
             "Authorization": f"Bearer {token}",
             "Content-Type": "application/fhir+xml; fhirVersion=3.0",
-            "Accept": "application/fhir+json; fhirVersion=3.0"
+            "Accept": "application/fhir+json; fhirVersion=3.0",
         }
 
         # When
@@ -115,20 +120,20 @@ class TestConverter:
 
         # Then
         assert res.status_code == 200
-        expected_response = load_example("stu3.json")
+        expected_response = load_example(f"{resource}/stu3.json")
         assert res.json() == expected_response
 
     # #####################
     # R4 to STU3 ########
     # #####################
-
-    def test_converter_json_r4_to_json_stu3(self, url, token):
+    @pytest.mark.parametrize("resource", ["MedicationRequest", "MedicationStatement"])
+    def test_converter_json_r4_to_json_stu3(self, resource, url, token):
         # Given
-        r4_payload = load_example("r4.json")
+        r4_payload = load_example(f"{resource}/r4.json")
         headers = {
             "Authorization": f"Bearer {token}",
             "Content-Type": "application/fhir+json; fhirVersion=4.0",
-            "Accept": "application/fhir+json; fhirVersion=3.0"
+            "Accept": "application/fhir+json; fhirVersion=3.0",
         }
 
         # When
@@ -136,16 +141,17 @@ class TestConverter:
 
         # Then
         assert res.status_code == 200
-        expected_response = load_example("r4_to_stu3_200.json")
+        expected_response = load_example(f"{resource}/stu3.json")
         assert res.json() == expected_response
 
-    def test_converter_json_r4_to_xml_stu3(self, url, token):
+    @pytest.mark.parametrize("resource", ["MedicationRequest", "MedicationStatement"])
+    def test_converter_json_r4_to_xml_stu3(self, resource, url, token):
         # Given
-        r4_payload = load_example("r4.json")
+        r4_payload = load_example(f"{resource}/r4.json")
         headers = {
             "Authorization": f"Bearer {token}",
             "Content-Type": "application/fhir+json; fhirVersion=4.0",
-            "Accept": "application/fhir+xml; fhirVersion=3.0"
+            "Accept": "application/fhir+xml; fhirVersion=3.0",
         }
 
         # When
@@ -153,16 +159,17 @@ class TestConverter:
 
         # Then
         assert res.status_code == 200
-        expected_response = load_example("r4_to_stu3_200.xml")
+        expected_response = load_example(f"{resource}/stu3.xml")
         assert res.text == expected_response
 
-    def test_converter_xml_r4_to_json_stu3(self, url, token):
+    @pytest.mark.parametrize("resource", ["MedicationRequest", "MedicationStatement"])
+    def test_converter_xml_r4_to_json_stu3(self, resource, url, token):
         # Given
-        r4_payload = load_example("r4.xml")
+        r4_payload = load_example(f"{resource}/r4.xml")
         headers = {
             "Authorization": f"Bearer {token}",
             "Content-Type": "application/fhir+xml; fhirVersion=4.0",
-            "Accept": "application/fhir+json; fhirVersion=3.0"
+            "Accept": "application/fhir+json; fhirVersion=3.0",
         }
 
         # When
@@ -170,16 +177,17 @@ class TestConverter:
 
         # Then
         assert res.status_code == 200
-        expected_response = load_example("r4_to_stu3_200.json")
+        expected_response = load_example(f"{resource}/stu3.json")
         assert res.json() == expected_response
 
-    def test_converter_xml_r4_to_xml_stu3(self, url, token):
+    @pytest.mark.parametrize("resource", ["MedicationRequest", "MedicationStatement"])
+    def test_converter_xml_r4_to_xml_stu3(self, resource, url, token):
         # Given
-        r4_payload = load_example("r4.xml")
+        r4_payload = load_example(f"{resource}/r4.xml")
         headers = {
             "Authorization": f"Bearer {token}",
             "Content-Type": "application/fhir+xml; fhirVersion=4.0",
-            "Accept": "application/fhir+xml; fhirVersion=3.0"
+            "Accept": "application/fhir+xml; fhirVersion=3.0",
         }
 
         # When
@@ -187,20 +195,20 @@ class TestConverter:
 
         # Then
         assert res.status_code == 200
-        expected_response = load_example("r4_to_stu3_200.xml")
+        expected_response = load_example(f"{resource}/stu3.xml")
         assert res.text == expected_response
 
     # #####################
     # R4 to R4 ########
     # #####################
-
-    def test_converter_json_r4_to_xml_r4(self, url, token):
+    @pytest.mark.parametrize("resource", ["MedicationRequest", "MedicationStatement"])
+    def test_converter_json_r4_to_xml_r4(self, resource, url, token):
         # Given
-        r4_payload = load_example("r4.json")
+        r4_payload = load_example(f"{resource}/r4.json")
         headers = {
             "Authorization": f"Bearer {token}",
             "Content-Type": "application/fhir+json; fhirVersion=4.0",
-            "Accept": "application/fhir+xml; fhirVersion=4.0"
+            "Accept": "application/fhir+xml; fhirVersion=4.0",
         }
 
         # When
@@ -208,16 +216,17 @@ class TestConverter:
 
         # Then
         assert res.status_code == 200
-        expected_response = load_example("r4.xml")
+        expected_response = load_example(f"{resource}/r4.xml")
         assert res.text == expected_response
 
-    def test_converter_xml_r4_to_json_r4(self, url, token):
+    @pytest.mark.parametrize("resource", ["MedicationRequest", "MedicationStatement"])
+    def test_converter_xml_r4_to_json_r4(self, resource, url, token):
         # Given
-        r4_payload = load_example("r4.xml")
+        r4_payload = load_example(f"{resource}/r4.xml")
         headers = {
             "Authorization": f"Bearer {token}",
             "Content-Type": "application/fhir+xml; fhirVersion=4.0",
-            "Accept": "application/fhir+json; fhirVersion=4.0"
+            "Accept": "application/fhir+json; fhirVersion=4.0",
         }
 
         # When
@@ -225,5 +234,5 @@ class TestConverter:
 
         # Then
         assert res.status_code == 200
-        expected_response = load_example("r4.json")
+        expected_response = load_example(f"{resource}/r4.json")
         assert res.json() == expected_response

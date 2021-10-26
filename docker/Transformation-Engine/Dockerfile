@@ -5,7 +5,7 @@ COPY mvnw .
 COPY .mvn .mvn
 COPY pom.xml .
 COPY src src
-RUN ./mvnw install -DskipTests
+RUN ./mvnw install
 
 FROM openjdk:11-slim
 EXPOSE 9000

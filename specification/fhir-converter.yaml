@@ -1,4 +1,4 @@
-openapi: "3.0.0"
+openapi: 3.0.0
 x-nhs-api-spec-guid: c488b99d-f9df-481b-a903-f16cab4855a6
 x-meta:
   service_name: "fhir-converter"
@@ -8,117 +8,151 @@ x-meta:
   product_description: "This proxy function as a converter from FHIR R4 to STU3 and vice versa"
   pipeline_name_prefix: "FHIR-Converter"
 info:
-  version: 1.0.0
-  title: Transformation Engine Spec
-  license:
-    name: MIT
+  version: "{VERSION}"
+  title: FHIR Converter
+  description:  |
+    ## Overview
+    Use this API to converter resource types `MedicationRequest` and `MedicationStatements` from FHIR R4 to STU3 and vice versa. This APi supports both STU3 GP Connect and R4 UK Core profile
+
+    You can:
+      - post either a `MedicationRequest` or `MedicationStatement`
+      
+    You cannot:
+      - convert between any other resource types 
+
+    The API is synchronous - you recieve your converted resource in the response body.
+
+    The following describes the end-to-end process:
+    1. The sending system sends the source payload to the FHIR Converter API.
+    2. The FHIR Converter API converts the source payload to the target version.
+    3. The sending system recieves the converted payload in the response.
+
+    ## Who can use this API
+    This API can only be used where there is a legal basis to do so. Make sure you have a valid use case before you go too far with your development. You must do this before you can go live (see ‘Onboarding’ below).
+
+    ## API status and roadmap
+    This API is in [alpha](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#api-status), meaning:
+      * it is available for testing in integration environment
+      * we expect to make breaking changes based on developer feedback
+    ### Roadmap
+
+    To see our roadmap, or to suggest, comment or vote on features for this API, see our [interactive product backlog](https://nhs-digital-api-management.featureupvote.com/?order=popular&filter=allexceptdone&tag=fhir-converter&deleted=0#controls).
+
+    If you have any other queries, please [contact us](https://digital.nhs.uk/developer/help-and-support).
+
+    ## Technology
+    This API uses HTTP POST to submit data.
+
+    The data payload conforms to the [FHIR](https://digital.nhs.uk/developer/guides-and-documentation/api-technologies-at-nhs-digital#fhir) global standard for health care data exchange.
+    Specifically, it is aligned with [FHIR UK Core](https://digital.nhs.uk/services/fhir-uk-core), which is built on FHIR Release 4, or [FHIR GP Connect](https://digital.nhs.uk/services/gp-connect), which is built on FHIR STU3.
+
+    ## Network access
+    This API is available on the internet.
+
+    For more details, see [Network access for APIs](https://digital.nhs.uk/developer/guides-and-documentation/network-access-for-apis).
+
+    ## Security and authorisation
+    ### Open-access authentication
+    The FHIR Converter API is [open-access](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation#open-access-apis), which means:
+        * we do not authenticate or authorise the calling application
+        * we do not authenticate or authorise the end user - they might not even be present We generally use open-access APIs for public data, where security is not a concern. Our open-access APIs are generally RESTful APIs. For more details on how to access them, see our [open-access REST API tutorial](https://digital.nhs.uk/developer/guides-and-documentation/tutorials/open-access-rest-api-tutorial).
+
+    ### Environments and testing
+
+    | Environment       | Base URL                                                               |
+    | ----------------- | ---------------------------------------------------------------------- |
+    | Integration test  | `https://int.api.service.nhs.uk/fhir-converter`                        |
+    | Production        | Not yet available                                                      |
+
+    Our [integration test environment](https://digital.nhs.uk/developer/guides-and-documentation/testing#integration-testing):
+    - is for formal integration testing
+    - is for receiving data quality reports of test data
+    
+    For more details see [integration testing with our RESTful APIs](https://digital.nhs.uk/developer/guides-and-documentation/testing#integration-testing-with-our-restful-apis).
+
   contact:
+    name: FHIR Converter
+    url: "https://digital.nhs.uk/developer/help-and-support"
     email: api.management@nhs.net
-tags:
-  - name: api
-  - name: example
 servers:
-  - url: http://petstore.swagger.io
+  - url: "https://sandbox.api.service.nhs.uk/fhir-converter"
+    description: Sandbox environment.
+  - url: "https://int.api.service.nhs.uk/fhir-converter"
+    description: Integration test environment.
+  - url: "https://api.service.nhs.uk/fhir-converter"
+    description: "Production environment."
+tags:
+  - name: FHIR Converter
 paths:
-  /pets:
-    get:
-      summary: List all pets
-      operationId: listPets
-      tags:
-        - pets
-      parameters:
-        - name: limit
-          in: query
-          description: How many items to return at one time (max 100)
-          required: false
-          schema:
-            type: integer
-            format: int32
-      responses:
-        '200':
-          description: A paged array of pets
-          headers:
-            x-next:
-              description: A link to the next page of responses
-              schema:
-                type: string
-          content:
-            application/json:   
-              schema:
-                $ref: "#/components/schemas/Pets"
-        default:
-          description: unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
+  /$convert:
     post:
-      summary: Create a pet
-      operationId: createPets
-      tags:
-        - pets
+      summary: Convert FHIR payload
+      operationId: convert
+      requestBody:
+        content:
+          "application/fhir+json; fhirVersion=3.0":
+            schema: { }
+            examples:
+              MedicationRequest:
+                $ref: "#/components/examples/MedicationRequest_STU3_JSON"
+              MedicationStatement:
+                $ref: "#/components/examples/MedicationStatement_STU3_JSON"
+          "application/fhir+xml; fhirVersion=3.0":
+            schema: { }
+          "application/fhir+json; fhirVersion=4.0":
+            schema: { }
+            examples:
+              MedicationRequest:
+                $ref: "#/components/examples/MedicationRequest_R4_JSON"
+              MedicationStatement:
+                $ref: "#/components/examples/MedicationStatement_R4_JSON"
+          "application/fhir+xml; fhirVersion=4.0":
+            schema: { }
       responses:
-        '201':
-          description: Null response
-        default:
-          description: unexpected error
+        "200":
+          description: Successful convertion
           content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
-  /pets/{petId}:
-    get:
-      summary: Info for a specific pet
-      operationId: showPetById
-      tags:
-        - pets
-      parameters:
-        - name: petId
-          in: path
-          required: true
-          description: The id of the pet to retrieve
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Expected response to a valid request
+            "application/fhir+json; fhirVersion=3.0":
+              examples:
+                MedicationRequest:
+                  $ref: "#/components/examples/MedicationRequest_STU3_JSON"
+                MedicationStatement:
+                  $ref: "#/components/examples/MedicationStatement_STU3_JSON"
+            "application/fhir+xml; fhirVersion=3.0": { }
+            "application/fhir+json; fhirVersion=4.0":
+              examples:
+                MedicationRequest:
+                  $ref: "#/components/examples/MedicationRequest_R4_JSON"
+                MedicationStatement:
+                  $ref: "#/components/examples/MedicationStatement_R4_JSON"
+            "application/fhir+xml; fhirVersion=4.0": { }
+        "400":
+          description: Invalid request
           content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Pet"
-        default:
-          description: unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
+            "application/fhir+json; fhirVersion=4.0":
+              examples:
+                "Invalid or missing header":
+                  $ref: "#/components/examples/InvalidOrMissingHeader"
+
 components:
-  schemas:
-    Pet:
-      type: object
-      required:
-        - id
-        - name
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        tag:
-          type: string
-    Pets:
-      type: array
-      items:
-        $ref: "#/components/schemas/Pet"
-    Error:
-      type: object
-      required:
-        - code
-        - message
-      properties:
-        code:
-          type: integer
-          format: int32
-        message:
-          type: string
+  examples:
+    "MedicationRequest_R4_JSON":
+      summary: R4 JSON MedicationRequest
+      value:
+        $ref: "components/examples/MedicationRequest/r4.json"
+    "MedicationStatement_R4_JSON":
+      summary: R4 JSON MedicationStatement
+      value:
+        $ref: "components/examples/MedicationStatement/r4.json"
+    "MedicationRequest_STU3_JSON":
+      summary: STU3 JSON MedicationRequest
+      value:
+        $ref: "components/examples/MedicationRequest/stu3.json"
+    "MedicationStatement_STU3_JSON":
+      summary: STU3 JSON MedicationStatement
+      value:
+        $ref: "components/examples/MedicationStatement/stu3.json"
+    "InvalidOrMissingHeader":
+      summary: Invalid of missing header errror
+      value:
+        $ref: "components/examples/400.json"

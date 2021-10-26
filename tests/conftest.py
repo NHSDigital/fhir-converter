@@ -1,7 +1,6 @@
 # flake8: noqa
-from uuid import uuid4
-
 import pytest
+from uuid import uuid4
 
 from .apigee.apigee_api import ApigeeApiService
 from .apigee.apigee_app import ApigeeAppService
@@ -129,8 +128,12 @@ def client_credentials(cmd_options: dict, default_app: DefaultApp):
 
 
 @pytest.fixture(scope="function")
-def token(client_credentials):
-    return client_credentials.get_access_token()
+def token(client_credentials, cmd_options):
+    env = cmd_options['--apigee-environment']
+    if "sandbox" in env:
+        return "dummy token"
+    else:
+        return client_credentials.get_access_token()
 
 
 def get_proxy_name_from_service_name(service_name: str, env: str, pr_no: str) -> str:
