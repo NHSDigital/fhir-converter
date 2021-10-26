@@ -36,7 +36,17 @@ apigee:
         approvalType: auto
         attributes:
           - name: ratelimiting
-            value: '{"fhir-converter-{{ENV.name}}":{"quota":{"limit":"300","enabled":true,"interval":1,"timeunit":"minute"}, "spikeArrest":{"ratelimit":"5ps","enabled":true}}}'
+            value:
+              # these are the per-proxy rate limits
+              fhir-converter-{{ ENV.name }}:
+                quota:
+                  limit: 1800
+                  enabled: true
+                  interval: 1
+                  timeunit: minute
+                spikeArrest:
+                  ratelimit: 1800pm 
+                  enabled: true
           - name: access
             value: public
           - name: ratelimit
