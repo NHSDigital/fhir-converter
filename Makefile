@@ -21,7 +21,11 @@ clean:
 
 publish: clean
 	mkdir -p build
-	npm run publish 2> /dev/null
+	npm run publish || true # openapi-generator-cli doesn't support multiple content in spec. It exits with non-zero but still creates spec successfully.
+	cat build/openapi.json | poetry run scripts/set_version.py > build/temp.json
+	poetry run scripts/inline_examples.py build/temp.json > build/fhir-converter.json
+	rm build/temp.json
+	rm build/openapi.json
 
 serve:
 	npm run serve

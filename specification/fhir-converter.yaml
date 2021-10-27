@@ -16,9 +16,9 @@ info:
 
     You can:
       - post either a `MedicationRequest` or `MedicationStatement`
-      
+
     You cannot:
-      - convert between any other resource types 
+      - convert between any other resource types
 
     The API is synchronous - you recieve your converted resource in the response body.
 
@@ -67,7 +67,7 @@ info:
     Our [integration test environment](https://digital.nhs.uk/developer/guides-and-documentation/testing#integration-testing):
     - is for formal integration testing
     - is for receiving data quality reports of test data
-    
+
     For more details see [integration testing with our RESTful APIs](https://digital.nhs.uk/developer/guides-and-documentation/testing#integration-testing-with-our-restful-apis).
 
   contact:
@@ -91,23 +91,33 @@ paths:
       requestBody:
         content:
           "application/fhir+json; fhirVersion=3.0":
-            schema: { }
+            schema: {}
             examples:
               MedicationRequest:
                 $ref: "#/components/examples/MedicationRequest_STU3_JSON"
               MedicationStatement:
                 $ref: "#/components/examples/MedicationStatement_STU3_JSON"
           "application/fhir+xml; fhirVersion=3.0":
-            schema: { }
+            schema: {}
+            examples:
+              MedicationRequest:
+                $ref: "#/components/examples/MedicationRequest_STU3_XML"
+              MedicationStatement:
+                $ref: "#/components/examples/MedicationStatement_STU3_XML"
           "application/fhir+json; fhirVersion=4.0":
-            schema: { }
+            schema: {}
             examples:
               MedicationRequest:
                 $ref: "#/components/examples/MedicationRequest_R4_JSON"
               MedicationStatement:
                 $ref: "#/components/examples/MedicationStatement_R4_JSON"
           "application/fhir+xml; fhirVersion=4.0":
-            schema: { }
+            schema: {}
+            examples:
+              MedicationRequest:
+                $ref: "#/components/examples/MedicationRequest_R4_XML"
+              MedicationStatement:
+                $ref: "#/components/examples/MedicationStatement_R4_XML"
       responses:
         "200":
           description: Successful convertion
@@ -118,14 +128,24 @@ paths:
                   $ref: "#/components/examples/MedicationRequest_STU3_JSON"
                 MedicationStatement:
                   $ref: "#/components/examples/MedicationStatement_STU3_JSON"
-            "application/fhir+xml; fhirVersion=3.0": { }
+            "application/fhir+xml; fhirVersion=3.0":
+              examples:
+                MedicationRequest:
+                  $ref: "#/components/examples/MedicationRequest_STU3_XML"
+                MedicationStatement:
+                  $ref: "#/components/examples/MedicationStatement_STU3_XML"
             "application/fhir+json; fhirVersion=4.0":
               examples:
                 MedicationRequest:
                   $ref: "#/components/examples/MedicationRequest_R4_JSON"
                 MedicationStatement:
                   $ref: "#/components/examples/MedicationStatement_R4_JSON"
-            "application/fhir+xml; fhirVersion=4.0": { }
+            "application/fhir+xml; fhirVersion=4.0":
+              examples:
+                MedicationRequest:
+                  $ref: "#/components/examples/MedicationRequest_R4_XML"
+                MedicationStatement:
+                  $ref: "#/components/examples/MedicationStatement_R4_XML"
         "400":
           description: Invalid request
           content:
@@ -144,6 +164,14 @@ components:
       summary: R4 JSON MedicationStatement
       value:
         $ref: "components/examples/MedicationStatement/r4.json"
+    "MedicationRequest_R4_XML":
+      summary: R4 XML MedicationRequest
+      value:
+        $ref: "components/examples/MedicationRequest/r4.xml"
+    "MedicationStatement_R4_XML":
+      summary: R4 XML MedicationStatement
+      value:
+        $ref: "components/examples/MedicationStatement/r4.xml"
     "MedicationRequest_STU3_JSON":
       summary: STU3 JSON MedicationRequest
       value:
@@ -152,6 +180,14 @@ components:
       summary: STU3 JSON MedicationStatement
       value:
         $ref: "components/examples/MedicationStatement/stu3.json"
+    "MedicationRequest_STU3_XML":
+      summary: STU3 XML MedicationRequest
+      value:
+        $ref: "components/examples/MedicationRequest/stu3.xml"
+    "MedicationStatement_STU3_XML":
+      summary: STU3 XML MedicationStatement
+      value:
+        $ref: "components/examples/MedicationStatement/stu3.xml"
     "InvalidOrMissingHeader":
       summary: Invalid of missing header errror
       value:

@@ -3,8 +3,8 @@
   "version": "0.0.1",
   "description": "OAS (Swagger v3) API Definition for Template API",
   "scripts": {
-    "lint": "node_modules/.bin/speccy lint -s openapi-tags -s operation-tags specification/fhir-converter.yaml --skip default-and-example-are-redundant",
-    "publish": "mkdir -p build && node_modules/.bin/speccy resolve specification/fhir-converter.yaml -i | poetry run python scripts/yaml2json.py | poetry run python scripts/set_version.py > build/fhir-converter.json",
+    "lint": "node_modules/.bin/openapi-generator-cli validate -i specification/fhir-converter.yaml",
+    "publish": "./node_modules/.bin/openapi-generator-cli generate -i specification/fhir-converter.yaml --generator-key v3.0  -g openapi -o build",
     "serve": "node_modules/.bin/speccy serve build/fhir-converter.json",
     "check-licenses": "node_modules/.bin/license-checker --failOn GPL --failOn LGPL"
   },
@@ -12,10 +12,10 @@
   "license": "MIT",
   "homepage": "https://github.com/NHSDigital/fhir-converter",
   "dependencies": {
-    "newman-reporter-htmlextra": "^1.20.1",
-    "speccy": "^0.11.0"
+    "newman-reporter-htmlextra": "^1.20.1"
   },
   "devDependencies": {
+    "@openapitools/openapi-generator-cli": "^2.4.13",
     "apigeetool": "^0.14.2",
     "license-checker": "^25.0.1",
     "minimist": "^1.2.2",
