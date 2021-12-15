@@ -1,10 +1,10 @@
-package nhsd.fhir.transformationenginepoc.service;
+package nhsd.fhir.converter.service;
 
 import ca.uhn.fhir.context.FhirVersionEnum;
-import nhsd.fhir.transformationenginepoc.service.converter.BundleConverter;
-import nhsd.fhir.transformationenginepoc.service.converter.Converter;
-import nhsd.fhir.transformationenginepoc.service.converter.MedicationRequestConverter;
-import nhsd.fhir.transformationenginepoc.service.converter.MedicationStatementConverter;
+import nhsd.fhir.converter.service.converter.BundleConverter;
+import nhsd.fhir.converter.service.converter.Converter;
+import nhsd.fhir.converter.service.converter.MedicationRequestConverter;
+import nhsd.fhir.converter.service.converter.MedicationStatementConverter;
 import org.json.JSONObject;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;

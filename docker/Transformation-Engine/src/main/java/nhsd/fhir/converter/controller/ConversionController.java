@@ -1,6 +1,6 @@
-package nhsd.fhir.transformationenginepoc.controller;
+package nhsd.fhir.converter.controller;
 
-import nhsd.fhir.transformationenginepoc.service.ConversionService;
+import nhsd.fhir.converter.service.ConversionService;
 import org.apache.logging.log4j.util.Strings;
 import org.json.JSONException;
 import org.json.JSONObject;

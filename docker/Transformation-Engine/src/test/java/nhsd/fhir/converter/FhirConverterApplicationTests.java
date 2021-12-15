@@ -1,4 +1,4 @@
-package nhsd.fhir.transformationenginepoc;
+package nhsd.fhir.converter;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

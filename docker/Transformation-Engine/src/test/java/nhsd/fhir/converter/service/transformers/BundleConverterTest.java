@@ -1,7 +1,7 @@
-package nhsd.fhir.transformationenginepoc.service.transformers;
+package nhsd.fhir.converter.service.transformers;
 
 import ca.uhn.fhir.context.FhirVersionEnum;
-import nhsd.fhir.transformationenginepoc.service.converter.BundleConverter;
+import nhsd.fhir.converter.service.converter.BundleConverter;
 import org.apache.commons.io.FileUtils;
 import org.custommonkey.xmlunit.XMLAssert;
 import org.custommonkey.xmlunit.XMLUnit;
