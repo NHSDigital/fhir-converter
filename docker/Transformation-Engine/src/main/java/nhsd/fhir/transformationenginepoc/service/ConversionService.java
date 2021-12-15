@@ -1,10 +1,10 @@
 package nhsd.fhir.transformationenginepoc.service;
 
 import ca.uhn.fhir.context.FhirVersionEnum;
-import nhsd.fhir.transformationenginepoc.service.converter.BundleTransformer;
-import nhsd.fhir.transformationenginepoc.service.converter.MedicationRequestTransformer;
-import nhsd.fhir.transformationenginepoc.service.converter.MedicationStatementTransformer;
-import nhsd.fhir.transformationenginepoc.service.converter.Transformer;
+import nhsd.fhir.transformationenginepoc.service.converter.BundleConverter;
+import nhsd.fhir.transformationenginepoc.service.converter.Converter;
+import nhsd.fhir.transformationenginepoc.service.converter.MedicationRequestConverter;
+import nhsd.fhir.transformationenginepoc.service.converter.MedicationStatementConverter;
 import org.json.JSONObject;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -26,32 +26,32 @@ public class ConversionService {
 
         final String resourceType = getResourceType(content_type, fhirSchema);
 
-        final Transformer transformerToUse = getTransformer(resourceType, desiredResources);
+        final Converter converterToUse = getTransformer(resourceType, desiredResources);
 
-        return transformerToUse.transform(getFhirVerion(currentVersion), getFhirVerion(targetVersion), content_type, return_type, fhirSchema);
+        return converterToUse.transform(getFhirVerion(currentVersion), getFhirVerion(targetVersion), content_type, return_type, fhirSchema);
     }
 
-    private Transformer getTransformer(final String resourceType, List<String> desiredResources) {
+    private Converter getTransformer(final String resourceType, List<String> desiredResources) {
 
-        final Transformer transformerToUse;
+        final Converter converterToUse;
         switch (resourceType) {
             case "MedicationStatement":
-                transformerToUse = new MedicationStatementTransformer();
+                converterToUse = new MedicationStatementConverter();
                 break;
 
             case "MedicationRequest":
-                transformerToUse = new MedicationRequestTransformer();
+                converterToUse = new MedicationRequestConverter();
                 break;
 
             case "Bundle":
-                transformerToUse = new BundleTransformer(desiredResources);
+                converterToUse = new BundleConverter(desiredResources);
                 break;
 
             default:
                 throw new IllegalStateException("Unexpected value: " + resourceType);
         }
 
-        return transformerToUse;
+        return converterToUse;
     }
 
     private String getResourceType(MediaType content_type, final String fhirSchema) throws ParserConfigurationException, IOException, SAXException {

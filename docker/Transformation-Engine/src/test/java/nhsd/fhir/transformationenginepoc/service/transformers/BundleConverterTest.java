@@ -1,7 +1,7 @@
 package nhsd.fhir.transformationenginepoc.service.transformers;
 
 import ca.uhn.fhir.context.FhirVersionEnum;
-import nhsd.fhir.transformationenginepoc.service.converter.BundleTransformer;
+import nhsd.fhir.transformationenginepoc.service.converter.BundleConverter;
 import org.apache.commons.io.FileUtils;
 import org.custommonkey.xmlunit.XMLAssert;
 import org.custommonkey.xmlunit.XMLUnit;
@@ -17,8 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-class BundleTransformerTest {
-    private BundleTransformer bundleTransformer;
+class BundleConverterTest {
+    private BundleConverter bundleTransformer;
 
     private String bundleStu3Json;
     private String bundleR4Xml;
@@ -28,7 +28,7 @@ class BundleTransformerTest {
     void setUp() throws IOException {
         includedResources = new ArrayList<>();
         includedResources.add("Patient");
-        bundleTransformer = new BundleTransformer(includedResources);
+        bundleTransformer = new BundleConverter(includedResources);
 
         bundleStu3Json = FileUtils.readFileToString(new File("src/test/resources/Bundle/STU3_Bundle.json"), StandardCharsets.UTF_8);
         bundleR4Xml = FileUtils.readFileToString(new File("src/test/resources/Bundle/R4_Bundle.xml"), StandardCharsets.UTF_8);

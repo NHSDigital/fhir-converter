@@ -12,13 +12,13 @@ import org.springframework.http.MediaType;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class BundleTransformer extends Transformer {
+public class BundleConverter extends Converter {
 
     private static final VersionConvertor_30_40 CONVERTER = new VersionConvertor_30_40(new BaseAdvisor_30_40());
 
     private final List<String> includeResources;
 
-    public BundleTransformer(List<String> desiredResources) {
+    public BundleConverter(List<String> desiredResources) {
         this.includeResources = desiredResources;
     }
 

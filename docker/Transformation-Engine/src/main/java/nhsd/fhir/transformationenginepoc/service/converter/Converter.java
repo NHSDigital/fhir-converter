@@ -22,10 +22,10 @@ import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.springframework.http.MediaType;
 
 
-public abstract class Transformer {
+public abstract class Converter {
     abstract public String transform(FhirVersionEnum inVersion, FhirVersionEnum outVersion, MediaType inMime, MediaType outMime, String resourceString) throws Exception;
 
-    protected  <T extends IBaseResource> String encode(T resource, FhirVersionEnum outVersion, MediaType outMime) {
+    protected <T extends IBaseResource> String encode(T resource, FhirVersionEnum outVersion, MediaType outMime) {
         FhirContext outContext = getSuitableContext(outVersion);
         IParser outParser = getSuitableParser(outContext, outMime);
 
