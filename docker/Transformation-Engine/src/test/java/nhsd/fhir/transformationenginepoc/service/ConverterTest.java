@@ -3,7 +3,7 @@ package nhsd.fhir.transformationenginepoc.service;
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.context.FhirVersionEnum;
 import ca.uhn.fhir.parser.IParser;
-import nhsd.fhir.transformationenginepoc.service.transformers.Transformer;
+import nhsd.fhir.transformationenginepoc.service.converter.Transformer;
 import org.hl7.fhir.convertors.advisors.impl.BaseAdvisor_30_40;
 import org.hl7.fhir.convertors.conv30_40.VersionConvertor_30_40;
 import org.hl7.fhir.dstu3.model.Patient;
