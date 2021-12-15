@@ -194,7 +194,7 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
         <configuration>
-          <mainClass>nhsd.fhir.transformationenginepoc.TransformationEnginePocApplication</mainClass>
+          <mainClass>nhsd.fhir.transformationenginepoc.FhirConverterApplication</mainClass>
         </configuration>
       </plugin>
     </plugins>
