@@ -11,7 +11,7 @@
   </parent>
 
   <groupId>nhsd.fhir</groupId>
-  <artifactId>Transformation-Engine-POC</artifactId>
+  <artifactId>fhir-converter</artifactId>
   <packaging>jar</packaging>
   <version>0.0.1-SNAPSHOT</version>
   <name>fhir-converter</name>
