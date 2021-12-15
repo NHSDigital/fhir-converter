@@ -40,7 +40,7 @@ class MedicationRequestConverterTest {
     @Test
     public void convert_MedicationStatement_from_STU3_to_R4_Json_to_Json() throws JSONException {
         //when
-        String transform = medicationRequestConverter.transform(FhirVersionEnum.DSTU3, FhirVersionEnum.R4, MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, medicationRequest_staticR3Json);
+        String transform = medicationRequestConverter.convert(FhirVersionEnum.DSTU3, FhirVersionEnum.R4, MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, medicationRequest_staticR3Json);
 
         //then
         final JSONObject r3Json = new JSONObject(transform);
@@ -54,7 +54,7 @@ class MedicationRequestConverterTest {
     @Test
     public void convert_MedicationStatement_from_R4_to_STU3_Json_to_Json() throws JSONException {
         //when
-        String transform = medicationRequestConverter.transform(FhirVersionEnum.R4, FhirVersionEnum.DSTU3, MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, medicationRequest_staticR4Json);
+        String transform = medicationRequestConverter.convert(FhirVersionEnum.R4, FhirVersionEnum.DSTU3, MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, medicationRequest_staticR4Json);
 
         //then
         final JSONObject r4Json = new JSONObject(transform);
@@ -68,7 +68,7 @@ class MedicationRequestConverterTest {
     @Test
     public void convert_MedicationStatement_from_R4_to_STU3_Json_to_Xml() throws ParserConfigurationException, IOException, SAXException {
         //when
-        String transform = medicationRequestConverter.transform(FhirVersionEnum.R4, FhirVersionEnum.DSTU3, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, medicationRequest_staticR4Json);
+        String transform = medicationRequestConverter.convert(FhirVersionEnum.R4, FhirVersionEnum.DSTU3, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, medicationRequest_staticR4Json);
 
         //then
         assertNotNull(transform);
@@ -85,7 +85,7 @@ class MedicationRequestConverterTest {
     @Test
     public void convert_MedicationStatement_from_STU3_to_R4_Json_to_Xml() throws ParserConfigurationException, IOException, SAXException {
         //when
-        String transform = medicationRequestConverter.transform(FhirVersionEnum.DSTU3, FhirVersionEnum.R4, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, medicationRequest_staticR3Json);
+        String transform = medicationRequestConverter.convert(FhirVersionEnum.DSTU3, FhirVersionEnum.R4, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, medicationRequest_staticR3Json);
 
         //then
         assertNotNull(transform);

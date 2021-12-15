@@ -28,7 +28,7 @@ import org.springframework.http.MediaType;
 public class MedicationStatementConverter extends Converter {
 
     @Override
-    public String transform(final FhirVersionEnum inVersion, final FhirVersionEnum outVersion, final MediaType inMime, final MediaType outMime, final String resourceString) {
+    public String convert(final FhirVersionEnum inVersion, final FhirVersionEnum outVersion, final MediaType inMime, final MediaType outMime, final String resourceString) {
 
         //base converter
         final BaseAdvisor_30_40 baseAdvisor_30_40 = new BaseAdvisor_30_40();

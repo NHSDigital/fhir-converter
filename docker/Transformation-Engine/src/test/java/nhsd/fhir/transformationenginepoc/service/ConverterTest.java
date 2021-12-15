@@ -32,7 +32,7 @@ public class ConverterTest {
     @Test
     void test_convert_3_to_4_without_advisor() throws Exception {
         // Given
-        String result = converterService.transform(FhirVersionEnum.DSTU3, FhirVersionEnum.R4, MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, patientGPC);
+        String result = converterService.convert(FhirVersionEnum.DSTU3, FhirVersionEnum.R4, MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, patientGPC);
 
         // When
         org.hl7.fhir.r4.model.Patient r4Patient = parseR4Patient(result);
@@ -74,7 +74,7 @@ class TestConverter extends Converter {
     }
 
     @Override
-    public String transform(FhirVersionEnum inVersion, FhirVersionEnum outVersion, MediaType inMime, MediaType outMime, String resourceString) throws Exception {
+    public String convert(FhirVersionEnum inVersion, FhirVersionEnum outVersion, MediaType inMime, MediaType outMime, String resourceString) throws Exception {
         FhirContext inContext = getSuitableContext(inVersion);
         IParser inParser = getSuitableParser(inContext, inMime);
 

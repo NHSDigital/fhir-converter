@@ -23,7 +23,7 @@ public class BundleConverter extends Converter {
     }
 
     @Override
-    public String transform(FhirVersionEnum inVersion, FhirVersionEnum outVersion, MediaType inMime, MediaType outMime, String resourceString) throws Exception {
+    public String convert(FhirVersionEnum inVersion, FhirVersionEnum outVersion, MediaType inMime, MediaType outMime, String resourceString) throws Exception {
         FhirContext inContext = getSuitableContext(inVersion);
         IParser inParser = getSuitableParser(inContext, inMime);
 

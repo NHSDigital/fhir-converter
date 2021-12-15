@@ -28,7 +28,7 @@ public class ConversionService {
 
         final Converter converterToUse = getTransformer(resourceType, desiredResources);
 
-        return converterToUse.transform(getFhirVerion(currentVersion), getFhirVerion(targetVersion), content_type, return_type, fhirSchema);
+        return converterToUse.convert(getFhirVerion(currentVersion), getFhirVerion(targetVersion), content_type, return_type, fhirSchema);
     }
 
     private Converter getTransformer(final String resourceType, List<String> desiredResources) {

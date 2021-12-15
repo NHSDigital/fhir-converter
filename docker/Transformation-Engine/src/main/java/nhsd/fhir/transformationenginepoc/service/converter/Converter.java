@@ -23,7 +23,7 @@ import org.springframework.http.MediaType;
 
 
 public abstract class Converter {
-    abstract public String transform(FhirVersionEnum inVersion, FhirVersionEnum outVersion, MediaType inMime, MediaType outMime, String resourceString) throws Exception;
+    abstract public String convert(FhirVersionEnum inVersion, FhirVersionEnum outVersion, MediaType inMime, MediaType outMime, String resourceString) throws Exception;
 
     protected <T extends IBaseResource> String encode(T resource, FhirVersionEnum outVersion, MediaType outMime) {
         FhirContext outContext = getSuitableContext(outVersion);

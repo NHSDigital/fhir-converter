@@ -37,7 +37,7 @@ class BundleConverterTest {
     @Test
     public void test_stu3_json_bundle_to_r4_xml_bundle() throws Exception {
         // When
-        String actualR4Xml = bundleTransformer.transform(FhirVersionEnum.DSTU3, FhirVersionEnum.R4, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, bundleStu3Json);
+        String actualR4Xml = bundleTransformer.convert(FhirVersionEnum.DSTU3, FhirVersionEnum.R4, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, bundleStu3Json);
 
         // Then
         assertXml(actualR4Xml, bundleR4Xml);
