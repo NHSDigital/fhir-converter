@@ -1,6 +1,7 @@
-package nhsd.fhir.transformationenginepoc.service.transformers;
+package nhsd.fhir.converter.service.transformers;
 
 import ca.uhn.fhir.context.FhirVersionEnum;
+import nhsd.fhir.converter.service.converter.BundleConverter;
 import org.apache.commons.io.FileUtils;
 import org.custommonkey.xmlunit.XMLAssert;
 import org.custommonkey.xmlunit.XMLUnit;
@@ -16,8 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-class BundleTransformerTest {
-    private BundleTransformer bundleTransformer;
+class BundleConverterTest {
+    private BundleConverter bundleTransformer;
 
     private String bundleStu3Json;
     private String bundleR4Xml;
@@ -27,7 +28,7 @@ class BundleTransformerTest {
     void setUp() throws IOException {
         includedResources = new ArrayList<>();
         includedResources.add("Patient");
-        bundleTransformer = new BundleTransformer(includedResources);
+        bundleTransformer = new BundleConverter(includedResources);
 
         bundleStu3Json = FileUtils.readFileToString(new File("src/test/resources/Bundle/STU3_Bundle.json"), StandardCharsets.UTF_8);
         bundleR4Xml = FileUtils.readFileToString(new File("src/test/resources/Bundle/R4_Bundle.xml"), StandardCharsets.UTF_8);
@@ -36,7 +37,7 @@ class BundleTransformerTest {
     @Test
     public void test_stu3_json_bundle_to_r4_xml_bundle() throws Exception {
         // When
-        String actualR4Xml = bundleTransformer.transform(FhirVersionEnum.DSTU3, FhirVersionEnum.R4, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, bundleStu3Json);
+        String actualR4Xml = bundleTransformer.convert(FhirVersionEnum.DSTU3, FhirVersionEnum.R4, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, bundleStu3Json);
 
         // Then
         assertXml(actualR4Xml, bundleR4Xml);

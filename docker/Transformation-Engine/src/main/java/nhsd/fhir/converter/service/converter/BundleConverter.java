@@ -1,4 +1,4 @@
-package nhsd.fhir.transformationenginepoc.service.transformers;
+package nhsd.fhir.converter.service.converter;
 
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.context.FhirVersionEnum;
@@ -12,18 +12,18 @@ import org.springframework.http.MediaType;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class BundleTransformer extends Transformer {
+public class BundleConverter extends Converter {
 
     private static final VersionConvertor_30_40 CONVERTER = new VersionConvertor_30_40(new BaseAdvisor_30_40());
 
     private final List<String> includeResources;
 
-    public BundleTransformer(List<String> desiredResources) {
+    public BundleConverter(List<String> desiredResources) {
         this.includeResources = desiredResources;
     }
 
     @Override
-    public String transform(FhirVersionEnum inVersion, FhirVersionEnum outVersion, MediaType inMime, MediaType outMime, String resourceString) throws Exception {
+    public String convert(FhirVersionEnum inVersion, FhirVersionEnum outVersion, MediaType inMime, MediaType outMime, String resourceString) throws Exception {
         FhirContext inContext = getSuitableContext(inVersion);
         IParser inParser = getSuitableParser(inContext, inMime);
 

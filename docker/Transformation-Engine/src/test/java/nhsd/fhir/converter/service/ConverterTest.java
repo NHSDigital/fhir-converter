@@ -1,9 +1,9 @@
-package nhsd.fhir.transformationenginepoc.service;
+package nhsd.fhir.converter.service;
 
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.context.FhirVersionEnum;
 import ca.uhn.fhir.parser.IParser;
-import nhsd.fhir.transformationenginepoc.service.transformers.Transformer;
+import nhsd.fhir.converter.service.converter.Converter;
 import org.hl7.fhir.convertors.advisors.impl.BaseAdvisor_30_40;
 import org.hl7.fhir.convertors.conv30_40.VersionConvertor_30_40;
 import org.hl7.fhir.dstu3.model.Patient;
@@ -32,7 +32,7 @@ public class ConverterTest {
     @Test
     void test_convert_3_to_4_without_advisor() throws Exception {
         // Given
-        String result = converterService.transform(FhirVersionEnum.DSTU3, FhirVersionEnum.R4, MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, patientGPC);
+        String result = converterService.convert(FhirVersionEnum.DSTU3, FhirVersionEnum.R4, MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, patientGPC);
 
         // When
         org.hl7.fhir.r4.model.Patient r4Patient = parseR4Patient(result);
@@ -65,7 +65,7 @@ public class ConverterTest {
     }
 }
 
-class TestConverter extends Transformer {
+class TestConverter extends Converter {
 
     private final VersionConvertor_30_40 converter;
 
@@ -74,7 +74,7 @@ class TestConverter extends Transformer {
     }
 
     @Override
-    public String transform(FhirVersionEnum inVersion, FhirVersionEnum outVersion, MediaType inMime, MediaType outMime, String resourceString) throws Exception {
+    public String convert(FhirVersionEnum inVersion, FhirVersionEnum outVersion, MediaType inMime, MediaType outMime, String resourceString) throws Exception {
         FhirContext inContext = getSuitableContext(inVersion);
         IParser inParser = getSuitableParser(inContext, inMime);
 

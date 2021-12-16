@@ -11,11 +11,11 @@
   </parent>
 
   <groupId>nhsd.fhir</groupId>
-  <artifactId>Transformation-Engine-POC</artifactId>
+  <artifactId>fhir-converter</artifactId>
   <packaging>jar</packaging>
   <version>0.0.1-SNAPSHOT</version>
-  <name>Transformation-Engine-POC</name>
-  <description>Transformation-Engine-POC</description>
+  <name>fhir-converter</name>
+  <description>Fhir Converter</description>
 
   <properties>
     <java.version>11</java.version>
@@ -194,7 +194,7 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
         <configuration>
-          <mainClass>nhsd.fhir.transformationenginepoc.TransformationEnginePocApplication</mainClass>
+          <mainClass>nhsd.fhir.converter.FhirConverterApplication</mainClass>
         </configuration>
       </plugin>
     </plugins>

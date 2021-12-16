@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package nhsd.fhir.transformationenginepoc.service.transformers;
+package nhsd.fhir.converter.service.converter;
 
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.context.FhirVersionEnum;
@@ -25,10 +25,10 @@ import org.hl7.fhir.convertors.conv30_40.VersionConvertor_30_40;
 import org.springframework.http.MediaType;
 
 
-public class MedicationStatementTransformer extends Transformer {
+public class MedicationRequestConverter extends Converter {
 
     @Override
-    public String transform(final FhirVersionEnum inVersion, final FhirVersionEnum outVersion, final MediaType inMime, final MediaType outMime, final String resourceString) {
+    public String convert(final FhirVersionEnum inVersion, final FhirVersionEnum outVersion, final MediaType inMime, final MediaType outMime, final String resourceString) {
 
         //base converter
         final BaseAdvisor_30_40 baseAdvisor_30_40 = new BaseAdvisor_30_40();
@@ -51,31 +51,31 @@ public class MedicationStatementTransformer extends Transformer {
 
         //handling with multiple formats and same version.
         if (inVersion == FhirVersionEnum.DSTU3 && outVersion == FhirVersionEnum.DSTU3) {
-            resource = (org.hl7.fhir.dstu3.model.MedicationStatement) inParser.parseResource(org.hl7.fhir.dstu3.model.MedicationStatement.class, resourceString);
-            return outParser.encodeResourceToString((org.hl7.fhir.dstu3.model.MedicationStatement) resource);
+            resource = (org.hl7.fhir.dstu3.model.MedicationRequest) inParser.parseResource(org.hl7.fhir.dstu3.model.MedicationRequest.class, resourceString);
+            return outParser.encodeResourceToString((org.hl7.fhir.dstu3.model.MedicationRequest) resource);
         } else if (inVersion == FhirVersionEnum.R4 && outVersion == FhirVersionEnum.R4) {
-            resource = (org.hl7.fhir.r4.model.MedicationStatement) inParser.parseResource(org.hl7.fhir.r4.model.MedicationStatement.class, resourceString);
-            return outParser.encodeResourceToString((org.hl7.fhir.r4.model.MedicationStatement) resource);
+            resource = (org.hl7.fhir.r4.model.MedicationRequest) inParser.parseResource(org.hl7.fhir.r4.model.MedicationRequest.class, resourceString);
+            return outParser.encodeResourceToString((org.hl7.fhir.r4.model.MedicationRequest) resource);
         }
 
         //create resource from the incoming payload
         if (inVersion.equals(FhirVersionEnum.DSTU3)) {
-            resource = (org.hl7.fhir.dstu3.model.MedicationStatement) inParser.parseResource(org.hl7.fhir.dstu3.model.MedicationStatement.class, resourceString);
-            resource = versionConvertor_30_40.convertResource((org.hl7.fhir.dstu3.model.MedicationStatement) resource);
+            resource = (org.hl7.fhir.dstu3.model.MedicationRequest) inParser.parseResource(org.hl7.fhir.dstu3.model.MedicationRequest.class, resourceString);
+            resource = versionConvertor_30_40.convertResource((org.hl7.fhir.dstu3.model.MedicationRequest) resource);
         } else {
-            resource = (org.hl7.fhir.r4.model.MedicationStatement) inParser.parseResource(org.hl7.fhir.r4.model.MedicationStatement.class, resourceString);
-            resource = versionConvertor_30_40.convertResource((org.hl7.fhir.r4.model.MedicationStatement) resource);
+            resource = (org.hl7.fhir.r4.model.MedicationRequest) inParser.parseResource(org.hl7.fhir.r4.model.MedicationRequest.class, resourceString);
+            resource = versionConvertor_30_40.convertResource((org.hl7.fhir.r4.model.MedicationRequest) resource);
         }
 
         //conversation between versions
         if (outVersion.equals(FhirVersionEnum.DSTU3)) {
-            converstionResult = outParser.encodeResourceToString((org.hl7.fhir.dstu3.model.MedicationStatement) resource);
+            converstionResult = outParser.encodeResourceToString((org.hl7.fhir.dstu3.model.MedicationRequest) resource);
         } else {
-            converstionResult = outParser.encodeResourceToString((org.hl7.fhir.r4.model.MedicationStatement) resource);
+            converstionResult = outParser.encodeResourceToString((org.hl7.fhir.r4.model.MedicationRequest) resource);
         }
 
-
         return converstionResult;
-
     }
+
+
 }

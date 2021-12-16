@@ -1,6 +1,7 @@
-package nhsd.fhir.transformationenginepoc.service.transformers;
+package nhsd.fhir.converter.service.transformers;
 
 import ca.uhn.fhir.context.FhirVersionEnum;
+import nhsd.fhir.converter.service.converter.MedicationStatementConverter;
 import org.apache.commons.io.FileUtils;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,15 +20,15 @@ import java.nio.charset.StandardCharsets;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
 
-class MedicationStatementTransformerTest {
+class MedicationStatementConverterTest {
 
-    private MedicationStatementTransformer medicationStatementTransformer;
+    private MedicationStatementConverter medicationStatementConverter;
 
     private String medicationStatement_staticR4Json, medicationStatement_staticR3Json, medicationStatement_staticR3Xml, medicationStatement_staticR4Xml;
 
     @BeforeEach
     void setUp() throws IOException {
-        medicationStatementTransformer = new MedicationStatementTransformer();
+        medicationStatementConverter = new MedicationStatementConverter();
         medicationStatement_staticR4Json = FileUtils.readFileToString(new File("src/test/resources/R4_MedicationStatement.json"), StandardCharsets.UTF_8);
         medicationStatement_staticR3Json = FileUtils.readFileToString(new File("src/test/resources/R3_MedicationStatement.json"), StandardCharsets.UTF_8);
         medicationStatement_staticR3Xml = FileUtils.readFileToString(new File("src/test/resources/R3_MedicationStatement.xml"), StandardCharsets.UTF_8);
@@ -37,7 +38,7 @@ class MedicationStatementTransformerTest {
     @Test
     public void convert_MedicationStatement_from_STU3_to_R4_Json_to_Json() throws Exception {
         //when
-        String transform = medicationStatementTransformer.transform(FhirVersionEnum.DSTU3, FhirVersionEnum.R4, MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, medicationStatement_staticR3Json);
+        String transform = medicationStatementConverter.convert(FhirVersionEnum.DSTU3, FhirVersionEnum.R4, MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, medicationStatement_staticR3Json);
 
         //then
         final JSONObject r3Json = new JSONObject(transform);
@@ -51,7 +52,7 @@ class MedicationStatementTransformerTest {
     @Test
     public void convert_MedicationStatement_from_R4_to_STU3_Json_to_Json() throws Exception {
         //when
-        String transform = medicationStatementTransformer.transform(FhirVersionEnum.R4, FhirVersionEnum.DSTU3, MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, medicationStatement_staticR4Json);
+        String transform = medicationStatementConverter.convert(FhirVersionEnum.R4, FhirVersionEnum.DSTU3, MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, medicationStatement_staticR4Json);
 
         //then
         final JSONObject r4Json = new JSONObject(transform);
@@ -65,7 +66,7 @@ class MedicationStatementTransformerTest {
     @Test
     public void convert_MedicationStatement_from_STU3_Xml_to_R4_Json() throws Exception {
         //when
-        String transform = medicationStatementTransformer.transform(FhirVersionEnum.DSTU3, FhirVersionEnum.R4, MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON, medicationStatement_staticR3Xml);
+        String transform = medicationStatementConverter.convert(FhirVersionEnum.DSTU3, FhirVersionEnum.R4, MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON, medicationStatement_staticR3Xml);
 
         //then
         final JSONObject r4Json = new JSONObject(transform);
@@ -79,7 +80,7 @@ class MedicationStatementTransformerTest {
     @Test
     public void convert_MedicationStatement_from_R4_Xml_to_STU3_Json() throws Exception {
         //when
-        String transform = medicationStatementTransformer.transform(FhirVersionEnum.R4, FhirVersionEnum.DSTU3, MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON, medicationStatement_staticR4Xml);
+        String transform = medicationStatementConverter.convert(FhirVersionEnum.R4, FhirVersionEnum.DSTU3, MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON, medicationStatement_staticR4Xml);
 
         //then
         final JSONObject r4Json = new JSONObject(transform);
@@ -93,7 +94,7 @@ class MedicationStatementTransformerTest {
     @Test
     public void convert_MedicationStatement_from_R4_to_STU3_Json_to_Xml() throws Exception {
         //when
-        String transform = medicationStatementTransformer.transform(FhirVersionEnum.R4, FhirVersionEnum.DSTU3, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, medicationStatement_staticR4Json);
+        String transform = medicationStatementConverter.convert(FhirVersionEnum.R4, FhirVersionEnum.DSTU3, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, medicationStatement_staticR4Json);
 
         //then
         assertNotNull(transform);
@@ -110,7 +111,7 @@ class MedicationStatementTransformerTest {
     @Test
     public void convert_MedicationStatement_from_STU3_to_R4_Json_to_Xml() throws Exception {
         //when
-        String transform = medicationStatementTransformer.transform(FhirVersionEnum.DSTU3, FhirVersionEnum.R4, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, medicationStatement_staticR3Json);
+        String transform = medicationStatementConverter.convert(FhirVersionEnum.DSTU3, FhirVersionEnum.R4, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, medicationStatement_staticR3Json);
 
         //then
         assertNotNull(transform);
