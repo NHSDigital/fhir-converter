@@ -1,7 +1,6 @@
-package nhsd.fhir.converter.service.transformers;
+package nhsd.fhir.converter.service.converter;
 
 import ca.uhn.fhir.context.FhirVersionEnum;
-import nhsd.fhir.converter.service.converter.MedicationStatementConverter;
 import org.apache.commons.io.FileUtils;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
