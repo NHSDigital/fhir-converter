@@ -63,7 +63,7 @@ class ConverterServiceTest {
 
         doReturn(inferredType)
                 .when(resourceTypeFactory)
-                .inferResourceType(eq(stu3JsonResource), eq(MediaType.APPLICATION_JSON), eq(FhirVersionEnum.DSTU3));
+                .createResourceType(eq(stu3JsonResource), eq(MediaType.APPLICATION_JSON), eq(FhirVersionEnum.DSTU3));
 
         doReturn(expStu3Resource)
                 .when(fhirParser)

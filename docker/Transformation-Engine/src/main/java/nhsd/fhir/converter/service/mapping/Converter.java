@@ -60,7 +60,7 @@ class ConverterConfiguration {
 
 @Component
 class ResourceTypeFactory {
-    public Class<? extends IBaseResource> inferResourceType(String fhirResource, MediaType mediaType, FhirVersionEnum fhirVersion) throws ParserConfigurationException, IOException, SAXException {
+    public Class<? extends IBaseResource> createResourceType(String fhirResource, MediaType mediaType, FhirVersionEnum fhirVersion) throws ParserConfigurationException, IOException, SAXException {
         String resourceType = getResourceType(fhirResource, mediaType);
         switch (resourceType) {
             case "MedicationRequest":
@@ -88,12 +88,11 @@ class ResourceTypeFactory {
             return json.getString("resourceType");
         }
     }
-
 }
 
 @Component
 class Transformer {
-    <T extends IBaseResource> T transform(T resource) {
+    <T extends IBaseResource> T transform(IBaseResource resource) {
         return null;
     }
 }
@@ -180,7 +179,7 @@ class ConverterService {
     }
 
     public String convert(String resource, MediaType mediaType) throws ParserConfigurationException, IOException, SAXException {
-        Class<? extends IBaseResource> resourceType = resourceTypeFactory.inferResourceType(resource, mediaType, FhirVersionEnum.DSTU3);
+        Class<? extends IBaseResource> resourceType = resourceTypeFactory.createResourceType(resource, mediaType, FhirVersionEnum.DSTU3);
 
         IBaseResource fhirResource = fhirParser.parse(resource, resourceType, mediaType);
         IBaseResource converted = converter.convert(fhirResource, resourceType);
