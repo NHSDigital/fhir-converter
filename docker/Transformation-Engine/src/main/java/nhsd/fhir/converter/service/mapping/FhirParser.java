@@ -1,5 +1,6 @@
 package nhsd.fhir.converter.service.mapping;
 
+import ca.uhn.fhir.context.FhirVersionEnum;
 import ca.uhn.fhir.parser.IParser;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.springframework.http.MediaType;
@@ -38,8 +39,8 @@ public class FhirParser {
         throw new IllegalStateException("Invalid Content-Type");
     }
 
-    public <T extends IBaseResource> String encode(T resource, Class<T> resourceType, MediaType mediaType) {
-        boolean isR4 = resourceType.getName().contains("r4");
+    public <T extends IBaseResource> String encode(IBaseResource resource, FhirVersionEnum fhirVersion, MediaType mediaType) {
+        boolean isR4 = FhirVersionEnum.R4 == fhirVersion;
 
         if (MediaType.APPLICATION_JSON == mediaType) {
             if (isR4) {

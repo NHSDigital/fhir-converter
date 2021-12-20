@@ -1,9 +1,5 @@
 package nhsd.fhir.converter.service.mapping;
 
-import ca.uhn.fhir.context.FhirVersionEnum;
-import nhsd.fhir.converter.service.ConverterTest;
-import org.hl7.fhir.dstu3.model.MedicationRequest;
-import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,13 +10,11 @@ import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
-import java.io.InputStream;
 
+import static ca.uhn.fhir.context.FhirVersionEnum.DSTU3;
+import static ca.uhn.fhir.context.FhirVersionEnum.R4;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.fail;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.when;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -33,58 +27,56 @@ class ConverterServiceTest {
     private Transformer transformer;
     @Mock
     private FhirParser fhirParser;
-    @Mock
-    private FhirEncoder fhirEncoder;
-    @Mock
-    private ResourceTypeFactory resourceTypeFactory;
 
-    private static String stu3JsonResource = "some stu3 json resource";
-    private static String r4JsonResource = "some r4 json resource";
-    private static String stu3XmlResource = "some stu3 xml resource";
+    private static final String STU3_JSON_RES = "{\"resourceType\":  \"MedicationRequest\"}";
+    private static final String STU3_XML_RES = "<MedicationRequest></MedicationRequest>";
+    private static final String R4_JSON_RES = "{\"resourceType\":  \"MedicationRequest\"}";
+    private static final String R4_XML_RES = "<MedicationRequest></MedicationRequest>";
 
-    private static final MediaType jsonIn = MediaType.APPLICATION_JSON;
-    private static final MediaType xmlIn = MediaType.APPLICATION_XML;
+    private static final MediaType JSON = MediaType.APPLICATION_JSON;
+    private static final MediaType XML = MediaType.APPLICATION_XML;
 
+    private static final org.hl7.fhir.dstu3.model.MedicationRequest A_STU3_RES = new org.hl7.fhir.dstu3.model.MedicationRequest();
+    private static final org.hl7.fhir.r4.model.MedicationRequest A_R4_RES = new org.hl7.fhir.r4.model.MedicationRequest();
+
+    private static final org.hl7.fhir.dstu3.model.MedicationRequest A_TRANSFORMED_STU3_RES = new org.hl7.fhir.dstu3.model.MedicationRequest();
+    private static final org.hl7.fhir.r4.model.MedicationRequest A_TRANSFORMED_R4_RES = new org.hl7.fhir.r4.model.MedicationRequest();
+
+    private static final org.hl7.fhir.dstu3.model.MedicationRequest A_CONVERTED_STU3_RES = new org.hl7.fhir.dstu3.model.MedicationRequest();
+    private static final org.hl7.fhir.r4.model.MedicationRequest A_CONVERTED_R4_RES = new org.hl7.fhir.r4.model.MedicationRequest();
+
+    private static final Class<org.hl7.fhir.dstu3.model.MedicationRequest> STU3_CLASS = org.hl7.fhir.dstu3.model.MedicationRequest.class;
+    private static final Class<org.hl7.fhir.r4.model.MedicationRequest> R4_CLASS = org.hl7.fhir.r4.model.MedicationRequest.class;
 
     @BeforeEach
     void setUp() {
-        converterService = new ConverterService(converter, transformer, fhirParser, fhirEncoder, resourceTypeFactory);
+        converterService = new ConverterService(converter, transformer, fhirParser);
     }
 
     @Test
     void it_should_convert_stu3_json_resource() throws ParserConfigurationException, IOException, SAXException {
         // Given
-        String expectedConvertedResource = "a converted resource";
-        org.hl7.fhir.dstu3.model.MedicationRequest expStu3Resource = new MedicationRequest();
-        org.hl7.fhir.r4.model.MedicationRequest expR4Converted = new org.hl7.fhir.r4.model.MedicationRequest();
-        org.hl7.fhir.r4.model.MedicationRequest expR4Transformed = new org.hl7.fhir.r4.model.MedicationRequest();
-
-        Class<? extends IBaseResource> inferredType = MedicationRequest.class;
-
-        doReturn(inferredType)
-                .when(resourceTypeFactory)
-                .createResourceType(eq(stu3JsonResource), eq(MediaType.APPLICATION_JSON), eq(FhirVersionEnum.DSTU3));
-
-        doReturn(expStu3Resource)
+        doReturn(A_STU3_RES)
                 .when(fhirParser)
-                .parse(eq(stu3JsonResource), eq(inferredType), eq(MediaType.APPLICATION_JSON));
+                .parse(STU3_JSON_RES, STU3_CLASS, JSON);
 
-        doReturn(expR4Converted)
+        doReturn(A_CONVERTED_R4_RES)
                 .when(converter)
-                .convert(eq(expStu3Resource), eq(inferredType));
+                .convert(A_STU3_RES, DSTU3);
 
-        doReturn(expR4Transformed)
+        doReturn(A_TRANSFORMED_R4_RES)
                 .when(transformer)
-                .transform(eq(expR4Converted));
+                .transform(A_CONVERTED_R4_RES);
 
-        when(fhirEncoder.encode(eq(expR4Transformed), eq(MediaType.APPLICATION_JSON), eq(FhirVersionEnum.R4)))
-                .thenReturn(expectedConvertedResource);
+        doReturn(R4_JSON_RES)
+                .when(fhirParser)
+                .encode(A_TRANSFORMED_R4_RES, R4, JSON);
 
         // When
-        String actualConverted = converterService.convert(stu3JsonResource, jsonIn);
+        String actualConverted = converterService.convert(STU3_JSON_RES, JSON, DSTU3);
 
         // Then
-        assertThat(actualConverted).isEqualTo(expectedConvertedResource);
+        assertThat(actualConverted).isEqualTo(R4_JSON_RES);
     }
 
     /*
@@ -116,6 +108,7 @@ class ConverterServiceTest {
         }
 
     */
+/*
     static {
         InputStream is = ConverterTest.class.getClassLoader().getResourceAsStream("GPConnect/MedicationRequest_GPConnect.json");
         try {
@@ -124,4 +117,5 @@ class ConverterServiceTest {
             fail("Can't open test resource file");
         }
     }
+*/
 }
