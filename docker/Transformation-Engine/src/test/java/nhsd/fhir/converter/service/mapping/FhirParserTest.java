@@ -66,7 +66,7 @@ class FhirParserTest {
                 .thenReturn(STU3_JSON_RES);
 
         // When
-        String resource = fhirParser.encode(A_STU3_RES, DSTU3, JSON);
+        String resource = fhirParser.encode(A_STU3_RES, JSON, DSTU3);
 
         // Then
         assertThat(resource).isEqualTo(STU3_JSON_RES);
@@ -93,7 +93,7 @@ class FhirParserTest {
                 .thenReturn(STU3_XML_RES);
 
         // When
-        String resource = fhirParser.encode(A_STU3_RES, DSTU3, XML);
+        String resource = fhirParser.encode(A_STU3_RES, XML, DSTU3);
 
         // Then
         assertThat(resource).isEqualTo(STU3_XML_RES);
@@ -120,7 +120,7 @@ class FhirParserTest {
                 .thenReturn(R4_JSON_RES);
 
         // When
-        String resource = fhirParser.encode(A_R4_RES, R4, JSON);
+        String resource = fhirParser.encode(A_R4_RES, JSON, R4);
 
         // Then
         assertThat(resource).isEqualTo(R4_JSON_RES);
@@ -147,7 +147,7 @@ class FhirParserTest {
                 .thenReturn(R4_XML_RES);
 
         // When
-        String resource = fhirParser.encode(A_R4_RES, R4, XML);
+        String resource = fhirParser.encode(A_R4_RES, XML, R4);
 
         // Then
         assertThat(resource).isEqualTo(R4_XML_RES);

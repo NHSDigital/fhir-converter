@@ -39,7 +39,7 @@ public class FhirParser {
         throw new IllegalStateException("Invalid Content-Type");
     }
 
-    public <T extends IBaseResource> String encode(IBaseResource resource, FhirVersionEnum fhirVersion, MediaType mediaType) {
+    public String encode(IBaseResource resource, MediaType mediaType, FhirVersionEnum fhirVersion) {
         boolean isR4 = FhirVersionEnum.R4 == fhirVersion;
 
         if (MediaType.APPLICATION_JSON == mediaType) {

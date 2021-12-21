@@ -30,8 +30,7 @@ public class ConverterService {
         IBaseResource transformed = transformer.transform(converted);
 
         FhirVersionEnum outVersion = fhirVersion == FhirVersionEnum.R4 ? FhirVersionEnum.DSTU3 : FhirVersionEnum.R4;
-        String convertedStr = fhirParser.encode(transformed, outVersion, mediaType);
 
-        return convertedStr;
+        return fhirParser.encode(transformed, mediaType, outVersion);
     }
 }
