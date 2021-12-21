@@ -70,7 +70,7 @@ class ConverterServiceTest {
 
         doReturn(R4_JSON_RES)
                 .when(fhirParser)
-                .encode(A_TRANSFORMED_R4_RES, R4, JSON);
+                .encode(A_TRANSFORMED_R4_RES, JSON, R4);
 
         // When
         String actualConverted = converterService.convert(STU3_JSON_RES, JSON, DSTU3);
@@ -79,43 +79,81 @@ class ConverterServiceTest {
         assertThat(actualConverted).isEqualTo(R4_JSON_RES);
     }
 
-    /*
+    @Test
+    void it_should_convert_stu3_xml_resource() throws ParserConfigurationException, IOException, SAXException {
+        // Given
+        doReturn(A_STU3_RES)
+                .when(fhirParser)
+                .parse(STU3_XML_RES, STU3_CLASS, XML);
 
-        @Test
-        void it_should_convert_r4_json_resource() {
-            // Given
-            org.hl7.fhir.dstu3.model.MedicationRequest expStu3Resource = new org.hl7.fhir.dstu3.model.MedicationRequest();
-            when(r4JsonParser.parseResource(any(), eq(r4JsonResource))).thenReturn(expStu3Resource);
+        doReturn(A_CONVERTED_R4_RES)
+                .when(converter)
+                .convert(A_STU3_RES, DSTU3);
 
-            // When
-            org.hl7.fhir.dstu3.model.MedicationRequest stu3Resource = converterService.convert(r4JsonResource, jsonIn);
+        doReturn(A_TRANSFORMED_R4_RES)
+                .when(transformer)
+                .transform(A_CONVERTED_R4_RES);
 
-            // Then
-            assertThat(stu3Resource).isEqualTo(expStu3Resource);
-        }
+        doReturn(R4_XML_RES)
+                .when(fhirParser)
+                .encode(A_TRANSFORMED_R4_RES, XML, R4);
 
-        @Test
-        void it_should_convert_stu3_xml_resource() {
-            // Given
-            MedicationRequest expR4Resource = new MedicationRequest();
-            when(stu3XmlParser.parseResource(any(), eq(stu3XmlResource))).thenReturn(expR4Resource);
+        // When
+        String actualConverted = converterService.convert(STU3_XML_RES, XML, DSTU3);
 
-            // When
-            MedicationRequest r4Resource = converterService.convert(stu3XmlResource, xmlIn);
-
-            // Then
-            assertThat(r4Resource).isEqualTo(expR4Resource);
-        }
-
-    */
-/*
-    static {
-        InputStream is = ConverterTest.class.getClassLoader().getResourceAsStream("GPConnect/MedicationRequest_GPConnect.json");
-        try {
-            stu3JsonResource = new String(is.readAllBytes());
-        } catch (IOException e) {
-            fail("Can't open test resource file");
-        }
+        // Then
+        assertThat(actualConverted).isEqualTo(R4_XML_RES);
     }
-*/
+
+    @Test
+    void it_should_convert_r4_json_resource() throws ParserConfigurationException, IOException, SAXException {
+        // Given
+        doReturn(A_R4_RES)
+                .when(fhirParser)
+                .parse(R4_JSON_RES, R4_CLASS, JSON);
+
+        doReturn(A_CONVERTED_STU3_RES)
+                .when(converter)
+                .convert(A_R4_RES, R4);
+
+        doReturn(A_TRANSFORMED_STU3_RES)
+                .when(transformer)
+                .transform(A_CONVERTED_STU3_RES);
+
+        doReturn(STU3_JSON_RES)
+                .when(fhirParser)
+                .encode(A_TRANSFORMED_STU3_RES, JSON, DSTU3);
+
+        // When
+        String actualConverted = converterService.convert(R4_JSON_RES, JSON, R4);
+
+        // Then
+        assertThat(actualConverted).isEqualTo(STU3_JSON_RES);
+    }
+
+    @Test
+    void it_should_convert_r4_xml_resource() throws ParserConfigurationException, IOException, SAXException {
+        // Given
+        doReturn(A_R4_RES)
+                .when(fhirParser)
+                .parse(R4_XML_RES, R4_CLASS, XML);
+
+        doReturn(A_CONVERTED_STU3_RES)
+                .when(converter)
+                .convert(A_R4_RES, R4);
+
+        doReturn(A_TRANSFORMED_STU3_RES)
+                .when(transformer)
+                .transform(A_CONVERTED_STU3_RES);
+
+        doReturn(STU3_XML_RES)
+                .when(fhirParser)
+                .encode(A_TRANSFORMED_STU3_RES, XML, DSTU3);
+
+        // When
+        String actualConverted = converterService.convert(R4_XML_RES, XML, R4);
+
+        // Then
+        assertThat(actualConverted).isEqualTo(STU3_XML_RES);
+    }
 }
