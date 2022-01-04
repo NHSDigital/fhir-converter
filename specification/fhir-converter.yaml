@@ -5,14 +5,14 @@ x-meta:
   short_service_name: "fc"
   product_display_name: "FHIR Converter"
   service_base_path: "fhir-converter"
-  product_description: "This proxy function as a converter from STU3 to FHIR R4 and vice versa"
+  product_description: "This proxy converts resource types `MedicationRequest` and `MedicationStatements` from STU3 to FHIR R4 and vice versa"
   pipeline_name_prefix: "FHIR-Converter"
 info:
   version: "{VERSION}"
   title: FHIR Converter
   description:  |
     ## Overview
-    Use this API to converter resource types `MedicationRequest` and `MedicationStatements` from STU3 to FHIR R4 and vice versa. This APi supports both STU3 GP Connect and R4 UK Core profile
+    Use this API to convert resource types `MedicationRequest` and `MedicationStatements` from STU3 to FHIR R4 and vice versa. This APi supports both STU3 GP Connect and R4 UK Core profile
 
     You can:
       - post either a `MedicationRequest` or `MedicationStatement`
@@ -20,7 +20,7 @@ info:
     You cannot:
       - convert between any other resource types
 
-    The following describes the end-to-end process:
+    To use this API:
     1. Send your source payload to this API.
     2. This API converts your source payload to the target version.
     3. You receive the converted payload in the response.
