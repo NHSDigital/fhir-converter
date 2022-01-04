@@ -5,14 +5,14 @@ x-meta:
   short_service_name: "fc"
   product_display_name: "FHIR Converter"
   service_base_path: "fhir-converter"
-  product_description: "This proxy function as a converter from FHIR R4 to STU3 and vice versa"
+  product_description: "This proxy converts resource types `MedicationRequest` and `MedicationStatements` from STU3 to FHIR R4 and vice versa"
   pipeline_name_prefix: "FHIR-Converter"
 info:
   version: "{VERSION}"
   title: FHIR Converter
   description:  |
     ## Overview
-    Use this API to converter resource types `MedicationRequest` and `MedicationStatements` from FHIR R4 to STU3 and vice versa. This APi supports both STU3 GP Connect and R4 UK Core profile
+    Use this API to convert resource types `MedicationRequest` and `MedicationStatements` from STU3 to FHIR R4 and vice versa. This APi supports both STU3 GP Connect and R4 UK Core profile
 
     You can:
       - post either a `MedicationRequest` or `MedicationStatement`
@@ -20,12 +20,10 @@ info:
     You cannot:
       - convert between any other resource types
 
-    The API is synchronous - you recieve your converted resource in the response body.
-
-    The following describes the end-to-end process:
-    1. The sending system sends the source payload to the FHIR Converter API.
-    2. The FHIR Converter API converts the source payload to the target version.
-    3. The sending system recieves the converted payload in the response.
+    To use this API:
+    1. Send your source payload to this API.
+    2. This API converts your source payload to the target version.
+    3. You receive the converted payload in the response.
 
     ## Who can use this API
     This API can only be used where there is a legal basis to do so. Make sure you have a valid use case before you go too far with your development. You must do this before you can go live (see ‘Onboarding’ below).
@@ -43,6 +41,8 @@ info:
     ## Technology
     This API uses HTTP POST to submit data.
 
+    The API is synchronous - you receive your converted resource in the response body.
+
     The data payload conforms to the [FHIR](https://digital.nhs.uk/developer/guides-and-documentation/api-technologies-at-nhs-digital#fhir) global standard for health care data exchange.
     Specifically, it is aligned with [FHIR UK Core](https://digital.nhs.uk/services/fhir-uk-core), which is built on FHIR Release 4, or [FHIR GP Connect](https://digital.nhs.uk/services/gp-connect), which is built on FHIR STU3.
 
@@ -57,7 +57,7 @@ info:
         * we do not authenticate or authorise the calling application
         * we do not authenticate or authorise the end user - they might not even be present We generally use open-access APIs for public data, where security is not a concern. Our open-access APIs are generally RESTful APIs. For more details on how to access them, see our [open-access REST API tutorial](https://digital.nhs.uk/developer/guides-and-documentation/tutorials/open-access-rest-api-tutorial).
 
-    ### Environments and testing
+    ## Environments and testing
 
     | Environment       | Base URL                                                               |
     | ----------------- | ---------------------------------------------------------------------- |
