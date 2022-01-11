@@ -47,7 +47,7 @@ class ConversionControllerTest {
 
         //then
         assertEquals(responseEntity.getStatusCode(), HttpStatus.OK);
-        assertEquals(responseEntity.getBody(), staticR3Json);
+        assertEquals(responseEntity.getBody(), staticR3Json.trim());
     }
 
     @Test
