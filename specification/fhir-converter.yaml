@@ -12,7 +12,7 @@ info:
   title: FHIR Converter
   description:  |
     ## Overview
-    Use this API to convert resource types `MedicationRequest` and `MedicationStatements` from STU3 to FHIR R4 and vice versa. This APi supports both STU3 GP Connect and R4 UK Core profile
+    Use this API to convert resource types `MedicationRequest` and `MedicationStatements` from STU3 to FHIR R4 and vice versa.
 
     You can:
       - post either a `MedicationRequest` or `MedicationStatement`
