@@ -11,7 +11,7 @@ import org.hl7.fhir.dstu3.model.MedicationRequest as R3MedicationRequest
 import org.hl7.fhir.r4.model.DomainResource as R4Resource
 import org.hl7.fhir.r4.model.MedicationRequest as R4MedicationRequest
 
-internal class CareConnectTransformerTest {
+internal class CareconnectTransformerTest {
     private lateinit var transformer: Transformer<R3Resource, R4Resource>
 
     companion object {
@@ -33,7 +33,7 @@ internal class CareConnectTransformerTest {
             extUrl to extTransformer
         )
 
-        transformer = CareConnectTransformer(extensionTransformers)
+        transformer = CareconnectTransformer(extensionTransformers)
 
         // When
         transformer.transform(R3_RESOURCE, R4_RESOURCE)
@@ -56,7 +56,7 @@ internal class CareConnectTransformerTest {
             "www.some-other-extension-url.com" to extTransformer
         )
 
-        transformer = CareConnectTransformer(extensionTransformers)
+        transformer = CareconnectTransformer(extensionTransformers)
 
         // When
         transformer.transform(R3_RESOURCE, R4_RESOURCE)

@@ -12,8 +12,9 @@ private val extToTransformFunc: HashMap<String, ExtensionTransformer> = hashMapO
 )
 
 @Component
-class CareConnectTransformer(private val extensionsMap: HashMap<String, ExtensionTransformer> = extToTransformFunc) :
+class CareconnectTransformer(private val extensionsMap: HashMap<String, ExtensionTransformer> = extToTransformFunc) :
     Transformer<R3Resource, R4Resource> {
+
 
     override fun transform(src: R3Resource, tgt: R4Resource) {
         src.extension
