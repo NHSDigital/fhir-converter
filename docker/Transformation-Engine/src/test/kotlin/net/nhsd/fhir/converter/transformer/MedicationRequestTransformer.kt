@@ -7,7 +7,6 @@ internal class MedicationRequestTransformer {
 
     @BeforeEach
     internal fun setUp() {
-        val pairs = loadExample("MedicationRequest", "RepeatInformation")
     }
 
     @Test
