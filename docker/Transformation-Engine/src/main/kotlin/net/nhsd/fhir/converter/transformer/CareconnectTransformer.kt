@@ -1,5 +1,6 @@
 package net.nhsd.fhir.converter.transformer
 
+import org.hl7.fhir.instance.model.api.IBaseResource
 import org.springframework.stereotype.Component
 import org.hl7.fhir.dstu3.model.DomainResource as R3Resource
 import org.hl7.fhir.dstu3.model.Extension as R3Extension
@@ -13,12 +14,19 @@ private val extToTransformFunc: HashMap<String, ExtensionTransformer> = hashMapO
 
 @Component
 class CareconnectTransformer(private val extensionsMap: HashMap<String, ExtensionTransformer> = extToTransformFunc) :
-    Transformer<R3Resource, R4Resource> {
+    Transformer {
 
+    override fun transform(src: IBaseResource, tgt: IBaseResource): IBaseResource {
+        return when (src) {
+            is R3Resource -> {
+                src.extension
+                    .filter { extensionsMap.containsKey(it.url) }
+                    .forEach { extensionsMap[it.url]?.invoke(it, tgt as R4Resource) }
 
-    override fun transform(src: R3Resource, tgt: R4Resource) {
-        src.extension
-            .filter { extensionsMap.containsKey(it.url) }
-            .forEach { extensionsMap[it.url]?.invoke(it, tgt) }
+                tgt
+            }
+            else -> tgt
+        }
     }
+
 }
