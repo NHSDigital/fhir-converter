@@ -28,9 +28,5 @@ class ConverterConfiguration {
     fun r4JsonParser(r4FhirContext: FhirContext): IParser = r4FhirContext.newJsonParser()
 
     @Bean
-    fun converterAdvisor(): BaseAdvisor_30_40 = ConverterAdvisor()
-
-    @Bean
-    fun converter30To40(converterAdvisor: BaseAdvisor_30_40): VersionConvertor_30_40 =
-        VersionConvertor_30_40(converterAdvisor)
+    fun converter30To40(): VersionConvertor_30_40 = VersionConvertor_30_40(BaseAdvisor_30_40())
 }

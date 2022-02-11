@@ -1,7 +1,6 @@
 package net.nhsd.fhir.converter.transformer
 
 import ca.uhn.fhir.context.FhirContext
-import net.nhsd.fhir.converter.ConverterAdvisor
 import org.hl7.fhir.convertors.conv30_40.VersionConvertor_30_40
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -16,7 +15,6 @@ internal class TransformerComponentTest {
 
     @BeforeEach
     internal fun setUp() {
-        converter = VersionConvertor_30_40(ConverterAdvisor())
     }
 
     @Test
