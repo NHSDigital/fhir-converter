@@ -8,12 +8,8 @@ import org.hl7.fhir.r4.model.DomainResource as R4Resource
 
 typealias ExtensionTransformer = (src: R3Extension, tgt: R4Resource) -> Unit
 
-private val extToTransformFunc: HashMap<String, ExtensionTransformer> = hashMapOf(
-    "https://fhir.nhs.uk/StructureDefinition/Extension-UKCore-MedicationRepeatInformation" to ::repeatInformation
-)
-
 @Component
-class CareconnectTransformer(private val extensionsMap: HashMap<String, ExtensionTransformer> = extToTransformFunc) :
+class CareconnectTransformer(private val extensionsMap: HashMap<String, ExtensionTransformer> = careconnectTransformers) :
     Transformer {
 
     override fun transform(src: IBaseResource, tgt: IBaseResource): IBaseResource {
