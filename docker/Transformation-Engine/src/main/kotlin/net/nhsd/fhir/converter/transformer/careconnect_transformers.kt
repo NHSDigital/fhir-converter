@@ -6,6 +6,7 @@ import org.hl7.fhir.r4.model.DomainResource as R4Resource
 
 private const val CARECONNECT_REPEAT_INFORMATION_URL =
     "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-MedicationRepeatInformation-1"
+
 private const val UKCORE_REPEAT_INFORMATION_URL =
     "https://fhir.nhs.uk/StructureDefinition/Extension-UKCore-MedicationRepeatInformation"
 
