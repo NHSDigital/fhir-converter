@@ -4,9 +4,6 @@ import ca.uhn.fhir.context.FhirVersionEnum.DSTU3
 import ca.uhn.fhir.context.FhirVersionEnum.R4
 import net.javacrumbs.jsonunit.assertj.JsonAssert.assertThatJson
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Disabled
-import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
@@ -24,12 +21,6 @@ import org.hl7.fhir.r4.model.UnsignedIntType as R4UnsignedIntType
 
 
 internal class RepeatInformationTest {
-
-    @BeforeEach
-    internal fun setUp() {
-
-    }
-
     @ParameterizedTest
     @ValueSource(strings = [CARECONNECT_REPEAT_INFORMATION_URL, CARECONNECT_GPC_REPEAT_INFORMATION_URL])
     internal fun `it should create extension with the associated ukcore url`(extUrl: String) {
@@ -178,28 +169,6 @@ internal class RepeatInformationTest {
         assertThatJson(actualResource).isEqualTo(expected)
     }
 
-
-    // Just for debugging
-    @Test
-    @Disabled("Only use this for debugging one specific example file")
-    internal fun runOneExample() {
-        val exampleIndex = 4
-        val careconnectExampleLoader = CareconnectExampleLoader()
-        val converterService = makeConverterService()
-
-        val pair = careconnectExampleLoader.loadExample(
-            R3MedicationRequest::class.java,
-            "RepeatInformation"
-        )[exampleIndex - 1] // Careful with the index! some files start with 0 and some with 1
-
-        // When
-        val actualResource = converterService.convert(pair.input, APPLICATION_JSON, DSTU3, APPLICATION_JSON, R4)
-
-        // Only use this to see a string diff during debugging. See function docs
-//        assertJsonEquals( actualResource, pair.output )
-        assertThatJson(actualResource).isEqualTo(pair.output)
-    }
-
     companion object {
         @JvmStatic
         fun provideExamples(): Stream<Arguments> {
@@ -209,6 +178,5 @@ internal class RepeatInformationTest {
 
             return pairs.stream()
         }
-
     }
 }

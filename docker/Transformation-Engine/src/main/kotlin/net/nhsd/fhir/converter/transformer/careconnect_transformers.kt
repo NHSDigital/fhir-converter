@@ -24,16 +24,14 @@ internal val careconnectTransformers: HashMap<String, ExtensionTransformer> = ha
 )
 
 fun repeatInformation(src: R3Extension, tgt: R4Resource) {
-    if (src.url != CARECONNECT_REPEAT_INFORMATION_URL && src.url != CARECONNECT_GPC_REPEAT_INFORMATION_URL) return
-
     val ext = R4Extension().apply {
         url = UKCORE_REPEAT_INFORMATION_URL
 
         src.getExtensionsByUrl("numberOfRepeatPrescriptionsIssued").firstOrNull()?.let {
             val issuedExt = R4Extension().apply {
                 url = "numberOfRepeatPrescriptionsIssued"
-                val v = R4UnsignedIntType((it.value as R3UnsignedIntType).asStringValue())
-                setValue(v)
+                val newValue = R4UnsignedIntType((it.value as R3UnsignedIntType).asStringValue())
+                setValue(newValue)
             }
             this.addExtension(issuedExt)
         }
@@ -41,19 +39,19 @@ fun repeatInformation(src: R3Extension, tgt: R4Resource) {
         src.getExtensionsByUrl("authorisationExpiryDate").firstOrNull()?.let {
             val expiry = R4Extension().apply {
                 url = "authorisationExpiryDate"
-                val v = R4DateTimeType((it.value as R3DateTimeType).asStringValue())
-                setValue(v)
+                val newValue = R4DateTimeType((it.value as R3DateTimeType).asStringValue())
+                setValue(newValue)
             }
             this.addExtension(expiry)
         }
 
         src.getExtensionsByUrl("numberOfRepeatPrescriptionsAllowed").firstOrNull()?.let {
-            val v = when (it.value) {
+            val newValue = when (it.value) {
                 is R3PositiveIntType -> (it.value as R3PositiveIntType).value as Int
                 is R3UnsignedIntType -> (it.value as R3UnsignedIntType).value as Int
                 else -> throw IllegalStateException("Unsupported data type passed to transformer. This happened during transforming \"numberOfRepeatPrescriptionsAllowed\". The DataType is ${it.javaClass.name}")
             }
-            (tgt as R4MedicationRequest).dispenseRequest.numberOfRepeatsAllowed = v
+            (tgt as R4MedicationRequest).dispenseRequest.numberOfRepeatsAllowed = newValue
         }
     }
 
