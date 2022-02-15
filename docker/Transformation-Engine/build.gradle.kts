@@ -29,7 +29,7 @@ dependencies {
 	testImplementation("org.springframework.boot:spring-boot-starter-test:${springVersion}")
 	testImplementation("org.assertj:assertj-core:3.21.0")
 	testImplementation("com.ninja-squad:springmockk:3.1.0")
-
+	testImplementation("net.javacrumbs.json-unit:json-unit-assertj:0.0.15")
 }
 
 tasks.withType<KotlinCompile> {

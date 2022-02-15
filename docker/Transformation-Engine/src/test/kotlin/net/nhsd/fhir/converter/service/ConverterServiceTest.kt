@@ -7,7 +7,7 @@ import io.mockk.mockk
 import io.mockk.verifyOrder
 import net.nhsd.fhir.converter.Converter
 import net.nhsd.fhir.converter.FhirParser
-import net.nhsd.fhir.converter.Transformer
+import net.nhsd.fhir.converter.transformer.CareconnectTransformer
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -18,7 +18,7 @@ import org.hl7.fhir.r4.model.MedicationRequest as R4MedicationRequest
 
 internal class ConverterServiceTest {
     private val parser = mockk<FhirParser>()
-    private val transformer = mockk<Transformer>()
+    private val careconnectTransformer = mockk<CareconnectTransformer>()
     private val converter = mockk<Converter>()
 
     lateinit var converterService: ConverterService
@@ -47,7 +47,7 @@ internal class ConverterServiceTest {
 
     @BeforeEach
     internal fun setUp() {
-        converterService = ConverterService(parser, transformer, converter)
+        converterService = ConverterService(parser, careconnectTransformer, converter)
     }
 
     @Test
@@ -55,7 +55,7 @@ internal class ConverterServiceTest {
         // Given
         every { parser.parse(R4_JSON_RES, JSON, R4_CLASS) } returns A_R4_RES
         every { converter.convert(A_R4_RES, R4, DSTU3) } returns A_CONVERTED_STU3_RES
-        every { transformer.transform(A_CONVERTED_STU3_RES, DSTU3) } returns A_TRANSFORMED_STU3_RES
+        every { careconnectTransformer.transform(A_R4_RES, A_CONVERTED_STU3_RES) } returns A_TRANSFORMED_STU3_RES
         every { parser.encode(A_TRANSFORMED_STU3_RES, JSON, DSTU3) } returns STU3_JSON_RES
 
         // When
@@ -66,7 +66,7 @@ internal class ConverterServiceTest {
         verifyOrder {
             parser.parse(R4_JSON_RES, JSON, R4_CLASS)
             converter.convert(A_R4_RES, R4, DSTU3)
-            transformer.transform(A_CONVERTED_STU3_RES, DSTU3)
+            careconnectTransformer.transform(A_R4_RES, A_CONVERTED_STU3_RES)
             parser.encode(A_TRANSFORMED_STU3_RES, JSON, DSTU3)
         }
     }
@@ -76,7 +76,7 @@ internal class ConverterServiceTest {
         // Given
         every { parser.parse(STU3_JSON_RES, JSON, STU3_CLASS) } returns A_STU3_RES
         every { converter.convert(A_STU3_RES, DSTU3, R4) } returns A_CONVERTED_R4_RES
-        every { transformer.transform(A_CONVERTED_R4_RES, R4) } returns A_TRANSFORMED_R4_RES
+        every { careconnectTransformer.transform(A_STU3_RES, A_CONVERTED_R4_RES) } returns A_TRANSFORMED_R4_RES
         every { parser.encode(A_TRANSFORMED_R4_RES, JSON, R4) } returns R4_JSON_RES
 
         // When
@@ -87,7 +87,7 @@ internal class ConverterServiceTest {
         verifyOrder {
             parser.parse(STU3_JSON_RES, JSON, STU3_CLASS)
             converter.convert(A_STU3_RES, DSTU3, R4)
-            transformer.transform(A_CONVERTED_R4_RES, R4)
+            careconnectTransformer.transform(A_STU3_RES, A_CONVERTED_R4_RES)
             parser.encode(A_TRANSFORMED_R4_RES, JSON, R4)
         }
     }
