@@ -65,7 +65,8 @@ class CareconnectExampleLoader {
      */
     fun <I : R3Resource> loadExample(
         inputResCls: Class<I>,
-        extensionName: String
+        extensionName: String,
+        startingIndex: Int = 0
     ): MutableList<InputOutput> {
         val resourceName = inputResCls.simpleName
 
@@ -79,18 +80,17 @@ class CareconnectExampleLoader {
 
         val resourceUri = { path: String -> {}.javaClass.classLoader.getResource(path) }
 
-        // FIXME: start index is from 0 everywhere except for RepeatInformation!. Maybe get index from this function as argument
-        var n = 1
+        var index = startingIndex
         val pairs = mutableListOf<InputOutput>()
         do {
-            val i = resourceUri(inputFile(n))
-            val o = resourceUri(outputFile(n))
+            val i = resourceUri(inputFile(index))
+            val o = resourceUri(outputFile(index))
             if (i == null || o == null) break
 
             pairs.add(InputOutput(input = i.readText(), output = o.readText()))
 
-            n++
-        } while (resourceUri(inputFile(n)) != null)
+            index++
+        } while (resourceUri(inputFile(index)) != null)
 
         return pairs
     }
