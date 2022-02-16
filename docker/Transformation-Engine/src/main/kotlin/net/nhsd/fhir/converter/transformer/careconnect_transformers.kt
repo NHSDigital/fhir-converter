@@ -9,6 +9,8 @@ import org.hl7.fhir.r4.model.DomainResource as R4Resource
 import org.hl7.fhir.r4.model.Extension as R4Extension
 import org.hl7.fhir.r4.model.MedicationRequest as R4MedicationRequest
 import org.hl7.fhir.r4.model.UnsignedIntType as R4UnsignedIntType
+import org.hl7.fhir.dstu3.model.CodeableConcept as R3CodeableConcept
+import org.hl7.fhir.r4.model.Coding as R4Coding
 
 internal const val CARECONNECT_REPEAT_INFORMATION_URL =
     "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-MedicationRepeatInformation-1"
@@ -18,9 +20,13 @@ internal const val CARECONNECT_GPC_REPEAT_INFORMATION_URL =
 internal const val UKCORE_REPEAT_INFORMATION_URL =
     "https://fhir.nhs.uk/StructureDefinition/Extension-UKCore-MedicationRepeatInformation"
 
+internal const val CARECONNECT_GPC_PRESCRIPTION_TYPE_URL =
+    "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescriptionType-1"
+
 internal val careconnectTransformers: HashMap<String, ExtensionTransformer> = hashMapOf(
     CARECONNECT_REPEAT_INFORMATION_URL to ::repeatInformation,
-    CARECONNECT_GPC_REPEAT_INFORMATION_URL to ::repeatInformation
+    CARECONNECT_GPC_REPEAT_INFORMATION_URL to ::repeatInformation,
+    CARECONNECT_GPC_PRESCRIPTION_TYPE_URL to ::prescriptionType
 )
 
 fun repeatInformation(src: R3Extension, tgt: R4Resource) {
@@ -57,4 +63,51 @@ fun repeatInformation(src: R3Extension, tgt: R4Resource) {
 
     tgt.addExtension(ext)
 }
+
+fun prescriptionType(src: R3Extension, tgt: R4Resource) {
+        if (src.value is R3CodeableConcept) {
+            val srcCodeableConcept = src.value as R3CodeableConcept
+            val r3Coding = srcCodeableConcept.coding.firstOrNull()
+
+            r3Coding?.let {
+                val r3CodingSystem =
+                    r3Coding.hasSystem() && r3Coding.system == "https://fhir.nhs.uk/STU3/CodeSystem/CareConnect-PrescriptionType-1"
+
+                val r4CodingSystem =
+                    if (r3CodingSystem)
+                        "http://hl7.org/fhir/ValueSet/medicationrequest-course-of-therapy"
+                    else null
+
+                val r3CodingCode = r3Coding.code
+
+                val r3CodingDisplay = r3Coding.display
+
+                val r4CodingCode =
+                    if (r3CodingCode == "acute")
+                        "acute"
+                    else if (r3CodingCode == "delayed-prescribing")
+                        "delayed-prescribing"
+                    else if (r3CodingCode == "repeat")
+                        "repeat"
+                    else if (r3CodingCode == "repeat-dispensing")
+                        "repeat-dispensing"
+                    else null
+
+                val r4CodingDisplay =
+                    if (r3CodingDisplay == "Acute")
+                        "Acute"
+                    else if (r3CodingDisplay == "Delayed prescribing")
+                        "Delayed prescribing"
+                    else if (r3CodingDisplay == "Repeat")
+                        "Repeat"
+                    else if (r3CodingDisplay == "Repeat dispensing")
+                        "Repeat dispensing"
+                    else null
+
+                val r4Coding = R4Coding(r4CodingSystem, r4CodingCode, r4CodingDisplay)
+
+                (tgt as R4MedicationRequest).courseOfTherapyType.coding = listOf(r4Coding)
+            }
+        }
+    }
 
