@@ -26,14 +26,13 @@ internal const val UKCORE_REPEAT_INFORMATION_URL =
 internal const val UKCORE_LAST_ISSUE_DATE_URL =
     "https://fhir.hl7.org.uk/StructureDefinition/Extension-UKCore-MedicationStatementLastIssueDate"
 
-
 internal const val CARECONNECT_GPC_PRESCRIPTION_TYPE_URL =
     "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescriptionType-1"
 
 internal val careconnectTransformers: HashMap<String, ExtensionTransformer> = hashMapOf(
     CARECONNECT_REPEAT_INFORMATION_URL to ::repeatInformation,
     CARECONNECT_GPC_REPEAT_INFORMATION_URL to ::repeatInformation,
-    CARECONNECT_GPC_PRESCRIPTION_TYPE_URL to ::prescriptionType
+    CARECONNECT_GPC_PRESCRIPTION_TYPE_URL to ::prescriptionType,
     CARECONNECT_GPC_LAST_ISSUE_DATE_URL to ::lastIssueDate,
     CARECONNECT_LAST_ISSUE_DATE_URL to ::lastIssueDate
 )
@@ -79,17 +78,14 @@ fun prescriptionType(src: R3Extension, tgt: R4Resource) {
             val r3Coding = srcCodeableConcept.coding.firstOrNull()
 
             r3Coding?.let {
-                val r3CodingSystem =
-                    r3Coding.hasSystem() && r3Coding.system == "https://fhir.nhs.uk/STU3/CodeSystem/CareConnect-PrescriptionType-1"
+                val r3CodingSystem = r3Coding.system
+                val r3CodingCode = r3Coding.code
+                val r3CodingDisplay = r3Coding.display
 
                 val r4CodingSystem =
-                    if (r3CodingSystem)
+                    if (r3CodingSystem == "https://fhir.nhs.uk/STU3/CodeSystem/CareConnect-PrescriptionType-1")
                         "http://hl7.org/fhir/ValueSet/medicationrequest-course-of-therapy"
                     else null
-
-                val r3CodingCode = r3Coding.code
-
-                val r3CodingDisplay = r3Coding.display
 
                 val r4CodingCode =
                     if (r3CodingCode == "acute")
