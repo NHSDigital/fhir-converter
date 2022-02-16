@@ -25,7 +25,7 @@ internal class PrescriptionTypeTest {
             url = extUrl
             val codeableConcept = R3CodeableConcept().apply {
                 coding = listOf(
-                    Coding("https://fhir.nhs.uk/STU3/CodeSystem/CareConnect-PrescriptionType-1", "acute", "Acute")
+                    Coding("https://fhir.nhs.uk/STU3/CodeSystem/CareConnect-PrescriptionType-1", "code", "display")
                 )
             }
             setValue(codeableConcept)
@@ -43,8 +43,8 @@ internal class PrescriptionTypeTest {
         assertThat(transformedCoding).hasSize(1)
         val coding = transformedCoding[0]
         assertThat(coding.system).isEqualTo("http://hl7.org/fhir/ValueSet/medicationrequest-course-of-therapy")
-        assertThat(coding.code).isEqualTo("acute")
-        assertThat(coding.display).isEqualTo("Acute")
+        assertThat(coding.code).isEqualTo("code")
+        assertThat(coding.display).isEqualTo("display")
     }
 
     @ParameterizedTest(name = "Test MedicationRequest PrescriptionType extension with IOPS example index: {index} (zero based indexing)")

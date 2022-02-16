@@ -88,25 +88,13 @@ fun prescriptionType(src: R3Extension, tgt: R4Resource) {
                     else null
 
                 val r4CodingCode =
-                    if (r3CodingCode == "acute")
-                        "acute"
-                    else if (r3CodingCode == "delayed-prescribing")
-                        "delayed-prescribing"
-                    else if (r3CodingCode == "repeat")
-                        "repeat"
-                    else if (r3CodingCode == "repeat-dispensing")
-                        "repeat-dispensing"
+                    if (r3CodingCode != null)
+                        r3CodingCode
                     else null
 
                 val r4CodingDisplay =
-                    if (r3CodingDisplay == "Acute")
-                        "Acute"
-                    else if (r3CodingDisplay == "Delayed prescribing")
-                        "Delayed prescribing"
-                    else if (r3CodingDisplay == "Repeat")
-                        "Repeat"
-                    else if (r3CodingDisplay == "Repeat dispensing")
-                        "Repeat dispensing"
+                    if (r3CodingDisplay != null)
+                        r3CodingDisplay
                     else null
 
                 val r4Coding = R4Coding(r4CodingSystem, r4CodingCode, r4CodingDisplay)
