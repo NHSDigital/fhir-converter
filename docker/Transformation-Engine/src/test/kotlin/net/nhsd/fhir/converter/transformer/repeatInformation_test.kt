@@ -173,7 +173,7 @@ internal class RepeatInformationTest {
         @JvmStatic
         fun provideExamples(): Stream<Arguments> {
             val careconnectExampleLoader = CareconnectExampleLoader()
-            val pairs = careconnectExampleLoader.loadExample(R3MedicationRequest::class.java, "RepeatInformation")
+            val pairs = careconnectExampleLoader.loadExample(R3MedicationRequest::class.java, "RepeatInformation", index = 1)
                 .map { Arguments.of(it.input, it.output) }
 
             return pairs.stream()

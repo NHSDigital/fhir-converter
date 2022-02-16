@@ -66,7 +66,7 @@ class CareconnectExampleLoader {
     fun <I : R3Resource> loadExample(
         inputResCls: Class<I>,
         extensionName: String,
-        startingIndex: Int = 0
+        index: Int = 0
     ): MutableList<InputOutput> {
         val resourceName = inputResCls.simpleName
 
@@ -80,17 +80,17 @@ class CareconnectExampleLoader {
 
         val resourceUri = { path: String -> {}.javaClass.classLoader.getResource(path) }
 
-        var index = startingIndex
+        var n = index
         val pairs = mutableListOf<InputOutput>()
         do {
-            val i = resourceUri(inputFile(index))
-            val o = resourceUri(outputFile(index))
+            val i = resourceUri(inputFile(n))
+            val o = resourceUri(outputFile(n))
             if (i == null || o == null) break
 
             pairs.add(InputOutput(input = i.readText(), output = o.readText()))
 
-            index++
-        } while (resourceUri(inputFile(index)) != null)
+            n++
+        } while (resourceUri(inputFile(n)) != null)
 
         return pairs
     }
