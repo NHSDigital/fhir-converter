@@ -13,21 +13,16 @@ class CareconnectTransformer(private val extensionsMap: HashMap<String, Extensio
     Transformer {
 
     override fun transform(src: IBaseResource, tgt: IBaseResource): IBaseResource {
-        return when (src) {
-            is R3Resource -> {
-                when (tgt) {
-                    is R4Resource -> {
-                        src.extension
-                            .filter { extensionsMap.containsKey(it.url) }
-                            .also { tgt.extension.removeIf { extensionsMap.containsKey(it.url) } }
-                            .forEach { extensionsMap[it.url]?.invoke(it, tgt) }
+        return if (src is R3Resource && tgt is R4Resource) {
+            src.extension
+                .filter { extensionsMap.containsKey(it.url) }
+                .also { tgt.extension.removeIf { extensionsMap.containsKey(it.url) } }
+                .forEach { extensionsMap[it.url]?.invoke(it, tgt) }
 
-                        tgt
-                    }
-                    else -> tgt
-                }
-            }
-            else -> tgt
+            tgt
+
+        } else {
+            tgt
         }
     }
 }
