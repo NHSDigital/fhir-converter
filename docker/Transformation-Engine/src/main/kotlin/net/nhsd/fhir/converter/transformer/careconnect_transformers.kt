@@ -10,7 +10,9 @@ import org.hl7.fhir.r4.model.Coding as R4Coding
 import org.hl7.fhir.r4.model.DateTimeType as R4DateTimeType
 import org.hl7.fhir.r4.model.DomainResource as R4Resource
 import org.hl7.fhir.r4.model.Extension as R4Extension
+import org.hl7.fhir.r4.model.IdType as R4IdType
 import org.hl7.fhir.r4.model.MedicationRequest as R4MedicationRequest
+import org.hl7.fhir.r4.model.StringType as R4StringType
 import org.hl7.fhir.r4.model.UnsignedIntType as R4UnsignedIntType
 
 internal const val CARECONNECT_REPEAT_INFORMATION_URL =
@@ -40,6 +42,15 @@ internal const val UKCORE_PRESCRIBING_ORGANIZATION_URL =
     "https://fhir.hl7.org.uk/StructureDefinition/Extension-UKCore-MedicationPrescribingOrganization"
 
 
+internal const val CARECONNECT_DESCRIPTION_ID_URL =
+    "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid"
+internal const val CARECONNECT_GPC_DESCRIPTION_ID_URL =
+    //TODO: what's the GPC url for this extension?
+    ""
+
+internal const val UKCORE_DESCRIPTION_ID_URL =
+    "https://fhir.hl7.org.uk/StructureDefinition/Extension-UKCore-CodingSCTDescId"
+
 internal val careconnectTransformers: HashMap<String, ExtensionTransformer> = hashMapOf(
     CARECONNECT_REPEAT_INFORMATION_URL to ::repeatInformation,
     CARECONNECT_GPC_REPEAT_INFORMATION_URL to ::repeatInformation,
@@ -48,7 +59,9 @@ internal val careconnectTransformers: HashMap<String, ExtensionTransformer> = ha
     CARECONNECT_LAST_ISSUE_DATE_URL to ::lastIssueDate,
 
     CARECONNECT_PRESCRIBING_AGENCY_URL to ::prescribingAgency,
-    CARECONNECT_GPC_PRESCRIBING_AGENCY_URL to ::prescribingAgency
+    CARECONNECT_GPC_PRESCRIBING_AGENCY_URL to ::prescribingAgency,
+
+    CARECONNECT_DESCRIPTION_ID_URL to ::descriptionId,
 )
 
 fun repeatInformation(src: R3Extension, tgt: R4Resource) {
@@ -126,6 +139,32 @@ fun prescribingAgency(src: R3Extension, tgt: R4Resource) {
 
                 setValue(tgtCodeableConcept)
             }
+        }
+    }
+
+    tgt.addExtension(ext)
+}
+
+fun descriptionId(src: R3Extension, tgt: R4Resource) {
+    val ext = R4Extension().apply {
+        url = UKCORE_DESCRIPTION_ID_URL
+
+        src.getExtensionsByUrl("descriptionId").firstOrNull()?.let {
+            val descIdExt = R4Extension().apply {
+                url = "descriptionId"
+                setValue(R4IdType(it.value.toString()))
+            }
+
+            addExtension(descIdExt)
+        }
+
+        src.getExtensionsByUrl("descriptionDisplay").firstOrNull()?.let {
+            val descDisplayExt = R4Extension().apply {
+                url = "descriptionDisplay"
+                setValue(R4StringType(it.value.toString()))
+            }
+
+            addExtension(descDisplayExt)
         }
     }
 
