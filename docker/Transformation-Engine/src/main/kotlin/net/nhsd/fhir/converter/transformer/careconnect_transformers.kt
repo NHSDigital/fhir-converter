@@ -92,7 +92,6 @@ fun prescribingAgency(src: R3Extension, tgt: R4Resource) {
                 val tgtCodeableConcept = R4CodeableConcept()
 
                 tgtCodeableConcept.coding = listOf(r4Coding)
-                // FIXME: Currently, if coding doesn't match then we ignore text. Is it the desired outcome? Or should we move text even if coding is empty? what happen if coding is not empty but url doesn't match?
                 if (srcCodeableConcept.hasText()) {
                     tgtCodeableConcept.text = srcCodeableConcept.text
                 }
