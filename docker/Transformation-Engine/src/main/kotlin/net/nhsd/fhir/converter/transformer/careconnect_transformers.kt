@@ -74,6 +74,47 @@ fun repeatInformation(src: R3Extension, tgt: R4Resource) {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 fun medicationStatusReason(src: R3Extension, tgt: R4Resource) {
 
     src.getExtensionsByUrl("statusReason").firstOrNull()?.let { statusReason ->
