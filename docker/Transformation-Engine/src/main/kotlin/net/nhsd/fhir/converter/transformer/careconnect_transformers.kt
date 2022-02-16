@@ -17,13 +17,16 @@ internal const val CARECONNECT_REPEAT_INFORMATION_URL =
     "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-MedicationRepeatInformation-1"
 internal const val CARECONNECT_GPC_REPEAT_INFORMATION_URL =
     "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationRepeatInformation-1"
-internal const val CARECONNECT_GPC_LAST_ISSUE_DATE_URL =
-    "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatementLastIssueDate-1"
-internal const val CARECONNECT_LAST_ISSUE_DATE_URL =
-    "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-MedicationStatementLastIssueDate-1"
 
 internal const val UKCORE_REPEAT_INFORMATION_URL =
     "https://fhir.nhs.uk/StructureDefinition/Extension-UKCore-MedicationRepeatInformation"
+
+
+internal const val CARECONNECT_LAST_ISSUE_DATE_URL =
+    "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-MedicationStatementLastIssueDate-1"
+internal const val CARECONNECT_GPC_LAST_ISSUE_DATE_URL =
+    "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatementLastIssueDate-1"
+
 internal const val UKCORE_LAST_ISSUE_DATE_URL =
     "https://fhir.hl7.org.uk/StructureDefinition/Extension-UKCore-MedicationStatementLastIssueDate"
 
@@ -32,15 +35,19 @@ internal const val CARECONNECT_PRESCRIBING_AGENCY_URL =
     "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-MedicationPrescribingAgency-1"
 internal const val CARECONNECT_GPC_PRESCRIBING_AGENCY_URL =
     "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1"
+
 internal const val UKCORE_PRESCRIBING_ORGANIZATION_URL =
     "https://fhir.hl7.org.uk/StructureDefinition/Extension-UKCore-MedicationPrescribingOrganization"
+
 
 internal val careconnectTransformers: HashMap<String, ExtensionTransformer> = hashMapOf(
     CARECONNECT_REPEAT_INFORMATION_URL to ::repeatInformation,
     CARECONNECT_GPC_REPEAT_INFORMATION_URL to ::repeatInformation,
+
     CARECONNECT_GPC_LAST_ISSUE_DATE_URL to ::lastIssueDate,
     CARECONNECT_LAST_ISSUE_DATE_URL to ::lastIssueDate,
-        CARECONNECT_PRESCRIBING_AGENCY_URL to ::prescribingAgency,
+
+    CARECONNECT_PRESCRIBING_AGENCY_URL to ::prescribingAgency,
     CARECONNECT_GPC_PRESCRIBING_AGENCY_URL to ::prescribingAgency
 )
 
@@ -90,6 +97,7 @@ fun lastIssueDate(src: R3Extension, tgt: R4Resource) {
     }
     tgt.addExtension(ext)
 }
+
 fun prescribingAgency(src: R3Extension, tgt: R4Resource) {
     val ext = R4Extension().apply {
         url = UKCORE_PRESCRIBING_ORGANIZATION_URL
