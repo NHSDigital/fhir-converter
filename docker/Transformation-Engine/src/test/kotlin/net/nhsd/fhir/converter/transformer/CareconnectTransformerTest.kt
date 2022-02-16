@@ -92,6 +92,25 @@ internal class CareconnectTransformerTest {
     }
 
     @Test
+    internal fun `it should ignore (not remove) extensions that do not require transformation`() {
+        // Given
+        val extUrl = "www.ignore-extension!.com"
+        val r4Extension = R4Extension(extUrl, R4StringType("value doesn't matter"))
+
+        (aR4Resource as R4Resource).addExtension(r4Extension)
+
+        val extensionTransformers: HashMap<String, ExtensionTransformer> = hashMapOf()
+
+        transformer = CareconnectTransformer(extensionTransformers)
+
+        // When
+        transformer.transform(aR3Resource, aR4Resource)
+
+        // Then
+        assertThat((aR4Resource as R4Resource).getExtensionByUrl(extUrl)).isNotNull
+    }
+
+    @Test
     internal fun `it should only call transform functions for the given extensions`() {
         // Given
         val extUrl = "www.should-be-transformed-extension!.com"
