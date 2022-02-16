@@ -14,13 +14,22 @@ internal const val CARECONNECT_REPEAT_INFORMATION_URL =
     "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-MedicationRepeatInformation-1"
 internal const val CARECONNECT_GPC_REPEAT_INFORMATION_URL =
     "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationRepeatInformation-1"
+internal const val CARECONNECT_GPC_LAST_ISSUE_DATE_URL =
+    "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatementLastIssueDate-1"
+internal const val CARECONNECT_LAST_ISSUE_DATE_URL =
+    "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-MedicationStatementLastIssueDate-1"
 
 internal const val UKCORE_REPEAT_INFORMATION_URL =
     "https://fhir.nhs.uk/StructureDefinition/Extension-UKCore-MedicationRepeatInformation"
+internal const val UKCORE_LAST_ISSUE_DATE_URL =
+    "https://fhir.hl7.org.uk/StructureDefinition/Extension-UKCore-MedicationStatementLastIssueDate"
+
 
 internal val careconnectTransformers: HashMap<String, ExtensionTransformer> = hashMapOf(
     CARECONNECT_REPEAT_INFORMATION_URL to ::repeatInformation,
-    CARECONNECT_GPC_REPEAT_INFORMATION_URL to ::repeatInformation
+    CARECONNECT_GPC_REPEAT_INFORMATION_URL to ::repeatInformation,
+    CARECONNECT_GPC_LAST_ISSUE_DATE_URL to ::lastIssueDate,
+    CARECONNECT_LAST_ISSUE_DATE_URL to ::lastIssueDate
 )
 
 fun repeatInformation(src: R3Extension, tgt: R4Resource) {
@@ -58,3 +67,14 @@ fun repeatInformation(src: R3Extension, tgt: R4Resource) {
     tgt.addExtension(ext)
 }
 
+fun lastIssueDate(src: R3Extension, tgt: R4Resource) {
+    val ext = R4Extension().apply {
+        url = UKCORE_LAST_ISSUE_DATE_URL
+
+        if (src.value != null) {
+            val newValue = R4DateTimeType((src.value as R3DateTimeType).asStringValue())
+            this.setValue(newValue)
+        }
+    }
+    tgt.addExtension(ext)
+}
