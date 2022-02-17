@@ -15,8 +15,6 @@ import org.hl7.fhir.r4.model.DomainResource as R4Resource
 import org.hl7.fhir.r4.model.Extension as R4Extension
 import org.hl7.fhir.r4.model.MedicationRequest as R4MedicationRequest
 import org.hl7.fhir.r4.model.UnsignedIntType as R4UnsignedIntType
-import org.hl7.fhir.dstu3.model.CodeableConcept as R3CodeableConcept
-import org.hl7.fhir.r4.model.Coding as R4Coding
 
 internal const val CARECONNECT_REPEAT_INFORMATION_URL =
     "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-MedicationRepeatInformation-1"
