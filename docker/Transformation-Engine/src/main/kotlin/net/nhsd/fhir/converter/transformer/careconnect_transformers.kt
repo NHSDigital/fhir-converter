@@ -39,6 +39,8 @@ internal const val CARECONNECT_GPC_PRESCRIBING_AGENCY_URL =
 internal const val UKCORE_PRESCRIBING_ORGANIZATION_URL =
     "https://fhir.hl7.org.uk/StructureDefinition/Extension-UKCore-MedicationPrescribingOrganization"
 
+internal const val CARECONNECT_CHANGE_SUMMARY_URL =
+    "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-MedicationChangeSummary-1"
 
 internal val careconnectTransformers: HashMap<String, ExtensionTransformer> = hashMapOf(
     CARECONNECT_REPEAT_INFORMATION_URL to ::repeatInformation,
@@ -48,7 +50,9 @@ internal val careconnectTransformers: HashMap<String, ExtensionTransformer> = ha
     CARECONNECT_LAST_ISSUE_DATE_URL to ::lastIssueDate,
 
     CARECONNECT_PRESCRIBING_AGENCY_URL to ::prescribingAgency,
-    CARECONNECT_GPC_PRESCRIBING_AGENCY_URL to ::prescribingAgency
+    CARECONNECT_GPC_PRESCRIBING_AGENCY_URL to ::prescribingAgency,
+
+    CARECONNECT_CHANGE_SUMMARY_URL to ::changeSummary
 )
 
 fun repeatInformation(src: R3Extension, tgt: R4Resource) {
@@ -130,4 +134,8 @@ fun prescribingAgency(src: R3Extension, tgt: R4Resource) {
     }
 
     tgt.addExtension(ext)
+}
+
+fun changeSummary(src: R3Extension, tgt: R4Resource) {
+    tgt
 }
