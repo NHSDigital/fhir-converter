@@ -4,6 +4,7 @@ import ca.uhn.fhir.context.FhirVersionEnum
 import net.javacrumbs.jsonunit.assertj.JsonAssert
 import org.assertj.core.api.Assertions
 import org.hl7.fhir.dstu3.model.MedicationStatement
+import org.junit.jupiter.api.Test
 import org.hl7.fhir.dstu3.model.Extension as R3Extension
 import org.hl7.fhir.r4.model.MedicationStatement as R4MedicationStatement
 import org.junit.jupiter.params.ParameterizedTest
@@ -33,9 +34,11 @@ internal class ChangeSummaryTest {
 
     }
 
-    @ParameterizedTest(name = "Test MedicationChangeSummary extension with example derived from IOPs data index: {index} (zero based indexing)")
-    @MethodSource("provideExamples")
-    internal fun `it should handle IOPS derived examples`(input: String, expected: String) {
+    @Test
+    internal fun `it should handle IOPS derived examples`() {
+        val input = loadExtraExample("extra-examples/input/MedicationStatementChangeSummary-Extension-3to4_000.json")
+        val expected =
+            loadExtraExample("extra-examples/expected/MedicationStatementChangeSummary-Extension-3to4_000.json")
         val converterService = makeConverterService()
 
         val actualResource = converterService.convert(
@@ -47,16 +50,5 @@ internal class ChangeSummaryTest {
         )
 
         JsonAssert.assertThatJson(actualResource).isEqualTo(expected)
-    }
-
-    companion object {
-        @JvmStatic
-        fun provideExamples(): Stream<Arguments> {
-            val careconnectExampleLoader = CareconnectExampleLoader()
-            val pairs = careconnectExampleLoader.loadExample(MedicationStatement::class.java, "ChangeSummary")
-                .map { Arguments.of(it.input, it.output) }
-
-            return pairs.stream()
-        }
     }
 }

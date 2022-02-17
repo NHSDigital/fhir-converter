@@ -107,4 +107,9 @@ class CareconnectExampleLoader {
             R3InputR4Output(i, o)
         }
 }
+/** Use this to load any extra examples we have created that are not from IOPs repo */
+fun  loadExtraExample(filepath: String) : String{
+    val inputUri = {}.javaClass.classLoader.getResource(filepath)
+    return inputUri.readText()
 
+}
