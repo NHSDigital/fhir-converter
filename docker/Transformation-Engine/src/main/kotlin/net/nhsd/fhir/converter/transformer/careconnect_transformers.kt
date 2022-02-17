@@ -1,8 +1,8 @@
 package net.nhsd.fhir.converter.transformer
 
 
-import org.hl7.fhir.dstu3.model.Coding
-import org.hl7.fhir.r4.model.*
+import org.hl7.fhir.r4.model.IdType
+import org.hl7.fhir.r4.model.StringType
 import org.hl7.fhir.dstu3.model.CodeableConcept as R3CodeableConcept
 import org.hl7.fhir.dstu3.model.DateTimeType as R3DateTimeType
 import org.hl7.fhir.dstu3.model.Extension as R3Extension
@@ -29,7 +29,8 @@ internal const val UKCORE_REPEAT_INFORMATION_URL =
 
 internal const val STU3_SCTDEESCID_URL = "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid"
 
-internal const val STU3_STATUSCHANGEDATE_URL = "http://fhir.nhs.uk/fhir/3.0/StructureDefinition/extension-statusChangeDate"
+internal const val STU3_STATUSCHANGEDATE_URL =
+    "http://fhir.nhs.uk/fhir/3.0/StructureDefinition/extension-statusChangeDate"
 
 internal const val CARECONNECT_LAST_ISSUE_DATE_URL =
     "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-MedicationStatementLastIssueDate-1"
@@ -52,7 +53,7 @@ internal val careconnectTransformers: HashMap<String, ExtensionTransformer> = ha
     CARECONNECT_REPEAT_INFORMATION_URL to ::repeatInformation,
     CARECONNECT_GPC_REPEAT_INFORMATION_URL to ::repeatInformation,
 
-    CARECONNECT_GPC_MEDICATION_STATUS_REASON_URL to :: medicationStatusReason,
+    CARECONNECT_GPC_MEDICATION_STATUS_REASON_URL to ::medicationStatusReason,
 
     CARECONNECT_GPC_LAST_ISSUE_DATE_URL to ::lastIssueDate,
     CARECONNECT_LAST_ISSUE_DATE_URL to ::lastIssueDate,
@@ -97,7 +98,6 @@ fun repeatInformation(src: R3Extension, tgt: R4Resource) {
     tgt.addExtension(ext)
 }
 
-
 fun medicationStatusReason(src: R3Extension, tgt: R4Resource) {
 
     src.getExtensionsByUrl("statusReason").firstOrNull()?.let { statusReason ->
@@ -106,7 +106,7 @@ fun medicationStatusReason(src: R3Extension, tgt: R4Resource) {
             val srcCodeableConcept = statusReason.value as R3CodeableConcept
             val r3Coding = srcCodeableConcept.coding
 
-            r3Coding.forEach{
+            r3Coding.forEach {
                 val r4Coding = R4Coding(it.system, it.code, it.display)
 
                 if (it.hasUserSelected())
@@ -114,8 +114,9 @@ fun medicationStatusReason(src: R3Extension, tgt: R4Resource) {
 
                 (tgt as R4MedicationRequest).statusReason.coding.add(r4Coding)
 
-                if (it.hasExtension()){
-                    val innerExtenstion = it.extension.firstOrNull{it.url == "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid"}
+                if (it.hasExtension()) {
+                    val innerExtenstion =
+                        it.extension.firstOrNull { it.url == "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid" }
                     tgt.addExtension(innerExtenstion?.let { innerExt -> buildStatusReasonExtensionsToCarryOver(innerExt) })
                 }
             }
