@@ -113,17 +113,7 @@ fun prescriptionType(src: R3Extension, tgt: R4Resource) {
                         "http://hl7.org/fhir/ValueSet/medicationrequest-course-of-therapy"
                     else null
 
-                val r4CodingCode =
-                    if (r3CodingCode != null)
-                        r3CodingCode
-                    else null
-
-                val r4CodingDisplay =
-                    if (r3CodingDisplay != null)
-                        r3CodingDisplay
-                    else null
-
-                val r4Coding = R4Coding(r4CodingSystem, r4CodingCode, r4CodingDisplay)
+                val r4Coding = R4Coding(r4CodingSystem, r3CodingCode, r3CodingDisplay)
 
                 (tgt as R4MedicationRequest).courseOfTherapyType.coding = listOf(r4Coding)
             }
