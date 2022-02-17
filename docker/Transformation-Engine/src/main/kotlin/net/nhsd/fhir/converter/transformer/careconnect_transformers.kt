@@ -40,6 +40,12 @@ internal const val CARECONNECT_GPC_LAST_ISSUE_DATE_URL =
 internal const val UKCORE_LAST_ISSUE_DATE_URL =
     "https://fhir.hl7.org.uk/StructureDefinition/Extension-UKCore-MedicationStatementLastIssueDate"
 
+internal const val CARECONNECT_GPC_PRESCRIPTION_TYPE_URL =
+    "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescriptionType-1"
+internal const val CARECONNECT_PRESCRIPTION_TYPE_URL =
+    //TODO: is there non GPC url for this extension?
+    ""
+
 internal const val CARECONNECT_PRESCRIBING_AGENCY_URL =
     "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-MedicationPrescribingAgency-1"
 internal const val CARECONNECT_GPC_PRESCRIBING_AGENCY_URL =
@@ -52,12 +58,11 @@ internal const val UKCORE_PRESCRIBING_ORGANIZATION_URL =
 internal val careconnectTransformers: HashMap<String, ExtensionTransformer> = hashMapOf(
     CARECONNECT_REPEAT_INFORMATION_URL to ::repeatInformation,
     CARECONNECT_GPC_REPEAT_INFORMATION_URL to ::repeatInformation,
-
+    CARECONNECT_GPC_PRESCRIPTION_TYPE_URL to ::prescriptionType,
+    CARECONNECT_PRESCRIPTION_TYPE_URL to ::prescriptionType,
     CARECONNECT_GPC_MEDICATION_STATUS_REASON_URL to ::medicationStatusReason,
-
     CARECONNECT_GPC_LAST_ISSUE_DATE_URL to ::lastIssueDate,
     CARECONNECT_LAST_ISSUE_DATE_URL to ::lastIssueDate,
-
     CARECONNECT_PRESCRIBING_AGENCY_URL to ::prescribingAgency,
     CARECONNECT_GPC_PRESCRIBING_AGENCY_URL to ::prescribingAgency
 
@@ -97,6 +102,28 @@ fun repeatInformation(src: R3Extension, tgt: R4Resource) {
 
     tgt.addExtension(ext)
 }
+
+fun prescriptionType(src: R3Extension, tgt: R4Resource) {
+        if (src.value is R3CodeableConcept) {
+            val srcCodeableConcept = src.value as R3CodeableConcept
+            val r3Coding = srcCodeableConcept.coding.firstOrNull()
+
+            r3Coding?.let {
+                val r3CodingSystem = r3Coding.system
+                val r3CodingCode = r3Coding.code
+                val r3CodingDisplay = r3Coding.display
+
+                val r4CodingSystem =
+                    if (r3CodingSystem == "https://fhir.nhs.uk/STU3/CodeSystem/CareConnect-PrescriptionType-1")
+                        "http://hl7.org/fhir/ValueSet/medicationrequest-course-of-therapy"
+                    else null
+
+                val r4Coding = R4Coding(r4CodingSystem, r3CodingCode, r3CodingDisplay)
+
+                (tgt as R4MedicationRequest).courseOfTherapyType.coding = listOf(r4Coding)
+            }
+        }
+    }
 
 fun medicationStatusReason(src: R3Extension, tgt: R4Resource) {
 
@@ -163,7 +190,6 @@ fun buildStatusReasonExtensionsToCarryOver(ext: R3Extension): R4Extension {
     }
     return r4ext
 }
-
 
 fun lastIssueDate(src: R3Extension, tgt: R4Resource) {
     val ext = R4Extension().apply {
