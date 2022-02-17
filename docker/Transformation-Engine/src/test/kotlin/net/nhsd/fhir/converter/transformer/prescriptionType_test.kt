@@ -18,7 +18,7 @@ import org.hl7.fhir.r4.model.MedicationRequest as R4MedicationRequest
 
 internal class PrescriptionTypeTest {
     @ParameterizedTest
-    @ValueSource(strings = [CARECONNECT_GPC_PRESCRIPTION_TYPE_URL])
+    @ValueSource(strings = [CARECONNECT_GPC_PRESCRIPTION_TYPE_URL, CARECONNECT_PRESCRIPTION_TYPE_URL])
     internal fun `it should create codings and move over system, code and display`(extUrl: String) {
         // Given
         val r3Extension = R3Extension().apply {

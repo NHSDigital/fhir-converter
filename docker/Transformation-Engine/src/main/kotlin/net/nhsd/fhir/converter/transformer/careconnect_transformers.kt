@@ -42,6 +42,10 @@ internal const val UKCORE_LAST_ISSUE_DATE_URL =
 
 internal const val CARECONNECT_GPC_PRESCRIPTION_TYPE_URL =
     "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescriptionType-1"
+internal const val CARECONNECT_PRESCRIPTION_TYPE_URL =
+    //TODO: is there non GPC url for this extension?
+    ""
+
 internal const val CARECONNECT_PRESCRIBING_AGENCY_URL =
     "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-MedicationPrescribingAgency-1"
 internal const val CARECONNECT_GPC_PRESCRIBING_AGENCY_URL =
@@ -55,6 +59,7 @@ internal val careconnectTransformers: HashMap<String, ExtensionTransformer> = ha
     CARECONNECT_REPEAT_INFORMATION_URL to ::repeatInformation,
     CARECONNECT_GPC_REPEAT_INFORMATION_URL to ::repeatInformation,
     CARECONNECT_GPC_PRESCRIPTION_TYPE_URL to ::prescriptionType,
+    CARECONNECT_PRESCRIPTION_TYPE_URL to ::prescriptionType,
     CARECONNECT_GPC_MEDICATION_STATUS_REASON_URL to ::medicationStatusReason,
     CARECONNECT_GPC_LAST_ISSUE_DATE_URL to ::lastIssueDate,
     CARECONNECT_LAST_ISSUE_DATE_URL to ::lastIssueDate,
