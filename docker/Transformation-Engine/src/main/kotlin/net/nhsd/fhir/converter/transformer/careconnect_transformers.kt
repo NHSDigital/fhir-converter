@@ -4,6 +4,7 @@ package net.nhsd.fhir.converter.transformer
 import org.hl7.fhir.r4.model.IdType
 import org.hl7.fhir.r4.model.StringType
 import org.hl7.fhir.dstu3.model.CodeableConcept as R3CodeableConcept
+import org.hl7.fhir.dstu3.model.Reference as R3Reference
 import org.hl7.fhir.dstu3.model.DateTimeType as R3DateTimeType
 import org.hl7.fhir.dstu3.model.Extension as R3Extension
 import org.hl7.fhir.dstu3.model.PositiveIntType as R3PositiveIntType
@@ -14,6 +15,7 @@ import org.hl7.fhir.r4.model.DateTimeType as R4DateTimeType
 import org.hl7.fhir.r4.model.DomainResource as R4Resource
 import org.hl7.fhir.r4.model.Extension as R4Extension
 import org.hl7.fhir.r4.model.MedicationRequest as R4MedicationRequest
+import org.hl7.fhir.r4.model.AllergyIntolerance as R4AllergyIntolerance
 import org.hl7.fhir.r4.model.UnsignedIntType as R4UnsignedIntType
 
 internal const val CARECONNECT_REPEAT_INFORMATION_URL =
@@ -57,6 +59,9 @@ internal const val UKCORE_PRESCRIBING_ORGANIZATION_URL =
 internal const val CARECONNECT_CHANGE_SUMMARY_URL =
     "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-MedicationChangeSummary-1"
 
+internal const val CARECONNECT_ALLERGY_ASSOCIATED_ENCOUNTER_URL =
+    "http://hl7.org/fhir/StructureDefinition/encounter-associatedEncounter"
+
 internal val careconnectTransformers: HashMap<String, ExtensionTransformer> = hashMapOf(
     CARECONNECT_REPEAT_INFORMATION_URL to ::repeatInformation,
     CARECONNECT_GPC_REPEAT_INFORMATION_URL to ::repeatInformation,
@@ -67,7 +72,8 @@ internal val careconnectTransformers: HashMap<String, ExtensionTransformer> = ha
     CARECONNECT_LAST_ISSUE_DATE_URL to ::lastIssueDate,
     CARECONNECT_PRESCRIBING_AGENCY_URL to ::prescribingAgency,
     CARECONNECT_GPC_PRESCRIBING_AGENCY_URL to ::prescribingAgency,
-    CARECONNECT_CHANGE_SUMMARY_URL to ::changeSummary
+    CARECONNECT_CHANGE_SUMMARY_URL to ::changeSummary,
+    CARECONNECT_ALLERGY_ASSOCIATED_ENCOUNTER_URL to ::associatedEncounter,
 )
 
 fun repeatInformation(src: R3Extension, tgt: R4Resource) {
@@ -106,26 +112,26 @@ fun repeatInformation(src: R3Extension, tgt: R4Resource) {
 }
 
 fun prescriptionType(src: R3Extension, tgt: R4Resource) {
-        if (src.value is R3CodeableConcept) {
-            val srcCodeableConcept = src.value as R3CodeableConcept
-            val r3Coding = srcCodeableConcept.coding.firstOrNull()
+    if (src.value is R3CodeableConcept) {
+        val srcCodeableConcept = src.value as R3CodeableConcept
+        val r3Coding = srcCodeableConcept.coding.firstOrNull()
 
-            r3Coding?.let {
-                val r3CodingSystem = r3Coding.system
-                val r3CodingCode = r3Coding.code
-                val r3CodingDisplay = r3Coding.display
+        r3Coding?.let {
+            val r3CodingSystem = r3Coding.system
+            val r3CodingCode = r3Coding.code
+            val r3CodingDisplay = r3Coding.display
 
-                val r4CodingSystem =
-                    if (r3CodingSystem == "https://fhir.nhs.uk/STU3/CodeSystem/CareConnect-PrescriptionType-1")
-                        "http://hl7.org/fhir/ValueSet/medicationrequest-course-of-therapy"
-                    else null
+            val r4CodingSystem =
+                if (r3CodingSystem == "https://fhir.nhs.uk/STU3/CodeSystem/CareConnect-PrescriptionType-1")
+                    "http://hl7.org/fhir/ValueSet/medicationrequest-course-of-therapy"
+                else null
 
-                val r4Coding = R4Coding(r4CodingSystem, r3CodingCode, r3CodingDisplay)
+            val r4Coding = R4Coding(r4CodingSystem, r3CodingCode, r3CodingDisplay)
 
-                (tgt as R4MedicationRequest).courseOfTherapyType.coding = listOf(r4Coding)
-            }
+            (tgt as R4MedicationRequest).courseOfTherapyType.coding = listOf(r4Coding)
         }
     }
+}
 
 fun medicationStatusReason(src: R3Extension, tgt: R4Resource) {
 
@@ -243,3 +249,12 @@ fun prescribingAgency(src: R3Extension, tgt: R4Resource) {
 fun changeSummary(src: R3Extension, tgt: R4Resource) {
     tgt
 }
+
+fun associatedEncounter(src: R3Extension, tgt: R4Resource) {
+    if (src.value is R3Reference) {
+        val associatedEncounterReference = (src.value as R3Reference).reference
+
+        (tgt as R4AllergyIntolerance).encounter.reference = associatedEncounterReference
+    }
+}
+
