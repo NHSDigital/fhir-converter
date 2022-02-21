@@ -9,9 +9,11 @@ import org.springframework.http.MediaType
 import org.hl7.fhir.dstu3.model.MedicationRequest as R3MedicationRequest
 import org.hl7.fhir.dstu3.model.MedicationStatement as R3MedicationStatement
 import org.hl7.fhir.dstu3.model.Bundle as R3Bundle
+import org.hl7.fhir.dstu3.model.AllergyIntolerance as R3AllergyIntolerance
 import org.hl7.fhir.r4.model.MedicationRequest as R4MedicationRequest
 import org.hl7.fhir.r4.model.MedicationStatement as R4MedicationStatement
 import org.hl7.fhir.r4.model.Bundle as R4Bundle
+import org.hl7.fhir.r4.model.AllergyIntolerance as R4AllergyIntolerance
 
 internal class ResourceTypeInferenceTest {
     companion object {
@@ -21,6 +23,9 @@ internal class ResourceTypeInferenceTest {
         private const val MEDICATION_STATEMENT_XML = "<MedicationStatement></MedicationStatement>"
         private const val BUNDLE_JSON = "{\"resourceType\": \"Bundle\"}"
         private const val BUNDLE_XML = "<Bundle xmlns=\"http://hl7.org/fhir\"></Bundle>"
+        private const val ALLERGY_INTOLERANCE_JSON = "{\"resourceType\":  \"AllergyIntolerance\"}"
+        private const val ALLERGY_INTOLERANCE_XML =
+            "<AllergyIntolerance xmlns=\"http://hl7.org/fhir\"></AllergyIntolerance>"
 
         private val JSON = MediaType.APPLICATION_JSON
         private val XML = MediaType.APPLICATION_XML
@@ -148,4 +153,42 @@ internal class ResourceTypeInferenceTest {
         // Then
         assertThat(resource).isEqualTo(R4Bundle::class.java)
     }
+
+    @Test
+    fun `it should return r3 AllergyIntolerance given json input`() {
+        // Given
+        val resource = getResourceType(ALLERGY_INTOLERANCE_JSON, JSON, DSTU3)
+
+        // Then
+        assertThat(resource).isEqualTo(R3AllergyIntolerance::class.java)
+    }
+
+    @Test
+    fun `it should return r4 AllergyIntolerance given json input`() {
+        // Given
+        val resource = getResourceType(ALLERGY_INTOLERANCE_JSON, JSON, R4)
+
+        // Then
+        assertThat(resource).isEqualTo(R4AllergyIntolerance::class.java)
+    }
+
+    @Test
+    fun `it should return r3 AllergyIntolerance given xml input`() {
+        // Given
+        val resource = getResourceType(ALLERGY_INTOLERANCE_XML, XML, DSTU3)
+
+        // Then
+        assertThat(resource).isEqualTo(R3AllergyIntolerance::class.java)
+    }
+
+    @Test
+    fun `it should return r4 AllergyIntolerance given xml input`() {
+        // Given
+        val resource = getResourceType(ALLERGY_INTOLERANCE_XML, XML, R4)
+
+        // Then
+        assertThat(resource).isEqualTo(R4AllergyIntolerance::class.java)
+    }
+
+
 }
