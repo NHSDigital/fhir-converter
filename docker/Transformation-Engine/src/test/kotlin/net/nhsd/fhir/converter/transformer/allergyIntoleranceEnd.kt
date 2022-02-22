@@ -19,7 +19,7 @@ import org.hl7.fhir.r4.model.AllergyIntolerance as R4AllergyIntolerance
 
 internal class AllergyIntoleranceEndTest {
     @ParameterizedTest
-    @ValueSource(strings = [CARECONNECT_ALLERGY_INTOLERANCE_END_URL, UKCORE_ALLERGY_INTOLERANCE_END_URL])
+    @ValueSource(strings = [CARECONNECT_ALLERGY_INTOLERANCE_END_URL])
     internal fun `it should create extension with the associated ukcore url`(extUrl: String) {
         // Given
         val r3Extension = R3Extension().apply {
@@ -37,7 +37,7 @@ internal class AllergyIntoleranceEndTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = [CARECONNECT_ALLERGY_INTOLERANCE_END_URL, UKCORE_ALLERGY_INTOLERANCE_END_URL])
+    @ValueSource(strings = [CARECONNECT_ALLERGY_INTOLERANCE_END_URL])
     internal fun `it should move endDate across`(extUrl: String) {
         // Given
         val r3Extension = R3Extension().apply {
@@ -66,7 +66,7 @@ internal class AllergyIntoleranceEndTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = [CARECONNECT_ALLERGY_INTOLERANCE_END_URL, UKCORE_ALLERGY_INTOLERANCE_END_URL])
+    @ValueSource(strings = [CARECONNECT_ALLERGY_INTOLERANCE_END_URL])
     internal fun `it should move reasonEnded across`(extUrl: String) {
         // Given
         val r3Extension = R3Extension().apply {
