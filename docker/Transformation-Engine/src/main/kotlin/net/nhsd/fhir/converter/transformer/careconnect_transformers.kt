@@ -18,6 +18,7 @@ import org.hl7.fhir.r4.model.Extension as R4Extension
 import org.hl7.fhir.r4.model.MedicationRequest as R4MedicationRequest
 import org.hl7.fhir.r4.model.AllergyIntolerance as R4AllergyIntolerance
 import org.hl7.fhir.r4.model.UnsignedIntType as R4UnsignedIntType
+import org.hl7.fhir.r4.model.Reference as R4Reference
 import org.hl7.fhir.r4.model.StringType as R4StringType
 
 internal const val CARECONNECT_REPEAT_INFORMATION_URL =
@@ -69,6 +70,11 @@ internal const val CARECONNECT_ALLERGY_INTOLERANCE_END_URL =
 internal const val UKCORE_ALLERGY_INTOLERANCE_END_URL =
     "https://fhir.hl7.org.uk/StructureDefinition/Extension-UKCore-AllergyIntoleranceEnd"
 
+internal const val CARECONNECT_EVIDENCE_URL =
+    "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-Evidence-1"
+internal const val UKCORE_EVIDENCE_URL =
+    "https://fhir.hl7.org.uk/StructureDefinition/Extension-UKCore-Evidence"
+
 internal val careconnectTransformers: HashMap<String, ExtensionTransformer> = hashMapOf(
     CARECONNECT_REPEAT_INFORMATION_URL to ::repeatInformation,
     CARECONNECT_GPC_REPEAT_INFORMATION_URL to ::repeatInformation,
@@ -80,6 +86,7 @@ internal val careconnectTransformers: HashMap<String, ExtensionTransformer> = ha
     CARECONNECT_PRESCRIBING_AGENCY_URL to ::prescribingAgency,
     CARECONNECT_GPC_PRESCRIBING_AGENCY_URL to ::prescribingAgency,
     CARECONNECT_CHANGE_SUMMARY_URL to ::changeSummary,
+    CARECONNECT_EVIDENCE_URL to ::evidence,
     CARECONNECT_ALLERGY_ASSOCIATED_ENCOUNTER_URL to ::associatedEncounter,
     CARECONNECT_ALLERGY_INTOLERANCE_END_URL to ::allergyIntoleranceEnd,
 )
@@ -256,6 +263,20 @@ fun prescribingAgency(src: R3Extension, tgt: R4Resource) {
 
 fun changeSummary(src: R3Extension, tgt: R4Resource) {
     tgt
+}
+
+fun evidence(src: R3Extension, tgt: R4Resource) {
+    val ext = R4Extension().apply {
+        url = UKCORE_EVIDENCE_URL
+
+        if (src.value is R3Reference) {
+            val r3EvidenceReference = (src.value as R3Reference).reference
+
+            val r4EvidenceReference = R4Reference(r3EvidenceReference)
+            this.setValue(r4EvidenceReference)
+        }
+    }
+    tgt.addExtension(ext)
 }
 
 fun associatedEncounter(src: R3Extension, tgt: R4Resource) {
