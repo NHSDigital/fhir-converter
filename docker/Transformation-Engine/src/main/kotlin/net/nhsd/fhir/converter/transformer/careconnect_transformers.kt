@@ -32,7 +32,7 @@ internal const val CARECONNECT_GPC_MEDICATION_STATUS_REASON_URL =
 internal const val UKCORE_REPEAT_INFORMATION_URL =
     "https://fhir.nhs.uk/StructureDefinition/Extension-UKCore-MedicationRepeatInformation"
 
-internal const val STU3_SCTDEESCID_URL = "https://fhir.hl7.org.uk/StructureDefinition/Extension-UKCore-CodingSCTDescId"
+internal const val UKCORE_SCTDEESCID_URL = "https://fhir.hl7.org.uk/StructureDefinition/Extension-UKCore-CodingSCTDescId"
 
 internal const val STU3_STATUSCHANGEDATE_URL =
     "http://fhir.nhs.uk/fhir/3.0/StructureDefinition/extension-statusChangeDate"
@@ -196,7 +196,7 @@ fun medicationStatusReason(src: R3Extension, tgt: R4Resource) {
 fun buildStatusReasonExtensionsToCarryOver(ext: R3Extension): R4Extension {
 
     val r4ext = R4Extension().apply {
-        url = STU3_SCTDEESCID_URL
+        url = UKCORE_SCTDEESCID_URL
 
         ext.extension.forEach {
             val issuedExt = R4Extension().apply {
