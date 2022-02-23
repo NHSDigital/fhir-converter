@@ -9,6 +9,7 @@ import org.hl7.fhir.dstu3.model.DateTimeType as R3DateTimeType
 import org.hl7.fhir.dstu3.model.Extension as R3Extension
 import org.hl7.fhir.dstu3.model.PositiveIntType as R3PositiveIntType
 import org.hl7.fhir.dstu3.model.UnsignedIntType as R3UnsignedIntType
+import org.hl7.fhir.dstu3.model.StringType as R3StringType
 import org.hl7.fhir.r4.model.CodeableConcept as R4CodeableConcept
 import org.hl7.fhir.r4.model.Coding as R4Coding
 import org.hl7.fhir.r4.model.DateTimeType as R4DateTimeType
@@ -18,6 +19,7 @@ import org.hl7.fhir.r4.model.MedicationRequest as R4MedicationRequest
 import org.hl7.fhir.r4.model.AllergyIntolerance as R4AllergyIntolerance
 import org.hl7.fhir.r4.model.UnsignedIntType as R4UnsignedIntType
 import org.hl7.fhir.r4.model.Reference as R4Reference
+import org.hl7.fhir.r4.model.StringType as R4StringType
 
 internal const val CARECONNECT_REPEAT_INFORMATION_URL =
     "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-MedicationRepeatInformation-1"
@@ -63,6 +65,11 @@ internal const val CARECONNECT_CHANGE_SUMMARY_URL =
 internal const val CARECONNECT_ALLERGY_ASSOCIATED_ENCOUNTER_URL =
     "http://hl7.org/fhir/StructureDefinition/encounter-associatedEncounter"
 
+internal const val CARECONNECT_ALLERGY_INTOLERANCE_END_URL =
+    "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-AllergyIntoleranceEnd-1"
+internal const val UKCORE_ALLERGY_INTOLERANCE_END_URL =
+    "https://fhir.hl7.org.uk/StructureDefinition/Extension-UKCore-AllergyIntoleranceEnd"
+
 internal const val CARECONNECT_EVIDENCE_URL =
     "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-Evidence-1"
 internal const val UKCORE_EVIDENCE_URL =
@@ -81,6 +88,7 @@ internal val careconnectTransformers: HashMap<String, ExtensionTransformer> = ha
     CARECONNECT_CHANGE_SUMMARY_URL to ::changeSummary,
     CARECONNECT_EVIDENCE_URL to ::evidence,
     CARECONNECT_ALLERGY_ASSOCIATED_ENCOUNTER_URL to ::associatedEncounter,
+    CARECONNECT_ALLERGY_INTOLERANCE_END_URL to ::allergyIntoleranceEnd,
 )
 
 fun repeatInformation(src: R3Extension, tgt: R4Resource) {
@@ -279,3 +287,27 @@ fun associatedEncounter(src: R3Extension, tgt: R4Resource) {
     }
 }
 
+fun allergyIntoleranceEnd(src: R3Extension, tgt: R4Resource) {
+    val ext = R4Extension().apply {
+        url = UKCORE_ALLERGY_INTOLERANCE_END_URL
+
+        src.getExtensionsByUrl("endDate").firstOrNull()?.let {
+            val endDateExt = R4Extension().apply {
+                url = "endDate"
+                val newValue = R4DateTimeType((it.value as R3DateTimeType).asStringValue())
+                setValue(newValue)
+            }
+            this.addExtension(endDateExt)
+        }
+
+        src.getExtensionsByUrl("reasonEnded").firstOrNull()?.let {
+            val reasonEndedExt = R4Extension().apply {
+                url = "reasonEnded"
+                val newValue = R4StringType((it.value as R3StringType).asStringValue())
+                setValue(newValue)
+            }
+            this.addExtension(reasonEndedExt)
+        }
+    }
+    tgt.addExtension(ext)
+}
