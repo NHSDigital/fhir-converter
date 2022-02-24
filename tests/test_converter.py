@@ -94,7 +94,7 @@ class TestConverter:
         }
 
         # When
-        res = requests.post(url, data=stu3_payload, headers=headers)
+        res = requests.post(url, json=stu3_payload, headers=headers)
 
         # Then
         assert res.status_code == 200
