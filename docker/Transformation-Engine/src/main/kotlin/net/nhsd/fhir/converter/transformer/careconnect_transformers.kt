@@ -32,7 +32,7 @@ internal const val CARECONNECT_GPC_MEDICATION_STATUS_REASON_URL =
 internal const val UKCORE_REPEAT_INFORMATION_URL =
     "https://fhir.nhs.uk/StructureDefinition/Extension-UKCore-MedicationRepeatInformation"
 
-internal const val STU3_SCTDEESCID_URL = "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid"
+internal const val UKCORE_SCTDEESCID_URL = "https://fhir.hl7.org.uk/StructureDefinition/Extension-UKCore-CodingSCTDescId"
 
 internal const val STU3_STATUSCHANGEDATE_URL =
     "http://fhir.nhs.uk/fhir/3.0/StructureDefinition/extension-statusChangeDate"
@@ -162,19 +162,21 @@ fun medicationStatusReason(src: R3Extension, tgt: R4Resource) {
                 if (it.hasUserSelected())
                     r4Coding.userSelected = it.userSelected
 
-                (tgt as R4MedicationRequest).statusReason.coding.add(r4Coding)
-
                 if (it.hasExtension()) {
                     val innerExtenstion =
                         it.extension.firstOrNull { it.url == "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid" }
-                    tgt.addExtension(innerExtenstion?.let { innerExt -> buildStatusReasonExtensionsToCarryOver(innerExt) })
+
+                    r4Coding.extension.add(innerExtenstion?.let { innerExt -> buildStatusReasonExtensionsToCarryOver(innerExt) })
                 }
+
+                (tgt as R4MedicationRequest).statusReason.coding.add(r4Coding)
+
             }
             (tgt as R4MedicationRequest).statusReason.text = srcCodeableConcept.text
         }
     }
 
-    val ext = R4Extension().apply {
+    val statusChangeDateExt = R4Extension().apply {
         url = STU3_STATUSCHANGEDATE_URL
         // Carry over remaining extensions
         src.getExtensionsByUrl("statusChangeDate").firstOrNull()?.let {
@@ -186,14 +188,15 @@ fun medicationStatusReason(src: R3Extension, tgt: R4Resource) {
             this.addExtension(issuedExt)
         }
     }
-    tgt.addExtension(ext)
+
+    tgt.addExtension(statusChangeDateExt)
 
 }
 
 fun buildStatusReasonExtensionsToCarryOver(ext: R3Extension): R4Extension {
 
     val r4ext = R4Extension().apply {
-        url = STU3_SCTDEESCID_URL
+        url = UKCORE_SCTDEESCID_URL
 
         ext.extension.forEach {
             val issuedExt = R4Extension().apply {
