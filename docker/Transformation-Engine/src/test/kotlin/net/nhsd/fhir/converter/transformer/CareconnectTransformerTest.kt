@@ -8,10 +8,13 @@ import org.hl7.fhir.instance.model.api.IBaseResource
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
+import org.hl7.fhir.dstu3.model.AllergyIntolerance as R3AllergyIntolerance
+import org.hl7.fhir.dstu3.model.CodeableConcept as R3CodeableConcept
 import org.hl7.fhir.dstu3.model.DomainResource as R3Resource
 import org.hl7.fhir.dstu3.model.Extension as R3Extension
 import org.hl7.fhir.dstu3.model.MedicationRequest as R3MedicationRequest
 import org.hl7.fhir.dstu3.model.StringType as R3StringType
+import org.hl7.fhir.r4.model.AllergyIntolerance as R4AllergyIntolerance
 import org.hl7.fhir.r4.model.DomainResource as R4Resource
 import org.hl7.fhir.r4.model.Extension as R4Extension
 import org.hl7.fhir.r4.model.MedicationRequest as R4MedicationRequest
@@ -156,5 +159,34 @@ internal class CareconnectTransformerTest {
         // Then
         assertThat(expectedResource).isEqualTo(aR4Resource) // it's r4 resource but those transform functions are mutating extensions inside this r4 resource
         verify { extTransformer wasNot Called }
+    }
+
+    @Test
+    internal fun `it should transform extension in AllergyIntolerance code field`() {
+        // Given
+        val extUrl = "www.should-be-transformed-extension!.com"
+        val extension = R3Extension(extUrl, R3StringType("value doesn't matter"))
+
+        val r3AllergyIntolerance = R3AllergyIntolerance().apply {
+            code = R3CodeableConcept()
+            code.addExtension(extension)
+        }
+
+        val extTransformer = spyk({ _: R3Extension, _: R4Resource -> Unit })
+
+        val extensionTransformers: HashMap<String, ExtensionTransformer> = hashMapOf(
+            extUrl to extTransformer
+        )
+
+        val r4AllergyIntolerance = R4AllergyIntolerance()
+
+        transformer = CareconnectTransformer(extensionTransformers)
+
+        // When
+        val expectedResource = transformer.transform(r3AllergyIntolerance, r4AllergyIntolerance)
+
+        // Then
+        assertThat(expectedResource).isEqualTo(r4AllergyIntolerance)
+        verify { extTransformer(extension, r4AllergyIntolerance as R4Resource) }
     }
 }
