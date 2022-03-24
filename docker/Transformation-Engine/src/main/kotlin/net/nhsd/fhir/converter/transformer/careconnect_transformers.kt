@@ -4,22 +4,22 @@ package net.nhsd.fhir.converter.transformer
 import org.hl7.fhir.r4.model.IdType
 import org.hl7.fhir.r4.model.StringType
 import org.hl7.fhir.dstu3.model.CodeableConcept as R3CodeableConcept
-import org.hl7.fhir.dstu3.model.Reference as R3Reference
 import org.hl7.fhir.dstu3.model.DateTimeType as R3DateTimeType
 import org.hl7.fhir.dstu3.model.Extension as R3Extension
 import org.hl7.fhir.dstu3.model.PositiveIntType as R3PositiveIntType
-import org.hl7.fhir.dstu3.model.UnsignedIntType as R3UnsignedIntType
+import org.hl7.fhir.dstu3.model.Reference as R3Reference
 import org.hl7.fhir.dstu3.model.StringType as R3StringType
+import org.hl7.fhir.dstu3.model.UnsignedIntType as R3UnsignedIntType
+import org.hl7.fhir.r4.model.AllergyIntolerance as R4AllergyIntolerance
 import org.hl7.fhir.r4.model.CodeableConcept as R4CodeableConcept
 import org.hl7.fhir.r4.model.Coding as R4Coding
 import org.hl7.fhir.r4.model.DateTimeType as R4DateTimeType
 import org.hl7.fhir.r4.model.DomainResource as R4Resource
 import org.hl7.fhir.r4.model.Extension as R4Extension
 import org.hl7.fhir.r4.model.MedicationRequest as R4MedicationRequest
-import org.hl7.fhir.r4.model.AllergyIntolerance as R4AllergyIntolerance
-import org.hl7.fhir.r4.model.UnsignedIntType as R4UnsignedIntType
 import org.hl7.fhir.r4.model.Reference as R4Reference
 import org.hl7.fhir.r4.model.StringType as R4StringType
+import org.hl7.fhir.r4.model.UnsignedIntType as R4UnsignedIntType
 
 internal const val CARECONNECT_REPEAT_INFORMATION_URL =
     "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-MedicationRepeatInformation-1"
@@ -175,22 +175,6 @@ fun medicationStatusReason(src: R3Extension, tgt: R4Resource) {
             (tgt as R4MedicationRequest).statusReason.text = srcCodeableConcept.text
         }
     }
-
-    val statusChangeDateExt = R4Extension().apply {
-        url = STU3_STATUSCHANGEDATE_URL
-        // Carry over remaining extensions
-        src.getExtensionsByUrl("statusChangeDate").firstOrNull()?.let {
-            val issuedExt = R4Extension().apply {
-                url = "statusChangeDate"
-                val v = R4DateTimeType((it.value as R3DateTimeType).asStringValue())
-                setValue(v)
-            }
-            this.addExtension(issuedExt)
-        }
-    }
-
-    tgt.addExtension(statusChangeDateExt)
-
 }
 
 fun buildStatusReasonExtensionsToCarryOver(ext: R3Extension): R4Extension {
