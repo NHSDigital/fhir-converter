@@ -4,22 +4,22 @@ package net.nhsd.fhir.converter.transformer
 import org.hl7.fhir.r4.model.IdType
 import org.hl7.fhir.r4.model.StringType
 import org.hl7.fhir.dstu3.model.CodeableConcept as R3CodeableConcept
-import org.hl7.fhir.dstu3.model.Reference as R3Reference
 import org.hl7.fhir.dstu3.model.DateTimeType as R3DateTimeType
 import org.hl7.fhir.dstu3.model.Extension as R3Extension
 import org.hl7.fhir.dstu3.model.PositiveIntType as R3PositiveIntType
-import org.hl7.fhir.dstu3.model.UnsignedIntType as R3UnsignedIntType
+import org.hl7.fhir.dstu3.model.Reference as R3Reference
 import org.hl7.fhir.dstu3.model.StringType as R3StringType
+import org.hl7.fhir.dstu3.model.UnsignedIntType as R3UnsignedIntType
+import org.hl7.fhir.r4.model.AllergyIntolerance as R4AllergyIntolerance
 import org.hl7.fhir.r4.model.CodeableConcept as R4CodeableConcept
 import org.hl7.fhir.r4.model.Coding as R4Coding
 import org.hl7.fhir.r4.model.DateTimeType as R4DateTimeType
 import org.hl7.fhir.r4.model.DomainResource as R4Resource
 import org.hl7.fhir.r4.model.Extension as R4Extension
 import org.hl7.fhir.r4.model.MedicationRequest as R4MedicationRequest
-import org.hl7.fhir.r4.model.AllergyIntolerance as R4AllergyIntolerance
-import org.hl7.fhir.r4.model.UnsignedIntType as R4UnsignedIntType
 import org.hl7.fhir.r4.model.Reference as R4Reference
 import org.hl7.fhir.r4.model.StringType as R4StringType
+import org.hl7.fhir.r4.model.UnsignedIntType as R4UnsignedIntType
 
 internal const val CARECONNECT_REPEAT_INFORMATION_URL =
     "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-MedicationRepeatInformation-1"
@@ -32,7 +32,8 @@ internal const val CARECONNECT_GPC_MEDICATION_STATUS_REASON_URL =
 internal const val UKCORE_REPEAT_INFORMATION_URL =
     "https://fhir.nhs.uk/StructureDefinition/Extension-UKCore-MedicationRepeatInformation"
 
-internal const val UKCORE_SCTDEESCID_URL = "https://fhir.hl7.org.uk/StructureDefinition/Extension-UKCore-CodingSCTDescId"
+internal const val UKCORE_SCTDEESCID_URL =
+    "https://fhir.hl7.org.uk/StructureDefinition/Extension-UKCore-CodingSCTDescId"
 
 internal const val STU3_STATUSCHANGEDATE_URL =
     "http://fhir.nhs.uk/fhir/3.0/StructureDefinition/extension-statusChangeDate"
@@ -75,6 +76,10 @@ internal const val CARECONNECT_EVIDENCE_URL =
 internal const val UKCORE_EVIDENCE_URL =
     "https://fhir.hl7.org.uk/StructureDefinition/Extension-UKCore-Evidence"
 
+
+internal const val CARECONNECT_DOSAGE_LAST_CHANGE_URL =
+    "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-MedicationDosageLastChanged-1"
+
 internal val careconnectTransformers: HashMap<String, ExtensionTransformer> = hashMapOf(
     CARECONNECT_REPEAT_INFORMATION_URL to ::repeatInformation,
     CARECONNECT_GPC_REPEAT_INFORMATION_URL to ::repeatInformation,
@@ -89,6 +94,7 @@ internal val careconnectTransformers: HashMap<String, ExtensionTransformer> = ha
     CARECONNECT_EVIDENCE_URL to ::evidence,
     CARECONNECT_ALLERGY_ASSOCIATED_ENCOUNTER_URL to ::associatedEncounter,
     CARECONNECT_ALLERGY_INTOLERANCE_END_URL to ::allergyIntoleranceEnd,
+    CARECONNECT_DOSAGE_LAST_CHANGE_URL to ::dosageLastChange,
 )
 
 fun repeatInformation(src: R3Extension, tgt: R4Resource) {
@@ -166,7 +172,11 @@ fun medicationStatusReason(src: R3Extension, tgt: R4Resource) {
                     val innerExtenstion =
                         it.extension.firstOrNull { it.url == "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid" }
 
-                    r4Coding.extension.add(innerExtenstion?.let { innerExt -> buildStatusReasonExtensionsToCarryOver(innerExt) })
+                    r4Coding.extension.add(innerExtenstion?.let { innerExt ->
+                        buildStatusReasonExtensionsToCarryOver(
+                            innerExt
+                        )
+                    })
                 }
 
                 (tgt as R4MedicationRequest).statusReason.coding.add(r4Coding)
@@ -265,6 +275,10 @@ fun prescribingAgency(src: R3Extension, tgt: R4Resource) {
 }
 
 fun changeSummary(src: R3Extension, tgt: R4Resource) {
+    tgt
+}
+
+fun dosageLastChange(src: R3Extension, tgt: R4Resource) {
     tgt
 }
 
