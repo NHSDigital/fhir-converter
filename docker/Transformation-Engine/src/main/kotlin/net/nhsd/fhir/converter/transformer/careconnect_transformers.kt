@@ -1,8 +1,6 @@
 package net.nhsd.fhir.converter.transformer
 
 
-import org.hl7.fhir.r4.model.IdType
-import org.hl7.fhir.r4.model.StringType
 import org.hl7.fhir.dstu3.model.CodeableConcept as R3CodeableConcept
 import org.hl7.fhir.dstu3.model.DateTimeType as R3DateTimeType
 import org.hl7.fhir.dstu3.model.Extension as R3Extension
@@ -16,6 +14,7 @@ import org.hl7.fhir.r4.model.Coding as R4Coding
 import org.hl7.fhir.r4.model.DateTimeType as R4DateTimeType
 import org.hl7.fhir.r4.model.DomainResource as R4Resource
 import org.hl7.fhir.r4.model.Extension as R4Extension
+import org.hl7.fhir.r4.model.IdType as R4IdType
 import org.hl7.fhir.r4.model.MedicationRequest as R4MedicationRequest
 import org.hl7.fhir.r4.model.Reference as R4Reference
 import org.hl7.fhir.r4.model.StringType as R4StringType
@@ -32,7 +31,10 @@ internal const val CARECONNECT_GPC_MEDICATION_STATUS_REASON_URL =
 internal const val UKCORE_REPEAT_INFORMATION_URL =
     "https://fhir.nhs.uk/StructureDefinition/Extension-UKCore-MedicationRepeatInformation"
 
-internal const val UKCORE_SCTDEESCID_URL = "https://fhir.hl7.org.uk/StructureDefinition/Extension-UKCore-CodingSCTDescId"
+internal const val UKCORE_DESCRIPTION_ID_URL =
+    "https://fhir.hl7.org.uk/StructureDefinition/Extension-UKCore-CodingSCTDescId"
+internal const val CARECONNECT_DESCRIPTION_ID_URL =
+    "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid"
 
 internal const val STU3_STATUSCHANGEDATE_URL =
     "http://fhir.nhs.uk/fhir/3.0/StructureDefinition/extension-statusChangeDate"
@@ -156,17 +158,14 @@ fun medicationStatusReason(src: R3Extension, tgt: R4Resource) {
             val srcCodeableConcept = statusReason.value as R3CodeableConcept
             val r3Coding = srcCodeableConcept.coding
 
-            r3Coding.forEach {
-                val r4Coding = R4Coding(it.system, it.code, it.display)
+            r3Coding.forEach { coding ->
+                val r4Coding = R4Coding(coding.system, coding.code, coding.display)
 
-                if (it.hasUserSelected())
-                    r4Coding.userSelected = it.userSelected
+                if (coding.hasUserSelected())
+                    r4Coding.userSelected = coding.userSelected
 
-                if (it.hasExtension()) {
-                    val innerExtenstion =
-                        it.extension.firstOrNull { it.url == "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid" }
-
-                    r4Coding.extension.add(innerExtenstion?.let { innerExt -> buildStatusReasonExtensionsToCarryOver(innerExt) })
+                coding.getExtensionsByUrl(CARECONNECT_DESCRIPTION_ID_URL).firstOrNull()?.let { desIdExt ->
+                    r4Coding.addExtension(descriptionIdAndDisplay(desIdExt))
                 }
 
                 (tgt as R4MedicationRequest).statusReason.coding.add(r4Coding)
@@ -177,28 +176,19 @@ fun medicationStatusReason(src: R3Extension, tgt: R4Resource) {
     }
 }
 
-fun buildStatusReasonExtensionsToCarryOver(ext: R3Extension): R4Extension {
+fun descriptionIdAndDisplay(r3Ext: R3Extension): R4Extension {
+    val r4Ext = R4Extension(UKCORE_DESCRIPTION_ID_URL)
 
-    val r4ext = R4Extension().apply {
-        url = UKCORE_SCTDEESCID_URL
-
-        ext.extension.forEach {
-            val issuedExt = R4Extension().apply {
-                url = it.url
-                if (it.url.equals("descriptionDisplay")) {
-                    val strg = StringType()
-                    strg.value = it.value.toString()
-                    setValue(strg)
-                } else {
-                    val idt = IdType()
-                    idt.value = it.value.toString()
-                    setValue(idt)
-                }
-            }
-            this.addExtension(issuedExt)
-        }
+    r3Ext.getExtensionsByUrl("descriptionId").firstOrNull()?.let {
+        val r4DesId = R4Extension("descriptionId", R4IdType(it.value.primitiveValue()))
+        r4Ext.addExtension(r4DesId)
     }
-    return r4ext
+    r3Ext.getExtensionsByUrl("descriptionDisplay").firstOrNull()?.let {
+        val r4DesId = R4Extension("descriptionDisplay", R4StringType(it.value.primitiveValue()))
+        r4Ext.addExtension(r4DesId)
+    }
+
+    return r4Ext
 }
 
 fun lastIssueDate(src: R3Extension, tgt: R4Resource) {
