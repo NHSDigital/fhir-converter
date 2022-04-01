@@ -6,7 +6,11 @@ import org.assertj.core.api.Assertions.assertThat
 import org.hl7.fhir.r4.model.IdType
 import org.hl7.fhir.r4.model.StringType
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.Arguments
+import org.junit.jupiter.params.provider.MethodSource
 import org.springframework.http.MediaType
+import java.util.stream.Stream
 import org.hl7.fhir.dstu3.model.AllergyIntolerance as R3AllergyIntolerance
 import org.hl7.fhir.dstu3.model.CodeableConcept as R3CodeableConcept
 import org.hl7.fhir.dstu3.model.Coding as R3Coding
@@ -69,11 +73,9 @@ internal class AllergyIntoleranceCodingTest {
         }
     }
 
-    @Test
-    internal fun `it should handle IOPS derived examples`() {
-        val input = loadExtraExample("extra-examples/expected/AllergyIntoleranceExtensionId-Extension-3to4_000.json")
-        val expected =
-            loadExtraExample("extra-examples/expected/AllergyIntoleranceExtensionId-Extension-3to4_000.json")
+    @ParameterizedTest(name = "Test AllergyIntolerance extensionId and extensionDisplay extensions with IOPS example index: {index} (zero based indexing)")
+    @MethodSource("provideExamples")
+    internal fun `it should handle IOPS examples`(input: String, expected: String) {
         val converterService = makeConverterService()
 
         val actualResource = converterService.convert(
@@ -85,5 +87,16 @@ internal class AllergyIntoleranceCodingTest {
         )
 
         JsonAssert.assertThatJson(actualResource).isEqualTo(expected)
+    }
+
+    companion object {
+        @JvmStatic
+        fun provideExamples(): Stream<Arguments> {
+            val careconnectExampleLoader = CareconnectExampleLoader()
+            val pairs = careconnectExampleLoader.loadExample(R3AllergyIntolerance::class.java, "ExtensionId")
+                .map { Arguments.of(it.input, it.output) }
+
+            return pairs.stream()
+        }
     }
 }
