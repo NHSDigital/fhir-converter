@@ -5,5 +5,5 @@ import org.springframework.stereotype.Component
 
 @Component
 interface Transformer {
-    fun transform(src: IBaseResource, tgt: IBaseResource): IBaseResource
+    fun transform(source: IBaseResource, target: IBaseResource): IBaseResource
 }

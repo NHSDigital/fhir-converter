@@ -9,23 +9,6 @@ group MedicationRequest(source src : MedicationRequest, target tgt : MedicationR
        ext.extension as vs where $this.url='statusReason' -> tgt.statusReason as vt1 then {
           vs.value : CodeableConcept as vs1 -> tgt.statusReason as vt2 then CodeableConceptStatusReason(vs1, vt2);
        };
-
-       ext.extension as vs where $this.url='statusReason' -> tgt.extension = create('Extension') as vt then {
-          vs.value : CodeableConcept as vs1 -> vt.extension = create('Extension') as vt1 then {
-             vs1.coding as vs2 -> vt1 as vt2 then {
-                vs2.extension as vs3 where $this.url='https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid' -> vt2.extension = create('Extension') as vt3, tgt.extension = vs3;
-             };
-          };
-       };
-
-       ext.extension as vs where $this.url='statusChangeDate' -> tgt.extension = create('Extension') as vt, 
-          vt.url='http://fhir.nhs.uk/fhir/3.0/StructureDefinition/extension-statusChangeDate' then {
-          vs.value : dateTime as vs1 -> vt.extension = create('Extension') as vt1, 
-             vt1.url='statusChangeDate' then {
-                vs.value : dateTime as vs2 -> vt1.value = create('dateTime') as vt2, vt2.value = vs2;
-          };
-       };
-
     };
 }
 
@@ -40,5 +23,10 @@ group Coding(source src : Coding, target tgt : Coding) <<type+>> {
     src.code as code -> tgt.code = code;
     src.display as display -> tgt.display = display;
     src.userSelected as userSelected -> tgt.userSelected = userSelected;
+
+    src.extension as ext -> tgt.extension = create('Extension') as vt,
+       vt.url = 'https://fhir.hl7.org.uk/StructureDefinition/Extension-UKCore-CodingSCTDescId' then {
+           ext.extension as vs -> vt.extension = create('Extension') as vt1, vt.extension = vs;
+       };
 }
 
