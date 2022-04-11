@@ -5,7 +5,9 @@ import org.hl7.fhir.instance.model.api.IBaseResource
 import org.springframework.stereotype.Component
 import org.hl7.fhir.dstu3.model.AllergyIntolerance as R3AllergyIntolerance
 import org.hl7.fhir.dstu3.model.DomainResource as R3Resource
+import org.hl7.fhir.dstu3.model.Bundle as R3Bundle
 import org.hl7.fhir.dstu3.model.Extension as R3Extension
+import org.hl7.fhir.r4.model.Bundle as R4Bundle
 import org.hl7.fhir.r4.model.AllergyIntolerance as R4AllergyIntolerance
 import org.hl7.fhir.r4.model.DomainResource as R4Resource
 
@@ -16,9 +18,20 @@ class CareconnectTransformer(private val extensionsMap: HashMap<String, Extensio
     Transformer {
 
     override fun transform(source: IBaseResource, target: IBaseResource): IBaseResource {
+        // Check if incoming resource is a Bundle. if bundle go through each entry and call transformer
+        return if (source is R3Bundle && target is R4Bundle) {
+            for (i in source.entry.indices) {
+                handleResourceExtensionTransformations(source.entry[i].resource, target.entry[i].resource)
+            }
+            target
+        } else {
+            handleResourceExtensionTransformations(source, target)
+        }
+    }
+
+    fun handleResourceExtensionTransformations(source: IBaseResource, target: IBaseResource): IBaseResource {
         return if (source is R3Resource && target is R4Resource) {
-            source.extension
-                .filter { extensionsMap.containsKey(it.url) }
+            source.extension.filter { extensionsMap.containsKey(it.url) }
                 .also { target.extension.removeIf { extensionsMap.containsKey(it.url) } }
                 .forEach { extensionsMap[it.url]?.invoke(it, target) }
 
