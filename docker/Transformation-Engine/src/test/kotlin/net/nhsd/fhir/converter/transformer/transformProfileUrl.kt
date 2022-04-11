@@ -14,18 +14,18 @@ import org.hl7.fhir.dstu3.model.UriType as R3UriType
 
 internal class TransformProfileUrlTest {
     @Test
-    internal fun `it should transform a Allergy Intolerance CareConnect profile url to UK Core url`() {
+    internal fun `it should transform a Bundle's and Allergy Intolerance entries CareConnect profile urls to UK Core url`() {
         // Given
-        //Set up R3
+        // Set up R3 source
         val r3Allergy = R3AllergyIntolerance().apply {
             meta = R3Meta().apply {
-                val url = R3UriType("https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-AllergyIntolerance-1")
+                val url = R3UriType(CARECONNECT_ALLERGY_PROFILE_URL)
                 profile = mutableListOf(url)
             }
         }
         val r3Bundle = R3Bundle().apply {
             meta = R3Meta().apply {
-                val url = R3UriType("https://fhir.nhs.uk/STU3/StructureDefinition/GPConnect-StructuredRecord-Bundle-1")
+                val url = R3UriType(GPCONNECT_BUNDLE_PROFILE_URL)
                 profile = mutableListOf(url)
             }
             val bundleEntry = R3Bundle.BundleEntryComponent()
@@ -33,19 +33,17 @@ internal class TransformProfileUrlTest {
             this.addEntry(bundleEntry)
         }
 
-        // R4 allergy
+        // Set up R4 target
         val r4Allergy = R4AllergyIntolerance().apply {
             meta = R4Meta().apply {
                 // R4 meta uses Canonical type, whereas R3 uses Uritype
-                val url =
-                    R4CanonicalType("https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-AllergyIntolerance-1")
+                val url = R4CanonicalType(CARECONNECT_ALLERGY_PROFILE_URL)
                 profile = mutableListOf(url)
             }
         }
         val r4Bundle = R4Bundle().apply {
             meta = R4Meta().apply {
-                val url =
-                    R4CanonicalType("https://fhir.nhs.uk/STU3/StructureDefinition/GPConnect-StructuredRecord-Bundle-1")
+                val url = R4CanonicalType(GPCONNECT_BUNDLE_PROFILE_URL)
                 profile = mutableListOf(url)
             }
             val bundleEntry = R4Bundle.BundleEntryComponent()
@@ -61,33 +59,29 @@ internal class TransformProfileUrlTest {
         val transformedBundleUrlArray = r4Bundle.meta.profile
         Assertions.assertThat(transformedBundleUrlArray).isNotNull
         Assertions.assertThat(transformedBundleUrlArray).hasSize(1)
-        Assertions.assertThat(transformedBundleUrlArray[0].asStringValue())
-            .isEqualTo("https://fhir.hl7.org.uk/StructureDefinition/UKCore-Bundle")
+        Assertions.assertThat(transformedBundleUrlArray[0].asStringValue()).isEqualTo(UKCORE_BUNDLE_PROFILE_URL)
 
         // check allergy
         val transformedAllergyUrlArray = r4Bundle.entry[0].resource.meta.profile
         Assertions.assertThat(transformedAllergyUrlArray).isNotNull
         Assertions.assertThat(transformedAllergyUrlArray).hasSize(1)
-        Assertions.assertThat(transformedAllergyUrlArray[0].asStringValue())
-            .isEqualTo("https://fhir.hl7.org.uk/StructureDefinition/UKCore-AllergyIntolerance")
+        Assertions.assertThat(transformedAllergyUrlArray[0].asStringValue()).isEqualTo(UKCORE_ALLERGY_PROFILE_URL)
     }
 
     @Test
     internal fun `it should handle resources without Meta`() {
         // Given
-        //Set up R3
-        val r3Allergy = R3AllergyIntolerance().apply {
-        }
+        // Set up R3 source
+        val r3Allergy = R3AllergyIntolerance().apply {}
         val r3Bundle = R3Bundle().apply {
             val bundleEntry = R3Bundle.BundleEntryComponent()
             bundleEntry.resource = r3Allergy
             this.addEntry(bundleEntry)
         }
 
-        // R4 allergy
-        val r4Allergy = R4AllergyIntolerance().apply {
+        // Set up R4 target
+        val r4Allergy = R4AllergyIntolerance()
 
-        }
         val r4Bundle = R4Bundle().apply {
             val bundleEntry = R4Bundle.BundleEntryComponent()
             bundleEntry.resource = r4Allergy
@@ -101,5 +95,35 @@ internal class TransformProfileUrlTest {
         val transformedBundleUrlArray = r4Bundle.meta.profile
         Assertions.assertThat(transformedBundleUrlArray).isEmpty()
 
+    }
+
+    @Test
+    internal fun `it should transform a Allergy Intolerance CareConnect profile url to UK Core url`() {
+        // Given
+        // Set up R3 source
+        val r3Allergy = R3AllergyIntolerance().apply {
+            meta = R3Meta().apply {
+                val url = R3UriType(CARECONNECT_ALLERGY_PROFILE_URL)
+                profile = mutableListOf(url)
+            }
+        }
+
+        // Set up R4 target
+        val r4Allergy = R4AllergyIntolerance().apply {
+            meta = R4Meta().apply {
+                val url = R4CanonicalType(CARECONNECT_ALLERGY_PROFILE_URL)
+                profile = mutableListOf(url)
+            }
+        }
+
+        // When
+        val transformer = CareconnectTransformer()
+        transformer.transform(r3Allergy, r4Allergy)
+
+        // Then
+        val transformedAllergyUrlArray = r4Allergy.meta.profile
+        Assertions.assertThat(transformedAllergyUrlArray).isNotNull
+        Assertions.assertThat(transformedAllergyUrlArray).hasSize(1)
+        Assertions.assertThat(transformedAllergyUrlArray[0].asStringValue()).isEqualTo(UKCORE_ALLERGY_PROFILE_URL)
     }
 }
