@@ -22,19 +22,19 @@ internal class BundleOfResourcesTest {
         val numberEntries = 3
         val r3Allergy = R3AllergyIntolerance()
 
-        val r3Bundle = R3Bundle().apply{
+        val r3Bundle = R3Bundle().apply {
             val bundleEntry = R3Bundle.BundleEntryComponent()
             bundleEntry.resource = r3Allergy
-            for(i in 1..numberEntries){
+            for (i in 1..numberEntries) {
                 this.addEntry(bundleEntry)
             }
         }
 
         val r4Allergy = R4AllergyIntolerance()
-        val r4Bundle = R4Bundle().apply{
+        val r4Bundle = R4Bundle().apply {
             val bundleEntry = R4Bundle.BundleEntryComponent()
             bundleEntry.resource = r4Allergy
-            for(i in 1..numberEntries){
+            for (i in 1..numberEntries) {
                 this.addEntry(bundleEntry)
             }
         }
@@ -54,7 +54,7 @@ internal class BundleOfResourcesTest {
     @ValueSource(strings = [CARECONNECT_ALLERGY_INTOLERANCE_END_URL])
     internal fun `it should convert R3 extensions found in resources within bundle`(extUrl: String) {
         // Given
-        val r3Allergy = R3AllergyIntolerance().apply{
+        val r3Allergy = R3AllergyIntolerance().apply {
             val r3Extension = R3Extension().apply {
                 url = extUrl
                 val endDate = R3Extension().apply {
@@ -66,16 +66,16 @@ internal class BundleOfResourcesTest {
             this.addExtension(r3Extension)
         }
 
-        val r3Bundle = R3Bundle().apply{
+        val r3Bundle = R3Bundle().apply {
             val bundleEntry = R3Bundle.BundleEntryComponent()
             bundleEntry.resource = r3Allergy
             this.addEntry(bundleEntry)
         }
 
-        val r4allergy = R4AllergyIntolerance().apply{
+        val r4allergy = R4AllergyIntolerance().apply {
             val r4Extension = R4Extension().apply {
                 url = extUrl
-                val endDate = R4Extension().apply{
+                val endDate = R4Extension().apply {
                     url = "endDate"
                     setValue(DateTimeType("2016-11-01T00:00:00+00:00"))
                 }
@@ -99,12 +99,13 @@ internal class BundleOfResourcesTest {
         val transformedAllergyIntolerance = r4Bundle.entry[0].resource
         Assertions.assertThat(transformedAllergyIntolerance).isNotNull
 
-        val transformedExt = (transformedAllergyIntolerance as DomainResource)
-            .getExtensionByUrl(UKCORE_ALLERGY_INTOLERANCE_END_URL)
-            .getExtensionByUrl("endDate")
+        val transformedExt =
+            (transformedAllergyIntolerance as DomainResource).getExtensionByUrl(UKCORE_ALLERGY_INTOLERANCE_END_URL)
+                .getExtensionByUrl("endDate")
         Assertions.assertThat(transformedExt).isNotNull
-        Assertions.assertThat((transformedExt.value as DateTimeType).valueAsString).isEqualTo("2016-11-01T00:00:00+00:00")
+        Assertions.assertThat((transformedExt.value as DateTimeType).valueAsString)
+            .isEqualTo("2016-11-01T00:00:00+00:00")
     }
-    }
+}
 
 
