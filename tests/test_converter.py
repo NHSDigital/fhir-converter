@@ -111,6 +111,9 @@ class TestConverter:
         extension_url = res_dict["entry"][0]["resource"]["code"]["coding"][0]["extension"][0]["url"]
         assert extension_url == "https://fhir.hl7.org.uk/StructureDefinition/Extension-UKCore-CodingSCTDescId"
 
+        allergy_profile_url = res_dict["entry"][0]["resource"]["meta"]["profile"][0]
+        assert allergy_profile_url == "https://fhir.hl7.org.uk/StructureDefinition/UKCore-AllergyIntolerance"
+
     # #####################
     # STU3 to STU3 ########
     # #####################
