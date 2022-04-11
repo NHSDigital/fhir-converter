@@ -25,9 +25,5 @@ fun careConnectAllergy(tgt: IBaseResource) {
 
 private fun updateProfileUrl(tgt: IBaseResource, targetUrl: String) {
     val profile = tgt.meta.profile
-    profile.forEach {
-        if (it.valueAsString != targetUrl) {
-            it.value = targetUrl
-        }
-    }
+    profile.forEach { it.value = targetUrl }
 }
