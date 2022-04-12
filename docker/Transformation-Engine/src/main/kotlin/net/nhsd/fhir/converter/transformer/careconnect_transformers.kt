@@ -12,7 +12,7 @@ import org.hl7.fhir.r4.model.AllergyIntolerance as R4AllergyIntolerance
 import org.hl7.fhir.r4.model.CodeableConcept as R4CodeableConcept
 import org.hl7.fhir.r4.model.Coding as R4Coding
 import org.hl7.fhir.r4.model.DateTimeType as R4DateTimeType
-import org.hl7.fhir.r4.model.DomainResource as R4Resource
+import org.hl7.fhir.r4.model.DomainResource as R4DomainResource
 import org.hl7.fhir.r4.model.Extension as R4Extension
 import org.hl7.fhir.r4.model.IdType as R4IdType
 import org.hl7.fhir.r4.model.MedicationRequest as R4MedicationRequest
@@ -93,7 +93,7 @@ internal val careconnectTransformers: HashMap<String, ExtensionTransformer> = ha
     CARECONNECT_ALLERGY_INTOLERANCE_END_URL to ::allergyIntoleranceEnd,
 )
 
-fun repeatInformation(src: R3Extension, tgt: R4Resource) {
+fun repeatInformation(src: R3Extension, tgt: R4DomainResource) {
     val ext = R4Extension().apply {
         url = UKCORE_REPEAT_INFORMATION_URL
 
@@ -128,7 +128,7 @@ fun repeatInformation(src: R3Extension, tgt: R4Resource) {
     tgt.addExtension(ext)
 }
 
-fun prescriptionType(src: R3Extension, tgt: R4Resource) {
+fun prescriptionType(src: R3Extension, tgt: R4DomainResource) {
     if (src.value is R3CodeableConcept) {
         val srcCodeableConcept = src.value as R3CodeableConcept
         val r3Coding = srcCodeableConcept.coding.firstOrNull()
@@ -150,7 +150,7 @@ fun prescriptionType(src: R3Extension, tgt: R4Resource) {
     }
 }
 
-fun medicationStatusReason(src: R3Extension, tgt: R4Resource) {
+fun medicationStatusReason(src: R3Extension, tgt: R4DomainResource) {
 
     src.getExtensionsByUrl("statusReason").firstOrNull()?.let { statusReason ->
 
@@ -191,7 +191,7 @@ fun descriptionIdAndDisplay(r3Ext: R3Extension): R4Extension {
     return r4Ext
 }
 
-fun lastIssueDate(src: R3Extension, tgt: R4Resource) {
+fun lastIssueDate(src: R3Extension, tgt: R4DomainResource) {
     val ext = R4Extension().apply {
         url = UKCORE_LAST_ISSUE_DATE_URL
 
@@ -203,7 +203,7 @@ fun lastIssueDate(src: R3Extension, tgt: R4Resource) {
     tgt.addExtension(ext)
 }
 
-fun prescribingAgency(src: R3Extension, tgt: R4Resource) {
+fun prescribingAgency(src: R3Extension, tgt: R4DomainResource) {
     val ext = R4Extension().apply {
         url = UKCORE_PRESCRIBING_ORGANIZATION_URL
 
@@ -238,11 +238,11 @@ fun prescribingAgency(src: R3Extension, tgt: R4Resource) {
 
 }
 
-fun changeSummary(src: R3Extension, tgt: R4Resource) {
+fun changeSummary(src: R3Extension, tgt: R4DomainResource) {
     tgt
 }
 
-fun evidence(src: R3Extension, tgt: R4Resource) {
+fun evidence(src: R3Extension, tgt: R4DomainResource) {
     val ext = R4Extension().apply {
         url = UKCORE_EVIDENCE_URL
 
@@ -256,7 +256,7 @@ fun evidence(src: R3Extension, tgt: R4Resource) {
     tgt.addExtension(ext)
 }
 
-fun associatedEncounter(src: R3Extension, tgt: R4Resource) {
+fun associatedEncounter(src: R3Extension, tgt: R4DomainResource) {
     if (src.value is R3Reference) {
         val associatedEncounterReference = (src.value as R3Reference).reference
 
@@ -264,7 +264,7 @@ fun associatedEncounter(src: R3Extension, tgt: R4Resource) {
     }
 }
 
-fun allergyIntoleranceEnd(src: R3Extension, tgt: R4Resource) {
+fun allergyIntoleranceEnd(src: R3Extension, tgt: R4DomainResource) {
     val ext = R4Extension().apply {
         url = UKCORE_ALLERGY_INTOLERANCE_END_URL
 
