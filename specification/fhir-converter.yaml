@@ -67,7 +67,7 @@ info:
     - MedicationStatement
     
     For STU3 to R4 conversion, this service can convert various extensions as listed in the version 
-    [v0.1.0](https://github.com/NHSDigital/fhir-transforms/tree/a60eac0ea4e0ce62075378b36fac00eff7f0ce82) of [fhir-transform](https://github.com/NHSDigital/fhir-transforms) repository. This 
+    [v0.1.0](https://github.com/NHSDigital/fhir-transforms/tree/a60eac0ea4e0ce62075378b36fac00eff7f0ce82) of the [fhir-transform](https://github.com/NHSDigital/fhir-transforms) repository. This 
     repository contains the mapping definitions for various [UK Core](https://digital.nhs.uk/developer/api-catalogue/fhir-uk-core-standards) and [Care Connect](https://digital.nhs.uk/developer/api-catalogue/care-connect-fhir-standards) extensions.
     
 
