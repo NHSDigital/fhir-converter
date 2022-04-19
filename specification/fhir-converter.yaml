@@ -53,10 +53,23 @@ info:
     For more details, see [Network access for APIs](https://digital.nhs.uk/developer/guides-and-documentation/network-access-for-apis).
 
     ## Security and authorisation
-    ### Open-access authentication
-    The FHIR Converter API is [open-access](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation#open-access-apis), which means:
-        * we do not authenticate or authorise the calling application
-        * we do not authenticate or authorise the end user - they might not even be present We generally use open-access APIs for public data, where security is not a concern. Our open-access APIs are generally RESTful APIs. For more details on how to access them, see our [open-access REST API tutorial](https://digital.nhs.uk/developer/guides-and-documentation/tutorials/open-access-rest-api-tutorial).
+    ### Application-restricted access
+    This access mode is [application-restricted](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation#application-restricted-apis),
+    meaning we authenticate the calling application but not the end user.
+
+    To use this access mode, use the following security pattern:
+    * [Application-restricted RESTful API - signed JWT authentication](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/application-restricted-restful-apis-signed-jwt-authentication)
+    
+    ## Supported FHIR resources and extensions
+    This service supports conversion from STU3 to R4 and vice versa for following FHIR resources:
+    - Bundle
+    - MedicationRequest
+    - MedicationStatement
+    
+    For STU3 to R4 conversion, this service also can convert vaious extensions as listed in the version 
+    [v0.1.0](https://github.com/NHSDigital/fhir-transforms/tree/a60eac0ea4e0ce62075378b36fac00eff7f0ce82) of [fhir-transform](https://github.com/NHSDigital/fhir-transforms) repository. This 
+    repository contains all the mapping definitions for various UKCore and Careconnect extensions. You can find FHIR Mapping Languagate (FML) files and various examples in that repository.
+    
 
     ## Environments and testing
 
