@@ -57,7 +57,7 @@ info:
     This access mode is [application-restricted](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation#application-restricted-apis),
     meaning we authenticate the calling application but not the end user.
 
-    To use this access mode, use the following security pattern:
+    This access mode uses the following security pattern:
     * [Application-restricted RESTful API - signed JWT authentication](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/application-restricted-restful-apis-signed-jwt-authentication)
     
     ## Supported FHIR resources and extensions
@@ -66,9 +66,9 @@ info:
     - MedicationRequest
     - MedicationStatement
     
-    For STU3 to R4 conversion, this service also can convert vaious extensions as listed in the version 
+    For STU3 to R4 conversion, this service can convert various extensions as listed in the version 
     [v0.1.0](https://github.com/NHSDigital/fhir-transforms/tree/a60eac0ea4e0ce62075378b36fac00eff7f0ce82) of [fhir-transform](https://github.com/NHSDigital/fhir-transforms) repository. This 
-    repository contains all the mapping definitions for various UKCore and Careconnect extensions. You can find FHIR Mapping Languagate (FML) files and various examples in that repository.
+    repository contains the mapping definitions for various [UK Core](https://digital.nhs.uk/developer/api-catalogue/fhir-uk-core-standards) and [Care Connect](https://digital.nhs.uk/developer/api-catalogue/care-connect-fhir-standards) extensions.
     
 
     ## Environments and testing
