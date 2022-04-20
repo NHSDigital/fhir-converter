@@ -89,6 +89,9 @@ paths:
     post:
       summary: Convert FHIR payload
       operationId: convert
+      description: |
+        ## Overview
+        Use this endpoint to convert FHIR version SUT3 to FHIR version R4 and vice versa.
       requestBody:
         content:
           "application/fhir+json; fhirVersion=3.0":
