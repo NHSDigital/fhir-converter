@@ -77,6 +77,9 @@ internal const val CARECONNECT_EVIDENCE_URL =
 internal const val UKCORE_EVIDENCE_URL =
     "https://fhir.hl7.org.uk/StructureDefinition/Extension-UKCore-Evidence"
 
+internal const val CARECONNECT_GPC_ALLERGY_INTOLERANCE_END_URL =
+    "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-AllergyIntoleranceEnd-1"
+
 internal val careconnectTransformers: HashMap<String, ExtensionTransformer> = hashMapOf(
     CARECONNECT_REPEAT_INFORMATION_URL to ::repeatInformation,
     CARECONNECT_GPC_REPEAT_INFORMATION_URL to ::repeatInformation,
@@ -91,7 +94,18 @@ internal val careconnectTransformers: HashMap<String, ExtensionTransformer> = ha
     CARECONNECT_EVIDENCE_URL to ::evidence,
     CARECONNECT_ALLERGY_ASSOCIATED_ENCOUNTER_URL to ::associatedEncounter,
     CARECONNECT_ALLERGY_INTOLERANCE_END_URL to ::allergyIntoleranceEnd,
+    CARECONNECT_GPC_ALLERGY_INTOLERANCE_END_URL to :: allergyIntoleranceEndGPC
 )
+fun allergyIntoleranceEndGPC(src: R3Extension, tgt: R4DomainResource){
+    // handle the conversion of resolved clinicalStatus
+    val resolvedCodeableConcept = R4CodeableConcept().apply {
+        val r4Coding = R4Coding()
+        r4Coding.system = "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical"
+        r4Coding.code = "resolved"
+        this.coding = listOf(r4Coding)
+    }
+    (tgt as R4AllergyIntolerance).clinicalStatus = resolvedCodeableConcept
+}
 
 fun repeatInformation(src: R3Extension, tgt: R4DomainResource) {
     val ext = R4Extension().apply {
