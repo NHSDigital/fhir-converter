@@ -16,7 +16,7 @@ repositories {
 }
 
 val springVersion = "2.6.1"
-val hapiVersion = "5.6.1"
+val hapiVersion = "5.7.0"
 
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web:${springVersion}")
