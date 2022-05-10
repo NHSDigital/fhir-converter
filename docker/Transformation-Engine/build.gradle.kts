@@ -24,7 +24,7 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	implementation("ca.uhn.hapi.fhir:hapi-fhir-converter:${hapiVersion}")
-    implementation("ca.uhn.hapi.fhir:org.hl7.fhir.convertors:5.6.45")
+    implementation("ca.uhn.hapi.fhir:org.hl7.fhir.convertors:5.6.45") 
 	implementation("ca.uhn.hapi.fhir:hapi-fhir-structures-dstu3:${hapiVersion}")
 	implementation("ca.uhn.hapi.fhir:hapi-fhir-structures-r4:${hapiVersion}")
 	testImplementation("org.springframework.boot:spring-boot-starter-test:${springVersion}")
