@@ -114,37 +114,6 @@ class TestConverter:
         allergy_profile_url = res_dict["entry"][0]["resource"]["meta"]["profile"][0]
         assert allergy_profile_url == "https://fhir.hl7.org.uk/StructureDefinition/UKCore-AllergyIntolerance"
 
-    def test_converter_resolved_bundle_json_stu3_to_json_r4(self, url, token):
-        # Given
-        stu3_payload = load_example("ResolvedBundle.json")
-        headers = {
-            "Authorization": f"Bearer {token}",
-            "Content-Type": "application/fhir+json; fhirVersion=3.0",
-            "Accept": "application/fhir+json; fhirVersion=4.0",
-        }
-
-        # When
-        res = requests.post(url, json=stu3_payload, headers=headers)
-
-        # Then
-        assert res.status_code == 200
-        res_dict = res.json()
-        assert res_dict["resourceType"] == "Bundle"
-        assert res_dict["type"] == "collection"
-        assert len(res_dict["entry"]) == 1
-
-        # Check parts of allergyIntolerance
-        allergyIntolerance = res_dict["entry"][0]["resource"]
-        # clinical status changes format in R4
-        assert allergyIntolerance["clinicalStatus"]["coding"][0]["code"] == "resolved"
-        # check extensions.
-        extension_url = res_dict["entry"][0]["resource"]["code"]["coding"][0]["extension"][0]["url"]
-        # WORKAROUND: inccorect url. changed for workaround
-        assert extension_url == "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid"
-
-        allergy_profile_url = res_dict["entry"][0]["resource"]["meta"]["profile"][0]
-        assert allergy_profile_url == "https://fhir.hl7.org.uk/StructureDefinition/UKCore-AllergyIntolerance"
-
     # #####################
     # STU3 to STU3 ########
     # #####################
