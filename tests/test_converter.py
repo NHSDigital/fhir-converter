@@ -139,7 +139,7 @@ class TestConverter:
         assert allergyIntolerance["clinicalStatus"]["coding"][0]["code"] == "resolved"
         # check extensions.
         extension_url = res_dict["entry"][0]["resource"]["code"]["coding"][0]["extension"][0]["url"]
-        #inccorect url. changed for workaround
+        # WORKAROUND: inccorect url. changed for workaround
         assert extension_url == "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid"
 
         allergy_profile_url = res_dict["entry"][0]["resource"]["meta"]["profile"][0]
