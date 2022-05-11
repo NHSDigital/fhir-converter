@@ -41,15 +41,15 @@
                     "coding": [
                         {
                             "extension": [
-                              {
-                                "url": "https://fhir.hl7.org.uk/StructureDefinition/Extension-UKCore-CodingSCTDescId",
-                                "extension": [
-                                  {
-                                    "url": "descriptionId",
-                                    "valueId": "152306018"
-                                  }
-                                ]
-                              }
+                                {
+                                    "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
+                                    "extension": [
+                                        {
+                                            "url": "descriptionId",
+                                            "valueId": "152306018"
+                                        }
+                                    ]
+                                }
                             ],
                             "system": "http://snomed.info/sct",
                             "code": "91935009",
