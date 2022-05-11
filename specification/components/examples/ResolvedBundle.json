@@ -42,7 +42,7 @@
                         {
                             "extension": [
                               {
-                                "url": "https://fhir.hl7.org.uk/StructureDefinition/Extension-UKCore-CodingSCTDescId", // WORKAROUND
+                                "url": "https://fhir.hl7.org.uk/StructureDefinition/Extension-UKCore-CodingSCTDescId",
                                 "extension": [
                                   {
                                     "url": "descriptionId",
