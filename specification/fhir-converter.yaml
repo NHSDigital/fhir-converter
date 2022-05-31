@@ -29,9 +29,12 @@ info:
     This API can only be used where there is a legal basis to do so. Make sure you have a valid use case before you go too far with your development. You must do this before you can go live (see ‘Onboarding’ below).
 
     ## API status and roadmap
-    The FHIR convertor is in Alpha phase currently, however it is available to be used, 
-    depending on your use case. If you would like to try the FHIR Convertor, 
-    please [contact us](mailto:api.management@nhs.net) to discuss your use case with us.
+    This is in [alpha](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#api-status), meaning:
+    * the API is available in our sandbox and integration test environments
+    * the API is not yet available for production use
+    * we might make breaking changes, but only if we cannot avoid it, and we'll give advance notice
+    
+    If you have any other queries, please [contact us](https://digital.nhs.uk/developer/help-and-support).
     
     ### Roadmap
 
