@@ -17,7 +17,7 @@ keywords = ["healthcare", "uk", "nhs"] #TODO add additional keywords
 
 [tool.poetry.dependencies]
 python = "^3.8"
-requests = "^2.26.0"
+requests = "^2.31.0"
 pytest-rerunfailures = "^10.2"
 PyJWT = "^2.1.0"
 pytest-ordering = "^0.6"
